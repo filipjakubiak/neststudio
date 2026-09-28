@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <title>Nest Studio: znak w polu (favicon)</title>
+  <rect width="48" height="48" fill="currentColor"/>
+  <g transform="translate(6 6) scale(0.75)" fill="none" stroke="var(--mark-canvas, #0A0A0B)" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 4V6.44M15 14.56V44"/>
+    <path d="M33 4V44"/>
+    <path d="M11.0 4.50L30.30 33.45M35.70 41.55L38.6 45.90"/>
+  </g>
+</svg>
