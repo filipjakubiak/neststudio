@@ -69,7 +69,8 @@ Teksty pisze sesja budująca (Claude Fable 5.1) na bazie §1–§5.
 ## 7. Treści, których jeszcze nie ma (placeholdery, oznaczone do podmiany)
 
 - **Logo / znak Nest Studio**: brak. Zaprojektować wordmark + znak (skill `svg-design`, `brandkit`), oznaczyć jako propozycję do akceptacji.
-- **Fonty**: Filip może dostarczyć własne. Do tego czasu darmowe z licencją komercyjną, self-hosted woff2 z latin-ext (polskie znaki!). Kandydaci do wyboru przez `design-taste-frontend`: grotesk display (np. z Fontshare) + mono na mikro-labelki.
+- **Fonty** (decyzja Filipa): **Space Grotesk** (Google Fonts, OFL) jako główny krój, display + tekst. Self-hosted woff2 z latin-ext (polskie znaki!), np. przez `@fontsource-variable/space-grotesk` albo `next/font`. Do mikro-labelek dobrać mono (np. Space Mono / JetBrains Mono / Geist Mono). Wybór uzasadnić w `docs/decisions.md`.
+  - **Neue Plak** to alternatywa, na którą Filip ma ochotę, ale jej pliki pochodzą z projektów klienta (TCC) i **nie mogą trafić do tego publicznego repo**. Architektura fontów ma pozwalać na podmianę jednej zmiennej (`--font-display`), gdyby Filip kupił własną licencję.
 - **Projekty / case studies**: placeholdery z realistyczną strukturą (nazwa, zakres, metryka, rok). Kandydaci z portfolio Filipa: Perun Tac (branding + strona + CMS), TCC Global (strona), Oboda Group (redesign). Nazwy i dane tylko po akceptacji Filipa.
 - **Showreel**: brak filmu. Architektura playera gotowa na plik mp4/HLS.
 - **Zdjęcie Filipa, mail, social, NIP**: placeholdery.
