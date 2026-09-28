@@ -16,19 +16,23 @@
   .hero-ctas { justify-content: flex-end; }
 }
 
-/* TENSION */
-.tension-title { max-width: 16ch; }
-.tension-split { display: grid; grid-template-columns: 1fr; gap: var(--s-6); margin-top: var(--s-9); align-items: center; }
+/* TENSION (pin 200vh) */
+.tension { position: relative; }
+.tension-stage { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; gap: var(--s-6); padding-top: calc(var(--nav-h) + var(--s-6)); padding-bottom: var(--s-6); }
+.tension-title { max-width: 22ch; }
+.tension-split { display: grid; grid-template-columns: 1fr; gap: var(--s-5); align-items: center; align-self: center; }
 .tension-col { display: grid; gap: var(--s-3); }
-.tension-word { font-family: var(--font-display); font-weight: 500; font-size: var(--t-h1); letter-spacing: -0.035em; line-height: 1; display: block; white-space: nowrap; }
+.tension-word { font-family: var(--font-display); font-weight: 500; font-size: var(--t-h1); letter-spacing: -0.035em; line-height: 1; display: block; white-space: nowrap; font-kerning: none; }
 .tension-divider { height: 1px; background: var(--hairline); }
-.tension-copy { margin-top: var(--s-9); display: grid; gap: var(--s-5); }
-.tension-closing { margin-top: var(--s-9); max-width: 20ch; }
+.tension-foot { display: grid; gap: var(--s-6); align-items: end; }
+.tension-copy { display: grid; gap: var(--s-4); }
 .tension-closing-line { display: block; }
 @media (min-width: 768px) {
   .tension-split { grid-template-columns: 1fr 1px 1fr; gap: var(--s-7); }
-  .tension-divider { height: clamp(6rem, 20vw, 14rem); width: 1px; }
+  .tension-divider { height: clamp(6rem, 22vh, 14rem); width: 1px; }
   .tension-col-right { justify-items: end; text-align: right; }
+  .tension-foot { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .tension-closing { justify-self: end; text-align: right; }
 }
 
 /* SHOWREEL */

@@ -1,5 +1,9 @@
 import type { Content } from '@/content/types';
 import { Nav } from '@/components/nav/Nav';
+import { SmoothScroll } from '@/components/motion/SmoothScroll';
+import { Preloader } from '@/components/Preloader';
+import { SceneCanvas } from '@/components/scene/SceneCanvas';
+import { SceneDirector } from '@/components/scene/SceneDirector';
 import { Hero } from '@/components/sections/Hero';
 import { Tension } from '@/components/sections/Tension';
 import { Showreel } from '@/components/sections/Showreel';
@@ -15,6 +19,10 @@ import { Footer } from '@/components/sections/Footer';
 export function Site({ content }: { content: Content }) {
   return (
     <>
+      <SmoothScroll />
+      <Preloader label={content.preloader.loading} />
+      <SceneCanvas noWebglNote={content.system.noWebgl} />
+      <SceneDirector />
       <div className="site-grid" aria-hidden="true"><span /><span /><span /><span /><span /><span /></div>
       <Nav content={content} />
       <main id="tresc" style={{ position: 'relative', zIndex: 'var(--z-content)' }}>
