@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useId, useRef, useState } from 'react';
+import { gsap, useGSAP } from '@/lib/gsap';
+import { prefersReducedMotion } from '@/lib/motion';
 import type { Content } from '@/content/types';
 import { EMAIL } from '@/content/site';
 import { Wordmark } from '@/components/ui/Wordmark';
@@ -13,6 +15,27 @@ export function Nav({ content }: { content: Content }) {
   const overlayId = useId();
   const firstLink = useRef<HTMLAnchorElement>(null);
   const menuBtn = useRef<HTMLButtonElement>(null);
+  const overlay = useRef<HTMLDivElement>(null);
+  const mounted = useRef(false);
+
+  useGSAP(() => {
+    const el = overlay.current!;
+    const links = el.querySelectorAll('.overlay-links a');
+    const foot = el.querySelectorAll('.overlay-foot > *');
+    const reduced = prefersReducedMotion();
+    if (!mounted.current) { mounted.current = true; gsap.set(el, { clipPath: 'circle(0% at calc(100% - 56px) 32px)' }); return; }
+    if (open) {
+      el.setAttribute('data-open', 'true');
+      const tl = gsap.timeline();
+      tl.fromTo(el, { clipPath: 'circle(0% at calc(100% - 56px) 32px)' }, { clipPath: 'circle(160% at calc(100% - 56px) 32px)', duration: reduced ? 0 : 0.9, ease: 'expo.inOut' })
+        .fromTo(links, { yPercent: 110 }, { yPercent: 0, duration: reduced ? 0 : 0.9, stagger: 0.06, ease: 'expo.out' }, reduced ? 0 : 0.35)
+        .fromTo(foot, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: reduced ? 0 : 0.6, stagger: 0.05 }, reduced ? 0 : 0.6);
+    } else {
+      gsap.timeline({ onComplete: () => el.setAttribute('data-open', 'false') })
+        .to(links, { yPercent: -110, duration: reduced ? 0 : 0.4, stagger: 0.03, ease: 'power2.in' }, 0)
+        .to(el, { clipPath: 'circle(0% at calc(100% - 56px) 32px)', duration: reduced ? 0 : 0.6, ease: 'expo.inOut' }, reduced ? 0 : 0.15);
+    }
+  }, { dependencies: [open] });
 
   useEffect(() => {
     const sentinel = document.createElement('div');
@@ -56,12 +79,12 @@ export function Nav({ content }: { content: Content }) {
           </div>
         </div>
       </header>
-      <div id={overlayId} className="overlay" data-open={open ? 'true' : 'false'} aria-hidden={!open} role="dialog" aria-modal="true" aria-label={content.nav.menu}>
+      <div ref={overlay} id={overlayId} className="overlay" data-open="false" aria-hidden={!open} role="dialog" aria-modal="true" aria-label={content.nav.menu}>
         <div />
         <nav className="wrap" aria-label={content.nav.menu}>
           <ul className="overlay-links">
             {content.nav.links.map((l, i) => (
-              <li key={l.href}>
+              <li key={l.href} className="overlay-link-mask">
                 <a href={l.href} ref={i === 0 ? firstLink : undefined} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>{l.label}</a>
               </li>
             ))}

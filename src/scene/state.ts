@@ -13,6 +13,8 @@ export interface SceneState {
   dropZ: number;
   dropAmp: number;    // amplituda "płynności" kropli
   dropDetach: number; // 0 kropla trzyma się slotu w hero, 1 kropla w pozycji ze stanu
+  nestX: number;      // przesunięcie gniazda w świecie (kompozycja: tekst po lewej, gniazdo po prawej)
+  nestY: number;
   camZ: number;
   camRoll: number;
   camY: number;
@@ -33,6 +35,8 @@ export const initialState: SceneState = {
   dropZ: 0.5,
   dropAmp: 0.12,
   dropDetach: 0,
+  nestX: 0,
+  nestY: 0,
   camZ: 10,
   camRoll: 0,
   camY: 0,

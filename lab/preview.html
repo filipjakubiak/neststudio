@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;font-family:system-ui;display:grid;grid-template-columns:1fr 1fr;}
+.pane{padding:40px;display:flex;flex-direction:column;gap:32px}
+.dark{background:#0A0A0B;color:#F4F4F5;--mark-canvas:#0A0A0B}
+.light{background:#F4F4F5;color:#0A0A0B;--mark-canvas:#F4F4F5}
+.row{display:flex;align-items:center;gap:40px}
+.row img, .row svg{display:block}
+h3{font:500 14px system-ui;margin:0;opacity:.6}
+</style></head><body>
+<script>
+const marks=['mark-a-nic','mark-b-splot','mark-c-pole'];
+const sizes=[16,24,40,96,200];
+for(const theme of ['dark','light']){
+  let html=`<div class="pane ${theme}">`;
+  for(const m of marks){
+    html+=`<h3>${m}</h3><div class="row" id="${theme}-${m}"></div>`;
+  }
+  html+='</div>';
+  document.write(html);
+}
+(async()=>{
+  for(const m of marks){
+    const svg=await (await fetch(`/home/user/neststudio/public/brand/${m}.svg`)).text();
+    for(const theme of ['dark','light']){
+      const row=document.getElementById(`${theme}-${m}`);
+      for(const s of sizes){
+        const wrap=document.createElement('div');
+        wrap.style.width=s+'px';wrap.style.height=s+'px';
+        wrap.innerHTML=svg;
+        row.appendChild(wrap);
+      }
+    }
+  }
+  document.body.dataset.ready='1';
+})();
+</script>
+</body></html>

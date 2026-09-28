@@ -90,7 +90,7 @@
   --e-out: cubic-bezier(0.16, 1, 0.3, 1);
   --e-inout: cubic-bezier(0.65, 0, 0.35, 1);
 
-  --z-scene: 0; --z-content: 1; --z-rail: 20; --z-nav: 30; --z-overlay: 40; --z-preloader: 50;
+  --z-scene: 0; --z-content: 1; --z-rail: 20; --z-overlay: 25; --z-nav: 30; --z-preloader: 50;
 
   --nav-h: 64px;
 }

@@ -127,7 +127,7 @@ Inter/Roboto/Arial jako font; pure black; drugi kolor; neon, glow, gradient text
   --d-micro: 160ms; --d-toggle: 240ms; --d-base: 500ms; --d-enter: 800ms; --d-macro: 1200ms;
   --e-out: cubic-bezier(0.16, 1, 0.3, 1); --e-inout: cubic-bezier(0.65, 0, 0.35, 1);
 
-  --z-scene: 0; --z-content: 1; --z-rail: 20; --z-nav: 30; --z-overlay: 40; --z-preloader: 50;
+  --z-scene: 0; --z-content: 1; --z-rail: 20; --z-overlay: 25; --z-nav: 30; --z-preloader: 50;
 }
 [data-theme="light"] {
   --canvas: #F4F4F5; --surface: #EAEAEC; --ink: #0A0A0B; --ink-soft: #5C5C63; --ink-faint: #C9C9CE;

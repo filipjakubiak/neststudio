@@ -2,9 +2,18 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
-## Gdzie jesteśmy (28.09.2026)
+## Gdzie jesteśmy (28.09.2026, wieczór)
 
-**K1 zrobione: koncepcja, marka, teksty, plan.**
+**K1 do K6 zrobione: strona działa w całości, zweryfikowana w przeglądarce, gotowa do deployu.** Szczegóły pomiarów: `docs/verification.md`.
+
+Co jest:
+- Next.js 16 static export, PL na `/`, EN na `/en/`, tokeny z `DESIGN.md`, fonty self-hosted (latin + latin-ext).
+- Jedna scena Three.js pod całą stroną: nici (instancjonowane wstęgi, shader chaos → gniazdo → tunel) i kropla liquid chrome (proceduralne odbicia studyjne). Stan sceny sterowany przez GSAP z każdej sekcji; przesunięcie gniazda komponowane sekcja po sekcji (tekst po lewej, gniazdo po prawej).
+- Preloader (2014 → rok, rysowanie znaku, raz na sesję), hero (intro maską, kropla w nagłówku, reaguje na kursor), napięcie (pin, rozsypane znaki wracają na miejsce), showreel (pin 400vh, cięcia w głąb, player z timecode i Odtwórz, cięcie na biel), projekty (biały blok, sticky stack, covery rysowane DrawSVG), usługi (akordeon poziomy z czterema mikro-animacjami), AI demo (przepływy składają się same, pakiet płynie po węzłach), proces (pin, nić rysuje się przez pięć stacji), studio (paralaksa, licznik lat), FAQ (GSAP height), finał (pin, kropla ląduje w gnieździe i trzyma), stopka (wordmark scrub, "Zapytaj Claude / ChatGPT / Perplexity").
+- Nić-rail po prawej (desktop), menu overlay (clip-path, focus trap, Escape), Lenis + ScrollTrigger na jednym tickerze, pełne `prefers-reduced-motion`, fallback bez WebGL.
+- Znak A + wordmark + lockup (SVG), favicon, OG, `wrangler.jsonc`, `_headers`, README.
+
+Poprzednio (K1):
 
 - `docs/concept.md`: brainstorm z briefu, tezy (wizualna, interakcyjna), motyw "nić", gramatyka strony, krzywa emocji z peakiem (showreel), signature move (persystentna scena nici + nić-rail), Design DNA JSON.
 - `DESIGN.md`: jedyne źródło tokenów (kolor, typografia, przestrzeń, kształt, komponenty, ruch, zakazy).
@@ -14,13 +23,14 @@
 - `docs/plan.md`: 18 zadań w 6 kamieniach (K2 szkielet → K6 weryfikacja i deploy).
 - `docs/placeholders.md`: co jest tymczasowe i czym podmienić.
 
-## Co dalej
+## Co dalej (wymaga Filipa)
 
-1. K2: szkielet Next.js 16 static export + tokeny + fonty + statyczne sekcje (strona kompletna bez JS).
-2. K3: ruch (GSAP + Lenis), scena Three.js, preloader, hero, napięcie.
-3. K4: showreel, projekty, usługi, AI demo.
-4. K5: proces, studio, FAQ, kontakt, rail, menu.
-5. K6: screenshoty, reduced motion, Lighthouse, audyt, wrangler, favicon/OG.
+1. **Test na prawdziwym sprzęcie**: iPhone (Safari) i desktop z GPU. W kontenerze WebGL szedł na CPU (SwiftShader). Lista w `docs/verification.md`.
+2. **Deploy**: `npx wrangler login && npm run deploy` (Cloudflare Workers, static assets). Potem PageSpeed Insights dla potwierdzenia perf ≥ 90.
+3. **Podmiana placeholderów** (`docs/placeholders.md`): domena, mail, telefon, NIP, social, zdjęcie, nazwy i metryki projektów, ewentualnie plik showreela (`SHOWREEL_SRC`).
+4. Decyzje z listy poniżej.
+
+Możliwe kolejne kroki po akceptacji: formularz kontaktowy przez Workera, prawdziwy model w AI demo (Worker + limit), podstrony case study, podmiana `--font-display` na Neue Plak po licencji.
 
 ## Otwarte pytania do Filipa (nie blokują; przyjęte wartości domyślne w `docs/decisions.md`)
 
@@ -29,9 +39,10 @@
 3. Kontakt: mailto wystarczy na start, czy od razu Cal.com / formularz? Jaki adres e-mail?
 4. Domena i dane do stopki (NIP, social).
 5. Zdjęcie do sekcji Studio.
-6. Zgoda na Three.js (≈130 kB gzip więcej, ładowane po LCP) w zamian za scenę 3D nici + chrome.
+6. Zgoda na Three.js (chunk 555 kB raw, ok. 140 kB brotli, ładowany po preloaderze w `requestIdleCallback`; Turbopack nie wycina nieużywanych części three) w zamian za scenę 3D nici + chrome. Alternatywa: fallback SVG na stałe (perf 0,98 w Lighthouse).
+7. Czy showreel ma zostać generatywny (obecnie: "To nie jest film" jako świadoma teza), czy podmieniamy na materiał wideo, gdy powstanie.
 
-## Jak uruchomić (po K2)
+## Jak uruchomić
 
 ```
 npm install

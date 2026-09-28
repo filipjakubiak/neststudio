@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { getSceneBus } from '@/scene/state';
-import { isFinePointer, prefersReducedMotion } from '@/lib/motion';
+import { isFinePointer, prefersReducedMotion, whenReady } from '@/lib/motion';
 import { SceneFallback } from './SceneFallback';
 
 function webgl2Supported(): boolean {
@@ -74,10 +74,16 @@ export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
         }
       }, 2600);
     };
-    raf = window.requestAnimationFrame(() => { window.setTimeout(boot, 0); });
+    /* start po preloaderze i w wolnej chwili, żeby nie blokować pierwszego malowania */
+    const idle = (cb: () => void) => {
+      if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(cb, { timeout: 1200 });
+      else window.setTimeout(cb, 200);
+    };
+    const cancelReady = whenReady(() => { raf = window.requestAnimationFrame(() => idle(boot)); });
 
     return () => {
       disposed = true;
+      cancelReady();
       window.cancelAnimationFrame(raf);
       window.clearTimeout(checkTimer);
       window.removeEventListener('pointermove', onPointer);

@@ -1,11 +1,28 @@
+'use client';
+
+import { useRef } from 'react';
 import type { Content } from '@/content/types';
 import { ASK_AI, EMAIL, LEGAL_NAME, NIP, PHONE, SOCIAL } from '@/content/site';
 import { Mark } from '@/components/ui/Mark';
+import { gsap, useGSAP } from '@/lib/gsap';
+import { MOTION_OK } from '@/lib/motion';
 
 export function Footer({ c }: { c: Content }) {
   const year = new Date().getFullYear();
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    const el = root.current!;
+    const mm = gsap.matchMedia();
+    mm.add(MOTION_OK, () => {
+      gsap.fromTo(el.querySelector('.footer-wordmark'), { yPercent: 40 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom bottom', scrub: true } });
+      gsap.from(el.querySelectorAll('.footer-col'), { opacity: 0, y: 16, duration: 0.8, stagger: 0.08, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 80%', once: true } });
+    });
+    return () => mm.revert();
+  }, { scope: root });
+
   return (
-    <footer className="footer" data-section="footer">
+    <footer ref={root} className="footer" data-section="footer">
       <div className="wrap footer-top">
         <div className="footer-col">
           <h3 className="t-label text-ink-soft">{c.footer.contact}</h3>

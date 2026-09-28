@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { WebGLRenderer, Scene, PerspectiveCamera, Vector2, Vector3, PMREMGenerator, Texture, CanvasTexture, EquirectangularReflectionMapping, SRGBColorSpace, ACESFilmicToneMapping, DirectionalLight, MathUtils } from 'three';
 import { ThreadField } from './ThreadField';
 import { ChromeDrop } from './ChromeDrop';
 import { getSceneBus, type SceneBus } from './state';
@@ -8,7 +8,7 @@ export interface SceneOptions { threads: number; dpr: number }
 const FOV = 35;
 
 /* Proceduralna mapa środowiska: ciemne studio z jasnymi pasami światła, żeby chrom miał kontrastowe odbicia. */
-function makeChromeEnvironment(): THREE.Texture {
+function makeChromeEnvironment(): Texture {
   const w = 1024, h = 512;
   const c = document.createElement('canvas');
   c.width = w; c.height = h;
@@ -47,25 +47,25 @@ function makeChromeEnvironment(): THREE.Texture {
     ctx.fillRect(x, 0, 120, h);
   }
   ctx.globalCompositeOperation = 'source-over';
-  const tex = new THREE.CanvasTexture(c);
-  tex.mapping = THREE.EquirectangularReflectionMapping;
-  tex.colorSpace = THREE.SRGBColorSpace;
+  const tex = new CanvasTexture(c);
+  tex.mapping = EquirectangularReflectionMapping;
+  tex.colorSpace = SRGBColorSpace;
   return tex;
 }
 
 /* Jedna scena na stronę: nici + kropla. Stan czyta z SceneBus co klatkę. */
 export class NestScene {
-  renderer: THREE.WebGLRenderer;
-  scene = new THREE.Scene();
-  camera: THREE.PerspectiveCamera;
+  renderer: WebGLRenderer;
+  scene = new Scene();
+  camera: PerspectiveCamera;
   threads: ThreadField;
   drop: ChromeDrop;
   bus: SceneBus;
-  private resolution = new THREE.Vector2(1, 1);
-  private pmrem: THREE.PMREMGenerator;
-  private envTexture: THREE.Texture;
-  private smoothedPointer = new THREE.Vector3();
-  private dropPos = new THREE.Vector3();
+  private resolution = new Vector2(1, 1);
+  private pmrem: PMREMGenerator;
+  private envTexture: Texture;
+  private smoothedPointer = new Vector3();
+  private dropPos = new Vector3();
   private frames = 0;
   private frameTimeSum = 0;
   private lastT = 0;
@@ -76,15 +76,15 @@ export class NestScene {
   constructor(canvas: HTMLCanvasElement, opts: SceneOptions) {
     this.opts = opts;
     this.bus = getSceneBus();
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    this.renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.setPixelRatio(opts.dpr);
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1;
-    this.camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 100);
+    this.camera = new PerspectiveCamera(FOV, 1, 0.1, 100);
     this.camera.position.set(0, 0, 10);
 
-    this.pmrem = new THREE.PMREMGenerator(this.renderer);
+    this.pmrem = new PMREMGenerator(this.renderer);
     const equirect = makeChromeEnvironment();
     this.envTexture = this.pmrem.fromEquirectangular(equirect).texture;
     equirect.dispose();
@@ -96,7 +96,7 @@ export class NestScene {
     this.drop = new ChromeDrop();
     this.scene.add(this.drop.mesh);
 
-    const key = new THREE.DirectionalLight(0xffffff, 1.2);
+    const key = new DirectionalLight(0xffffff, 1.2);
     key.position.set(3, 4, 6);
     this.scene.add(key);
 
@@ -113,17 +113,17 @@ export class NestScene {
   }
 
   /* px ekranu -> świat na płaszczyźnie z=zPlane */
-  screenToWorld(x: number, y: number, zPlane = 0): THREE.Vector3 {
+  screenToWorld(x: number, y: number, zPlane = 0): Vector3 {
     const w = window.innerWidth, h = window.innerHeight;
     const dist = this.camera.position.z - zPlane;
-    const halfH = Math.tan(THREE.MathUtils.degToRad(FOV / 2)) * dist;
+    const halfH = Math.tan(MathUtils.degToRad(FOV / 2)) * dist;
     const halfW = halfH * (w / h);
-    return new THREE.Vector3(((x / w) * 2 - 1) * halfW, (1 - (y / h) * 2) * halfH + this.camera.position.y, zPlane);
+    return new Vector3(((x / w) * 2 - 1) * halfW, (1 - (y / h) * 2) * halfH + this.camera.position.y, zPlane);
   }
 
   worldUnitsPerPixel(zPlane = 0): number {
     const dist = this.camera.position.z - zPlane;
-    const halfH = Math.tan(THREE.MathUtils.degToRad(FOV / 2)) * dist;
+    const halfH = Math.tan(MathUtils.degToRad(FOV / 2)) * dist;
     return (2 * halfH) / window.innerHeight;
   }
 
@@ -162,12 +162,13 @@ export class NestScene {
     u.uTunnel.value = s.tunnel;
     u.uInk.value = s.ink;
     u.uOpacity.value = s.opacity;
+    (u.uNestOffset.value as Vector2).set(s.nestX, s.nestY);
 
     // wskaźnik (świat, z=0), wygładzony
     const p = this.bus.pointer;
     const target = this.screenToWorld(p.x, p.y, 0);
     this.smoothedPointer.lerp(target, 1 - Math.pow(0.001, dt));
-    (u.uPointer.value as THREE.Vector3).set(this.smoothedPointer.x, this.smoothedPointer.y, p.active);
+    (u.uPointer.value as Vector3).set(this.smoothedPointer.x, this.smoothedPointer.y, p.active);
 
     // kamera
     this.camera.position.z = s.camZ;
@@ -191,7 +192,8 @@ export class NestScene {
     const follow = (1 - s.dropDetach) * p.active * 0.12;
     this.dropPos.set(ax + (this.smoothedPointer.x - ax) * follow, ay + (this.smoothedPointer.y - ay) * follow, az);
     this.drop.mesh.position.copy(this.dropPos);
-    this.drop.mesh.scale.setScalar(Math.max(0.0001, ar));
+    const narrow = Math.min(1, Math.max(0.5, this.camera.aspect / 0.9));
+    this.drop.mesh.scale.setScalar(Math.max(0.0001, ar * (s.dropDetach > 0.5 ? narrow : 1)));
     this.drop.mesh.visible = s.dropVisible > 0.01 && ar > 0.001;
     this.drop.material.opacity = s.dropVisible;
     this.drop.update(t, s.dropAmp);

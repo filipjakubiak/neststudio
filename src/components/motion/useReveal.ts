@@ -14,12 +14,15 @@ export function useReveal(scope: RefObject<HTMLElement | null>, opts: Options = 
     mm.add(MOTION_OK, () => {
       const targets = gsap.utils.toArray<HTMLElement>(selector, scope.current ?? undefined);
       const splits: SplitText[] = [];
-      targets.forEach((el) => {
+      let cancelled = false;
+      const run = () => targets.forEach((el) => {
+        if (cancelled) return;
         el.classList.add('split');
         const split = SplitText.create(el, {
           type: 'lines',
           mask: 'lines',
           autoSplit: true,
+          aria: 'none',
           onSplit(self) {
             return gsap.from(self.lines, {
               yPercent: 110,
@@ -33,7 +36,8 @@ export function useReveal(scope: RefObject<HTMLElement | null>, opts: Options = 
         });
         splits.push(split);
       });
-      return () => splits.forEach((s) => s.revert());
+      if (document.fonts?.status === 'loaded') run(); else document.fonts.ready.then(run);
+      return () => { cancelled = true; splits.forEach((s) => s.revert()); };
     });
     mm.add(MOTION_REDUCED, () => {});
     return () => mm.revert();

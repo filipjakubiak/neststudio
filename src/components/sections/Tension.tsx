@@ -18,14 +18,14 @@ export function Tension({ c }: { c: Content }) {
     const mm = gsap.matchMedia();
     mm.add(MOTION_OK, () => {
       const scatter = el.querySelector<HTMLElement>('.tension-word-scatter')!;
-      const split = SplitText.create(scatter, { type: 'chars' });
+      const split = SplitText.create(scatter, { type: 'chars', aria: 'none' });
       const chars = split.chars;
       gsap.set(chars, {
         x: () => gsap.utils.random(-70, 70), y: () => gsap.utils.random(-46, 46),
         rotation: () => gsap.utils.random(-16, 16), opacity: 0.22, display: 'inline-block',
       });
       const closing = el.querySelectorAll<HTMLElement>('.tension-closing-line');
-      const closingSplit = SplitText.create(closing, { type: 'lines', mask: 'lines' });
+      const closingSplit = SplitText.create(closing, { type: 'lines', mask: 'lines', aria: 'none' });
       const you = el.querySelector('.tension-you');
       const body = el.querySelector('.tension-body');
       const labels = el.querySelectorAll('.tension-col .t-label');
@@ -53,8 +53,8 @@ export function Tension({ c }: { c: Content }) {
       });
       tl.to(chars, { x: 0, y: 0, rotation: 0, opacity: 1, ease: 'weave', duration: 0.55, stagger: { each: 0.018, from: 'random' } }, 0)
         .to(labels, { opacity: 1, duration: 0.15 }, 0.1)
-        .fromTo(bus.state, { weave: 0 }, { weave: 0.22, duration: 1, ease: 'none', immediateRender: false }, 0)
-        .fromTo(bus.state, { dropAmp: 0.12 }, { dropAmp: 0.22, duration: 0.5, ease: 'power2.inOut', immediateRender: false }, 0)
+        .fromTo(bus.state, { weave: 0 }, { weave: 0.22, duration: 0.98, ease: 'none', immediateRender: false }, 0.02)
+        .fromTo(bus.state, { dropAmp: 0.12 }, { dropAmp: 0.22, duration: 0.48, ease: 'power2.inOut', immediateRender: false }, 0.02)
         .to(you, { opacity: 1, y: 0, duration: 0.18, ease: 'power2.out' }, 0.5)
         .to(body, { opacity: 1, y: 0, duration: 0.18, ease: 'power2.out' }, 0.58)
         .to(closingSplit.lines, { yPercent: 0, duration: 0.22, stagger: 0.07, ease: 'power3.out' }, 0.72)

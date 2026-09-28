@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { InstancedBufferGeometry, BufferAttribute, InstancedBufferAttribute, Sphere, Vector3, Vector2, ShaderMaterial, NormalBlending, DoubleSide, Mesh } from 'three';
 import { simplex3 } from './noise.glsl';
 
 const SEGMENTS = 22;
@@ -12,6 +12,7 @@ attribute vec3 aTorus;
 uniform float uTime, uWeave, uChaos, uSpeed, uTunnel, uSpread, uRm, uRr, uWidth, uInk;
 uniform vec2 uResolution;
 uniform vec3 uPointer;
+uniform vec2 uNestOffset;
 varying float vT;
 varying float vSide;
 varying float vAlpha;
@@ -44,6 +45,7 @@ vec3 nestPos(float t) {
   float c = cos(0.55), s = sin(0.55);
   p = vec3(p.x, p.y * c - p.z * s, p.y * s + p.z * c);
   p += vec3(snoise(p * 1.4 + uTime * 0.12), snoise(p * 1.4 + 3.1 + uTime * 0.12), 0.0) * 0.05;
+  p.xy += uNestOffset;
   return p;
 }
 
@@ -108,13 +110,13 @@ void main() {
 `;
 
 export class ThreadField {
-  mesh: THREE.Mesh;
-  material: THREE.ShaderMaterial;
+  mesh: Mesh;
+  material: ShaderMaterial;
   count: number;
 
-  constructor(count: number, resolution: THREE.Vector2, dpr: number) {
+  constructor(count: number, resolution: Vector2, dpr: number) {
     this.count = count;
-    const geo = new THREE.InstancedBufferGeometry();
+    const geo = new InstancedBufferGeometry();
     const points = SEGMENTS + 1;
     const positions = new Float32Array(points * 2 * 3);
     const aT = new Float32Array(points * 2);
@@ -131,9 +133,9 @@ export class ThreadField {
       const a = i * 2, b = a + 1, c = a + 2, d = a + 3;
       index.push(a, b, c, b, d, c);
     }
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('aT', new THREE.BufferAttribute(aT, 1));
-    geo.setAttribute('aSide', new THREE.BufferAttribute(aSide, 1));
+    geo.setAttribute('position', new BufferAttribute(positions, 3));
+    geo.setAttribute('aT', new BufferAttribute(aT, 1));
+    geo.setAttribute('aSide', new BufferAttribute(aSide, 1));
     geo.setIndex(index);
 
     const seed = new Float32Array(count * 4);
@@ -146,19 +148,19 @@ export class ThreadField {
       torus[i * 3 + 1] = rnd() * Math.PI * 2;
       torus[i * 3 + 2] = 1.5 + rnd() * 3.5;
     }
-    geo.setAttribute('aSeed', new THREE.InstancedBufferAttribute(seed, 4));
-    geo.setAttribute('aTorus', new THREE.InstancedBufferAttribute(torus, 3));
+    geo.setAttribute('aSeed', new InstancedBufferAttribute(seed, 4));
+    geo.setAttribute('aTorus', new InstancedBufferAttribute(torus, 3));
     geo.instanceCount = count;
-    geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 60);
+    geo.boundingSphere = new Sphere(new Vector3(), 60);
 
-    this.material = new THREE.ShaderMaterial({
+    this.material = new ShaderMaterial({
       vertexShader,
       fragmentShader,
       transparent: true,
       depthWrite: false,
       depthTest: true,
-      side: THREE.DoubleSide, // wstęgi zmieniają kierunek nawinięcia wzdłuż krzywej; culling wyciąłby połowę
-      blending: THREE.NormalBlending,
+      side: DoubleSide, // wstęgi zmieniają kierunek nawinięcia wzdłuż krzywej; culling wyciąłby połowę
+      blending: NormalBlending,
       uniforms: {
         uTime: { value: 0 },
         uWeave: { value: 0 },
@@ -172,10 +174,11 @@ export class ThreadField {
         uInk: { value: 0 },
         uOpacity: { value: 1 },
         uResolution: { value: resolution },
-        uPointer: { value: new THREE.Vector3(0, 0, 0) },
+        uPointer: { value: new Vector3(0, 0, 0) },
+        uNestOffset: { value: new Vector2(0, 0) },
       },
     });
-    this.mesh = new THREE.Mesh(geo, this.material);
+    this.mesh = new Mesh(geo, this.material);
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 1;
   }

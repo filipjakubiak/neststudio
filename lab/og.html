@@ -1,0 +1,27 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8">
+<style>
+@font-face { font-family: 'SG'; src: url('file:///home/user/neststudio/public/fonts/space-grotesk-latin-wght-normal.woff2') format('woff2-variations'); font-weight: 300 700; }
+@font-face { font-family: 'SG'; src: url('file:///home/user/neststudio/public/fonts/space-grotesk-latin-ext-wght-normal.woff2') format('woff2-variations'); font-weight: 300 700; unicode-range: U+0100-024F; }
+@font-face { font-family: 'SM'; src: url('file:///home/user/neststudio/public/fonts/space-mono-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'SM'; src: url('file:///home/user/neststudio/public/fonts/space-mono-latin-ext-400-normal.woff2') format('woff2'); unicode-range: U+0100-024F; }
+body { margin: 0; width: 1200px; height: 630px; background: #0a0a0b; color: #f4f4f5; font-family: 'SG', sans-serif; position: relative; overflow: hidden; }
+.lines { position: absolute; inset: 0; opacity: 0.5; }
+.wrap { position: absolute; inset: 64px 72px; display: flex; flex-direction: column; justify-content: space-between; }
+.top { display: flex; align-items: center; gap: 14px; font-weight: 500; font-size: 26px; letter-spacing: -0.03em; }
+h1 { margin: 0; font-weight: 500; font-size: 88px; line-height: 0.96; letter-spacing: -0.04em; max-width: 12ch; }
+.drop { display: inline-block; width: 0.95em; height: 0.72em; vertical-align: -0.06em; margin-left: 0.15em; border-radius: 999px; background: linear-gradient(135deg,#f5f5f5 0%,#8c8c90 38%,#2b2b2e 58%,#e8e8ea 100%); }
+.foot { font-family: 'SM', monospace; font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; color: #8a8a90; display: flex; justify-content: space-between; }
+</style></head><body>
+<svg class="lines" viewBox="0 0 1200 630" fill="none" stroke="#f4f4f5" stroke-linecap="round" id="lines"></svg>
+<div class="wrap">
+  <div class="top"><svg width="30" height="30" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4V6.44M15 14.56V44"/><path d="M33 4V44"/><path d="M11 4.5L30.3 33.45M35.7 41.55L38.6 45.9"/></svg>Nest <span style="font-weight:300;margin-left:6px">Studio</span></div>
+  <h1>Projektujemy marki, które wyglądają<span class="drop"></span> na tyle, ile są warte.</h1>
+  <div class="foot"><span>Branding · Strony www · Strategia · AI i automatyzacje</span><span>od 2014</span></div>
+</div>
+<script>
+let a = 77; const rnd = () => { a = (a * 1664525 + 1013904223) >>> 0; return a / 4294967296; };
+let d = '';
+for (let i = 0; i < 46; i++) { const y0 = rnd()*630, y1 = rnd()*630; d += `<path d="M${-100+rnd()*200} ${y0}C${300+rnd()*300} ${rnd()*630} ${600+rnd()*300} ${rnd()*630} ${1100+rnd()*200} ${y1}" stroke-width="${i%6===0?1.2:0.6}" opacity="${0.12+(i%5)*0.05}"/>`; }
+document.getElementById('lines').innerHTML = d;
+</script>
+</body></html>

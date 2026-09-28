@@ -1,6 +1,9 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
+import { gsap, useGSAP } from '@/lib/gsap';
+import { prefersReducedMotion } from '@/lib/motion';
+import { getSceneBus } from '@/scene/state';
 import type { Content, NodeType } from '@/content/types';
 import { Button } from '@/components/ui/Button';
 import { Lightning, Eye, FunnelSimple, PencilSimpleLine, CheckCircle, AddressBook, EnvelopeSimple, FileText, CalendarBlank, BellSimple } from '@phosphor-icons/react/dist/ssr';
@@ -17,7 +20,33 @@ export function AiDemo({ c }: { c: Content }) {
   const [state, setState] = useState<RunState>('ready');
   const [active, setActive] = useState(-1);
   const logId = useId();
+  const root = useRef<HTMLElement>(null);
+  const packet = useRef<HTMLSpanElement>(null);
   const preset = c.aiDemo.presets.find((p) => p.id === presetId) ?? c.aiDemo.presets[0];
+
+  /* wejście węzłów po zmianie presetu */
+  useGSAP(() => {
+    if (prefersReducedMotion()) return;
+    const nodes = root.current!.querySelectorAll('.flow-node');
+    gsap.fromTo(nodes, { opacity: 0, y: 14, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.07, ease: 'expo.out', overwrite: 'auto' });
+  }, { dependencies: [presetId], scope: root });
+
+  /* pakiet płynie do aktywnego węzła; scena przyspiesza przy uruchomieniu */
+  useEffect(() => {
+    const pk = packet.current; const el = root.current;
+    if (!pk || !el) return;
+    const reduced = prefersReducedMotion();
+    if (active < 0) { gsap.to(pk, { opacity: 0, duration: 0.2 }); return; }
+    const node = el.querySelectorAll<HTMLElement>('.flow-node')[active];
+    const pill = node?.querySelector<HTMLElement>('.flow-node-pill');
+    const flow = el.querySelector<HTMLElement>('.flow');
+    if (!pill || !flow) return;
+    const fr = flow.getBoundingClientRect(); const pr = pill.getBoundingClientRect();
+    const x = pr.left - fr.left + pr.width / 2 - 4; const y = pr.top - fr.top + pr.height / 2 - 4;
+    if (reduced) { gsap.set(pk, { x, y, opacity: 1 }); return; }
+    gsap.to(pk, { x, y, opacity: 1, duration: active === 0 ? 0.3 : 0.6, ease: 'power2.inOut' });
+    if (active === 0) gsap.to(getSceneBus().state, { speed: 0.35, duration: 0.5, yoyo: true, repeat: 1, ease: 'power2.inOut' });
+  }, [active]);
 
   const run = () => {
     if (state === 'running') return;
@@ -35,7 +64,7 @@ export function AiDemo({ c }: { c: Content }) {
   const choose = (id: string) => { setPresetId(id); setState('ready'); setActive(-1); };
 
   return (
-    <section className="aidemo section" data-section="ai" aria-labelledby="ai-title">
+    <section ref={root} className="aidemo section" data-section="ai" aria-labelledby="ai-title">
       <div className="wrap">
         <h2 id="ai-title" className="t-h1">{c.aiDemo.title}</h2>
         <p className="t-lead measure text-ink-soft aidemo-lead">{c.aiDemo.lead}</p>
@@ -46,6 +75,7 @@ export function AiDemo({ c }: { c: Content }) {
         </div>
         <div className="aidemo-surface" data-state={state}>
           <ol className="flow" aria-label={preset.label}>
+            <span ref={packet} className="flow-packet" aria-hidden="true" />
             {preset.steps.map((s, i) => {
               const Icon = ICONS[s.node];
               const status = state === 'ready' ? 'idle' : i < active ? 'done' : i === active ? (state === 'done' ? 'done' : 'active') : 'idle';

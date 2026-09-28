@@ -1,15 +1,15 @@
-import * as THREE from 'three';
+import { IcosahedronGeometry, MeshPhysicalMaterial, Mesh } from 'three';
 import { simplex3 } from './noise.glsl';
 
 /* Kropla płynnego chromu: icosfera z przemieszczeniem szumem w shaderze wierzchołków, materiał metaliczny. */
 export class ChromeDrop {
-  mesh: THREE.Mesh;
-  material: THREE.MeshPhysicalMaterial;
+  mesh: Mesh;
+  material: MeshPhysicalMaterial;
   private uniforms = { uTime: { value: 0 }, uAmp: { value: 0.12 }, uFreq: { value: 0.85 } };
 
   constructor() {
-    const geo = new THREE.IcosahedronGeometry(1, 6);
-    this.material = new THREE.MeshPhysicalMaterial({
+    const geo = new IcosahedronGeometry(1, 6);
+    this.material = new MeshPhysicalMaterial({
       color: 0xffffff,
       metalness: 1,
       roughness: 0.12,
@@ -49,7 +49,7 @@ vec3 objectTangent = vec3( tangent.xyz );
 #endif`)
         .replace('#include <begin_vertex>', 'vec3 transformed = nestDisplace(position);');
     };
-    this.mesh = new THREE.Mesh(geo, this.material);
+    this.mesh = new Mesh(geo, this.material);
     this.mesh.renderOrder = 2;
   }
 

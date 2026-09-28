@@ -52,7 +52,7 @@ Odrzucone w trakcie: ptak (dosłowność), gniazdo jako ilustracja, "N" z gradie
 
 ### Wordmark i lockup
 
-- Wordmark: **Nest Studio** w Space Grotesk 500, tracking -0.03em, "Studio" w wadze 300 (emfaza tej samej rodziny). Na stronie jako żywy tekst; plik SVG z konturami generowany skryptem z fontu (zadanie w planie), żeby działał bez fontu.
+- Wordmark: **Nest Studio** w Space Grotesk 500, tracking -0.03em, "Studio" w wadze 300 (emfaza tej samej rodziny). Na stronie jako żywy tekst; pliki z konturami: `public/brand/wordmark.svg` i `public/brand/lockup.svg` (generowane przez `scripts/wordmark-svg.py` z fontu, działają bez fontu). Obraz OG: `public/og.png` (render `lab/og.html`).
 - Lockup poziomy: znak (wysokość = wysokość wersalika × 1.15) + odstęp 0.6 × wysokość + wordmark. Lockup pionowy: znak nad wordmarkiem, odstęp 0.5 × wysokość.
 - Pole ochronne: wysokość litery N znaku z każdej strony. Minimalny rozmiar: znak 16 px (tylko wariant w polu), lockup 96 px szerokości.
 

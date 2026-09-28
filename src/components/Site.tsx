@@ -4,6 +4,7 @@ import { SmoothScroll } from '@/components/motion/SmoothScroll';
 import { Preloader } from '@/components/Preloader';
 import { SceneCanvas } from '@/components/scene/SceneCanvas';
 import { SceneDirector } from '@/components/scene/SceneDirector';
+import { ThreadRail } from '@/components/nav/ThreadRail';
 import { Hero } from '@/components/sections/Hero';
 import { Tension } from '@/components/sections/Tension';
 import { Showreel } from '@/components/sections/Showreel';
@@ -25,6 +26,7 @@ export function Site({ content }: { content: Content }) {
       <SceneDirector />
       <div className="site-grid" aria-hidden="true"><span /><span /><span /><span /><span /><span /></div>
       <Nav content={content} />
+      <ThreadRail c={content} />
       <main id="tresc" style={{ position: 'relative', zIndex: 'var(--z-content)' }}>
         <Hero c={content} />
         <Tension c={content} />
