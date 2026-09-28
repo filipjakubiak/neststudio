@@ -21,6 +21,8 @@
 | licznik: `2014` → `{rok bieżący}` (mono) | same |
 | pod licznikiem: `Nest Studio` | same |
 | dostępność: `aria-label="Ładowanie strony"`, `aria-busy` | `Loading` |
+| przycisk pominięcia sekwencji tytułowej (branch `title-sequence`): `Pomiń` | `Skip` |
+| labelka w overlayu sekwencji: `Nest Studio` | `Nest Studio` |
 
 ## 2. Nawigacja
 

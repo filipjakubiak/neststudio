@@ -1,7 +1,8 @@
 import type { Content } from '@/content/types';
 import { Nav } from '@/components/nav/Nav';
 import { SmoothScroll } from '@/components/motion/SmoothScroll';
-import { Preloader } from '@/components/Preloader';
+import { TitleSequence } from '@/components/TitleSequence';
+import { LockupDefs } from '@/components/ui/Lockup';
 import { SceneCanvas } from '@/components/scene/SceneCanvas';
 import { SceneDirector } from '@/components/scene/SceneDirector';
 import { ThreadRail } from '@/components/nav/ThreadRail';
@@ -21,7 +22,8 @@ export function Site({ content }: { content: Content }) {
   return (
     <>
       <SmoothScroll />
-      <Preloader label={content.preloader.loading} />
+      <LockupDefs />
+      <TitleSequence label={content.preloader.loading} skipLabel={content.preloader.skip} />
       <SceneCanvas noWebglNote={content.system.noWebgl} />
       <SceneDirector />
       <div className="site-grid" aria-hidden="true"><span /><span /><span /><span /><span /><span /></div>

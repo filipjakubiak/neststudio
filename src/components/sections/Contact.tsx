@@ -9,7 +9,8 @@ import { gsap, useGSAP, SplitText } from '@/lib/gsap';
 import { DESKTOP, MOTION_OK, MOTION_REDUCED } from '@/lib/motion';
 import { getSceneBus } from '@/scene/state';
 
-/* Finał: gniazdo domknięte, kropla ląduje w środku, wszystko się zatrzymuje i trzyma (pin 150vh). */
+/* Finał: gniazdo domyka się i rozżarza od środka (żar, bloom), krótki puls jak lock w sekwencji tytułowej,
+   wszystko się zatrzymuje i trzyma (pin 150vh). */
 export function Contact({ c }: { c: Content }) {
   const root = useRef<HTMLElement>(null);
 
@@ -31,14 +32,14 @@ export function Contact({ c }: { c: Content }) {
       });
       tl.to(split.lines, { yPercent: 0, duration: 0.22, stagger: 0.06, ease: 'power3.out' }, 0)
         .to(rest, { opacity: 1, y: 0, duration: 0.18, stagger: 0.04, ease: 'power2.out' }, 0.16)
-        .fromTo(bus.state, { dropVisible: 0, dropDetach: 1, dropX: nestX, dropY: 3.2, dropZ: 0.3, dropScale: 0.9, dropAmp: 0.3 }, { dropVisible: 1, dropY: desktop ? 0 : -1.3, dropAmp: 0.1, duration: 0.42, ease: 'power2.in', immediateRender: false }, 0.05)
-        .to(bus.state, { dropAmp: 0.32, duration: 0.05, ease: 'power2.out' }, 0.47)
-        .to(bus.state, { dropAmp: 0.1, duration: 0.18, ease: 'power2.inOut' }, 0.52)
-        .fromTo(bus.state, { weave: 0.92, nestX, nestY: 0, speed: 0.03 }, { weave: 1, speed: 0.015, duration: 0.48, immediateRender: false }, 0.02)
-        .to({}, { duration: 0.3 });
+        .fromTo(bus.state, { weave: 0.92, nestX, nestY: desktop ? 0 : -1.3, speed: 0.03 }, { weave: 1, speed: 0.015, duration: 0.48, immediateRender: false }, 0.02)
+        .fromTo(bus.state, { glow: 0 }, { glow: 1, duration: 0.5, ease: 'power2.inOut', immediateRender: false }, 0.1)
+        .to(bus.state, { bloom: 1.7, exposure: 1.25, duration: 0.06, ease: 'power2.in' }, 0.52)
+        .to(bus.state, { bloom: 1.1, exposure: 1, duration: 0.18, ease: 'power2.out' }, 0.58)
+        .to({}, { duration: 0.24 });
       return () => split.revert();
     });
-    mm.add(MOTION_REDUCED, () => { bus.state.dropVisible = 1; });
+    mm.add(MOTION_REDUCED, () => {});
     return () => mm.revert();
   }, { scope: root });
 

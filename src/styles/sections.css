@@ -1,19 +1,19 @@
 /* Style sekcji. Wartości tylko z tokenów (DESIGN.md). */
 
-/* HERO */
-.hero { min-height: 100dvh; display: grid; align-items: end; padding-top: calc(var(--nav-h) + var(--s-8)); padding-bottom: var(--s-8); position: relative; }
-.hero-inner { display: grid; grid-template-columns: 1fr; gap: var(--s-7); }
-.hero-eyebrow { margin-bottom: var(--s-2); }
-.hero-title { font-size: var(--t-hero); line-height: 0.94; letter-spacing: -0.04em; }
+/* HERO: lockup "NEST STUDIO" u góry (kotwica liter 3D), nagłówek i lead przy dolnej krawędzi */
+.hero { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; padding-top: calc(var(--nav-h) + var(--s-7)); padding-bottom: var(--s-8); position: relative; }
+.hero-lockup-wrap { grid-row: 1; }
+.hero-inner { grid-row: 3; display: grid; grid-template-columns: 1fr; gap: var(--s-6); align-items: end; }
+.hero-head { display: grid; gap: var(--s-4); }
+.hero-eyebrow { margin-bottom: var(--s-1); }
+.hero-title { font-size: var(--t-hero); line-height: 0.98; letter-spacing: -0.035em; max-width: 20ch; }
 .hero-line { display: block; overflow: hidden; }
 .hero-line-inner { display: inline-block; padding-bottom: 0.06em; }
-.drop-slot { display: inline-block; width: 1.05em; height: 0.8em; vertical-align: -0.08em; margin-left: 0.18em; border-radius: var(--r-pill); background: var(--chrome); opacity: 0.9; }
 .hero-side { display: grid; gap: var(--s-5); align-content: end; }
 .hero-lead { max-width: 34ch; }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: var(--s-3); }
 @media (min-width: 1024px) {
-  .hero-side { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: end; gap: var(--s-7); }
-  .hero-ctas { justify-content: flex-end; }
+  .hero-inner { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s-8); }
 }
 
 /* TENSION (pin 200vh) */
@@ -154,7 +154,7 @@
 .studio-img { position: absolute; inset: 0; overflow: hidden; background: var(--surface); color: var(--ink-faint); }
 .studio-img svg { width: 100%; height: 100%; }
 .studio-photo-label { position: absolute; left: var(--s-4); bottom: var(--s-4); }
-.studio-frame { position: absolute; inset: var(--s-4) calc(-1 * var(--s-4)) calc(-1 * var(--s-4)) var(--s-4); border: 2px solid transparent; background: var(--chrome) border-box; -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.studio-frame { position: absolute; inset: var(--s-4) calc(-1 * var(--s-4)) calc(-1 * var(--s-4)) var(--s-4); border: 1px solid var(--hairline); pointer-events: none; }
 .studio-body { grid-column: 1 / -1; display: grid; gap: var(--s-5); }
 .studio-years { display: flex; gap: var(--s-5); margin-top: var(--s-4); }
 @media (min-width: 1024px) {
@@ -184,12 +184,13 @@
 .contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-5); margin-top: var(--s-4); }
 
 /* FOOTER */
-.footer { background: var(--surface); border-top: 1px solid var(--hairline); padding-top: var(--s-9); overflow: hidden; }
+.footer { background: transparent; border-top: 1px solid var(--hairline); padding-top: var(--s-9); overflow: hidden; }
 .footer-top { display: grid; gap: var(--s-7); grid-template-columns: 1fr; }
 .footer-col ul { list-style: none; margin: var(--s-4) 0 0; padding: 0; display: grid; gap: var(--s-2); }
 .footer-ask-list { flex-direction: row; flex-wrap: wrap; display: flex !important; gap: var(--s-2) !important; }
-.footer-mark { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-6); margin-top: var(--s-9); line-height: 0.8; }
-.footer-wordmark { display: inline-block; white-space: nowrap; }
+.footer-mark { display: flex; align-items: flex-end; gap: var(--s-7); margin-top: var(--s-9); }
+.footer-lockup { flex: 1 1 auto; min-width: 0; }
+.footer-glyph { flex: 0 0 auto; }
 .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-4); padding-block: var(--s-6); border-top: 1px solid var(--hairline); margin-top: var(--s-6); }
 @media (min-width: 640px) { .footer-top { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .footer-top { grid-template-columns: repeat(4, 1fr); } }

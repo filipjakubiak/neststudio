@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { getSceneBus } from '@/scene/state';
-import { isFinePointer, prefersReducedMotion, whenReady } from '@/lib/motion';
+import { isFinePointer, markScene, prefersReducedMotion, whenReady } from '@/lib/motion';
 import { SceneFallback } from './SceneFallback';
 
 function webgl2Supported(): boolean {
@@ -21,19 +21,22 @@ function budget(): { threads: number; dpr: number } {
   return { threads: 3500, dpr: Math.min(1.5, window.devicePixelRatio || 1) };
 }
 
-/* Fixed canvas pod treścią. Decyduje: scena WebGL albo statyczny fallback. */
+/* Fixed canvas pod treścią (w trakcie sekwencji tytułowej nad overlayem). Decyduje: scena WebGL albo statyczny fallback. */
 export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const [mode, setMode] = useState<'pending' | 'on' | 'fallback'>('pending');
 
   useEffect(() => {
     const bus = getSceneBus();
-    if (prefersReducedMotion() || !webgl2Supported()) { bus.status = 'fallback'; setMode('fallback'); return; }
+    if (prefersReducedMotion() || !webgl2Supported()) { bus.status = 'fallback'; setMode('fallback'); markScene(null); return; }
     let disposed = false;
     let scene: import('@/scene/NestScene').NestScene | null = null;
     let raf = 0;
     let checkTimer = 0;
+    let cancelReady = () => {};
+    let cancelGuard = () => {};
     bus.status = 'loading';
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
 
     const onPointer = (e: PointerEvent) => { bus.pointer.x = e.clientX; bus.pointer.y = e.clientY; bus.pointer.active = 1; };
     const onLeave = () => { bus.pointer.active = 0; };
@@ -45,9 +48,9 @@ export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
       if (disposed || !ref.current) return;
       const b = budget();
       try {
-        scene = new NestScene(ref.current, { threads: b.threads, dpr: b.dpr, dropDetail: coarse ? 5 : 6 });
+        scene = new NestScene(ref.current, { threads: b.threads, dpr: b.dpr, curveSegments: coarse ? 8 : 12, samples: coarse ? 2 : 4 });
       } catch {
-        bus.status = 'fallback'; setMode('fallback'); return;
+        bus.status = 'fallback'; setMode('fallback'); markScene(null); return;
       }
       scene.start();
       bus.status = 'on';
@@ -59,42 +62,49 @@ export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
       }
       window.addEventListener('resize', onResize);
       document.addEventListener('visibilitychange', onVis);
-      // strażnik wydajności: po ~2 s sprawdź średni czas klatki
-      checkTimer = window.setTimeout(() => {
-        const avg = scene?.averageFrameMs();
-        if (avg == null || !scene) return;
-        if (avg > 40) {
-          scene.dispose(); scene = null;
-          document.documentElement.removeAttribute('data-scene');
-          bus.status = 'fallback'; setMode('fallback');
-        } else if (avg > 24 && b.threads > 1500) {
-          scene.dispose();
-          scene = new NestScene(ref.current!, { threads: Math.round(b.threads / 2), dpr: Math.min(1.25, b.dpr), dropDetail: 5 });
-          scene.start();
-        }
-      }, 2600);
+      markScene(scene);
+      /* strażnik wydajności: po sekwencji tytułowej i ~2,6 s spokojnych klatek sprawdź średni czas klatki */
+      cancelGuard = whenReady(() => {
+        scene?.resetFrameStats();
+        checkTimer = window.setTimeout(() => {
+          const avg = scene?.averageFrameMs();
+          if (avg == null || !scene) return;
+          if (avg > 40) {
+            scene.dispose(); scene = null;
+            document.documentElement.removeAttribute('data-scene');
+            bus.status = 'fallback'; setMode('fallback');
+          } else if (avg > 24 && b.threads > 1500) {
+            scene.dispose();
+            scene = new NestScene(ref.current!, { threads: Math.round(b.threads / 2), dpr: Math.min(1.25, b.dpr), curveSegments: 8, samples: 2 });
+            scene.start();
+          }
+        }, 2600);
+      });
     };
-    /* start po preloaderze i w wolnej chwili, żeby nie blokować pierwszego malowania */
-    const coarse = window.matchMedia('(pointer: coarse)').matches;
+
+    /* Pierwsza wizyta w sesji: sekwencja tytułowa potrzebuje sceny od razu (D17). Powtórna wizyta:
+       start po gotowości strony i w wolnej chwili, na dotyku dopiero po pierwszym geście (D13). */
     let interactionCleanup = () => {};
-    const idle = (cb: () => void) => {
-      const go = () => { if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(cb, { timeout: 1500 }); else window.setTimeout(cb, 200); };
-      if (!coarse) { go(); return; }
-      /* Na dotyku scena rusza dopiero przy pierwszym geście (scroll/dotyk): strona jest
-         interaktywna od razu, kompilacja shaderów nie blokuje startu, a do tego czasu
-         w slocie hero stoi chrom z CSS (decyzja D13). */
-      let fired = false;
-      const once = () => { if (fired) return; fired = true; interactionCleanup(); go(); };
-      window.addEventListener('scroll', once, { passive: true, once: true });
-      window.addEventListener('touchstart', once, { passive: true, once: true });
-      window.addEventListener('pointerdown', once, { passive: true, once: true });
-      interactionCleanup = () => { window.removeEventListener('scroll', once); window.removeEventListener('touchstart', once); window.removeEventListener('pointerdown', once); };
-    };
-    const cancelReady = whenReady(() => { raf = window.requestAnimationFrame(() => idle(boot)); });
+    if (document.documentElement.getAttribute('data-preloading') === 'true') {
+      boot();
+    } else {
+      const idle = (cb: () => void) => {
+        const go = () => { if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(cb, { timeout: 1500 }); else window.setTimeout(cb, 200); };
+        if (!coarse) { go(); return; }
+        let fired = false;
+        const once = () => { if (fired) return; fired = true; interactionCleanup(); go(); };
+        window.addEventListener('scroll', once, { passive: true, once: true });
+        window.addEventListener('touchstart', once, { passive: true, once: true });
+        window.addEventListener('pointerdown', once, { passive: true, once: true });
+        interactionCleanup = () => { window.removeEventListener('scroll', once); window.removeEventListener('touchstart', once); window.removeEventListener('pointerdown', once); };
+      };
+      cancelReady = whenReady(() => { raf = window.requestAnimationFrame(() => idle(boot)); });
+    }
 
     return () => {
       disposed = true;
       cancelReady();
+      cancelGuard();
       interactionCleanup();
       window.cancelAnimationFrame(raf);
       window.clearTimeout(checkTimer);

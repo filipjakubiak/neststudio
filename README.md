@@ -33,6 +33,11 @@ Nagłówki cache i bezpieczeństwa: `public/_headers`.
 
 Lista rzeczy do podmiany (domena, mail, metryki projektów, zdjęcie, showreel): `docs/placeholders.md`. W DOM każdy ma `data-placeholder="true"`.
 
+## Dwie wersje hero
+
+- `claude/nest-studio-website-3yjej7`: preloader z licznikiem i kropla płynnego chromu.
+- `claude/nest-studio-title-sequence-3yjej7`: sekwencja tytułowa "NEST STUDIO" w czerwonym świetle (`docs/titles.md`). Flaga `TITLE_SEQUENCE_ON_TOUCH` w `src/content/site.ts` wyłącza sekwencję na urządzeniach dotykowych. Po zmianie wag liter: `python3 scripts/title-glyphs.py`.
+
 ## Stan prac
 
 `docs/STAN.md`.

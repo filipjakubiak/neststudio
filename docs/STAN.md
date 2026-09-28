@@ -2,45 +2,47 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
-## Gdzie jesteśmy (28.09.2026, wieczór)
+## Dwa branche (28.09.2026)
 
-**K1 do K6 zrobione: strona działa w całości, zweryfikowana w przeglądarce, gotowa do deployu.** Szczegóły pomiarów: `docs/verification.md`. Lighthouse (renderowanie programowe): desktop perf 0,80, a11y/BP/SEO 1,0; mobile perf 0,55 (analiza: D14). Decyzje dodane w tej sesji: D13 (scena na dotyku po geście), D14 (preloader zostaje, LCP mobile to podmiana fontu).
+| Branch | Co jest | Stan |
+|---|---|---|
+| `claude/nest-studio-website-3yjej7` | wersja z preloaderem (licznik 2014 → rok) i kroplą płynnego chromu w hero, napięciu, showreelu i finale | zamknięta, zweryfikowana, gotowa do deployu |
+| `claude/nest-studio-title-sequence-3yjej7` | **sekwencja tytułowa "NEST STUDIO" w czerwonym świetle zamiast kropli** (brief Filipa: wejściówka Stranger Things na typografii studia) | zbudowana, zweryfikowana w headless Chromium, do obejrzenia na prawdziwym GPU |
 
-Co jest:
-- Next.js 16 static export, PL na `/`, EN na `/en/`, tokeny z `DESIGN.md`, fonty self-hosted (latin + latin-ext).
-- Jedna scena Three.js pod całą stroną: nici (instancjonowane wstęgi, shader chaos → gniazdo → tunel) i kropla liquid chrome (proceduralne odbicia studyjne). Stan sceny sterowany przez GSAP z każdej sekcji; przesunięcie gniazda komponowane sekcja po sekcji (tekst po lewej, gniazdo po prawej).
-- Preloader (2014 → rok, rysowanie znaku, raz na sesję), hero (intro maską, kropla w nagłówku, reaguje na kursor), napięcie (pin, rozsypane znaki wracają na miejsce), showreel (pin 400vh, cięcia w głąb, player z timecode i Odtwórz, cięcie na biel), projekty (biały blok, sticky stack, covery rysowane DrawSVG), usługi (akordeon poziomy z czterema mikro-animacjami), AI demo (przepływy składają się same, pakiet płynie po węzłach), proces (pin, nić rysuje się przez pięć stacji), studio (paralaksa, licznik lat), FAQ (GSAP height), finał (pin, kropla ląduje w gnieździe i trzyma), stopka (wordmark scrub, "Zapytaj Claude / ChatGPT / Perplexity").
-- Nić-rail po prawej (desktop), menu overlay (clip-path, focus trap, Escape), Lenis + ScrollTrigger na jednym tickerze, pełne `prefers-reduced-motion`, fallback bez WebGL.
-- Znak A + wordmark + lockup (SVG), favicon, OG, `wrangler.jsonc`, `_headers`, README.
+Reszta strony (sekcje, teksty, gniazdo z nici, nawigacja, EN) jest wspólna. Ten plik opisuje branch `title-sequence`.
 
-Poprzednio (K1):
+## Gdzie jesteśmy (28.09.2026, noc)
 
-- `docs/concept.md`: brainstorm z briefu, tezy (wizualna, interakcyjna), motyw "nić", gramatyka strony, krzywa emocji z peakiem (showreel), signature move (persystentna scena nici + nić-rail), Design DNA JSON.
-- `DESIGN.md`: jedyne źródło tokenów (kolor, typografia, przestrzeń, kształt, komponenty, ruch, zakazy).
-- `docs/decisions.md`: 12 decyzji (m.in. Space Mono do labelek, PL+EN, mailto zamiast formularza, jedna scena Three.js zamiast Paper Shaders, bez custom cursora, preloader raz na sesję).
-- `docs/brand.md` + `public/brand/*.svg`: głos, messaging, znak. **Rekomendacja: znak A "N z trzech nici"** (propozycja do akceptacji), B jako alternatywa, C jako favicon.
-- `docs/copy.md`: wszystkie teksty PL i EN, autoaudyt.
-- `docs/plan.md`: 18 zadań w 6 kamieniach (K2 szkielet → K6 weryfikacja i deploy).
-- `docs/placeholders.md`: co jest tymczasowe i czym podmienić.
+**Sekwencja tytułowa działa od pierwszej klatki do stopki.** Koncepcja i storyboard: `docs/titles.md`. Decyzje: D15 (sekwencja zamiast preloadera i kropli), D16 (jeden akcent Żar `#FF2E1A`, wyłącznie jako światło), D17 (przy pierwszej wizycie scena startuje od razu, także na dotyku).
+
+Co jest nowe:
+- Litery "NEST STUDIO" (Space Grotesk, NEST 600 / STUDIO 400, wersaliki) jako ekstruzje 3D z fazą, jeden shader: grafitowe lico, czerwone światło kluczowe na bokach i fazach, rim (fresnel), odbłysk. Kontury generuje `scripts/title-glyphs.py` do `src/scene/titleGlyphs.ts`; układ (jedna linia / dwie linie na telefonie) w `src/scene/titleLayout.ts`, wspólny dla sceny i fallbacku SVG.
+- Sekwencja ok. 4,6 s (`src/components/TitleSequence.tsx`): pierwsze litery przechodzą tuż przed obiektywem jako wielkie kanty, kamera odjeżdża z z = 3 do z = 10, światło przechodzi z lewej na prawą, migotanie z szumu, ostatnie "I" opada z góry, lock z pulsem ekspozycji i bloomu, aberracja skacze i wraca. Pomiń: klik, dotyk, Enter, spacja, Escape, przycisk. Raz na sesję (jak D8), nigdy przy reduced motion.
+- Post-processing (`src/scene/post.ts`): bloom (pół rozdzielczości, MSAA na render targecie), aberracja radialna, ziarno, winieta, OutputPass (ACES, sRGB). Włączany tylko gdy litery są widoczne albo gniazdo się żarzy; poza tym render bezpośredni jak dotąd.
+- Hero: lockup 3D w boksie `.hero-lockup` nad nagłówkiem, światło podąża za kursorem; scroll odrywa litery od boksu, cofa je w głąb i gasi, nici przejmują kadr. Fallback: inline SVG konturów (obrys Żar + poświata), widoczny przy reduced motion, bez WebGL i przez chwilę przy powtórnej wizycie.
+- Finał (Kontakt): gniazdo domyka się i rozżarza od środka (`glow`, nici w HDR, próg bloomu obniżany razem z żarem), krótki puls jak lock. Stopka: lockup 3D wraca w `.footer-lockup` (klamra: nazwa na początku i na końcu), tło stopki przezroczyste.
+- Kropla chromu usunięta wszędzie (Tension, Showreel, Contact, Director, stan sceny). Token `--chrome` zastąpiony przez `--ember` i `--ember-glow`; rama portretu to hairline.
+- Ścieżki awaryjne: brak WebGL → overlay znika w < 1 s, hero z SVG; chunk three wolniejszy niż 3,5 s → overlay pokazuje statyczny lockup SVG, po 6 s bez sceny strona odsłania się bez sekwencji; scena spóźniona po odsłonięciu → litery pojawiają się w hero crossfadem.
+- Flaga `TITLE_SEQUENCE_ON_TOUCH` w `src/content/site.ts` (domyślnie `true`): `false` wyłącza sekwencję na urządzeniach dotykowych (lockup 3D zostaje).
+
+Weryfikacja (headless Chromium, SwiftShader, `lab/titles.mjs` przewija timeline klatka po klatce): desktop 1440×900 i mobile 390×844 (dwie linie), skip, revisit bez sekwencji, reduced motion (fallback SVG), brak WebGL, wolny chunk, arkusz całej strony (49 klatek, bez poziomego scrolla, zero błędów konsoli), finał z żarem, stopka. Szczegóły i Lighthouse: `docs/verification.md` (sekcja "Sekwencja tytułowa").
+
+**Lighthouse w kontenerze nie mierzy tej wersji sensownie**: WebGL na SwiftShader (CPU) liczy się jako czas głównego wątku, więc TBT desktop rośnie do ok. 4 s (poprzednio 380 ms, bo scena startowała po preloaderze, poza oknem pomiaru). Na GPU ta praca nie istnieje; realny koszt to parsowanie chunku three (593 kB raw, ok. 150 kB brotli) i kompilacja shaderów (asynchroniczna tam, gdzie sterownik wspiera `KHR_parallel_shader_compile`). Do potwierdzenia PageSpeed po wdrożeniu.
 
 ## Co dalej (wymaga Filipa)
 
-1. **Test na prawdziwym sprzęcie**: iPhone (Safari) i desktop z GPU. W kontenerze WebGL szedł na CPU (SwiftShader). Lista w `docs/verification.md`.
-2. **Deploy**: `npx wrangler login && npm run deploy` (Cloudflare Workers, static assets). Potem PageSpeed Insights dla potwierdzenia perf ≥ 90.
-3. **Podmiana placeholderów** (`docs/placeholders.md`): domena, mail, telefon, NIP, social, zdjęcie, nazwy i metryki projektów, ewentualnie plik showreela (`SHOWREEL_SRC`).
-4. Decyzje z listy poniżej.
+1. **Obejrzeć sekwencję na prawdziwym sprzęcie** (desktop z GPU, iPhone Safari): płynność, jasność czerwieni, czy faza liter jest wystarczająco widoczna, czy tempo 4,6 s jest dobre. W kontenerze sprawdzam kompozycję klatek, nie płynność.
+2. **Deploy**: `npx wrangler login && npm run deploy` z wybranego brancha, potem PageSpeed Insights (desktop i mobile) dla obu wersji, żeby porównać koszt sekwencji.
+3. **Decyzja, który branch idzie dalej** (albo scalenie: sekwencja zostaje, ale np. bez liter w stopce).
+4. Placeholdery bez zmian: `docs/placeholders.md` (domena, mail, telefon, NIP, social, zdjęcie, projekty, showreel).
 
-Możliwe kolejne kroki po akceptacji: formularz kontaktowy przez Workera, prawdziwy model w AI demo (Worker + limit), podstrony case study, podmiana `--font-display` na Neue Plak po licencji.
+## Otwarte pytania do Filipa
 
-## Otwarte pytania do Filipa (nie blokują; przyjęte wartości domyślne w `docs/decisions.md`)
-
-1. Znak: A (N z nici), B (splot) czy inny kierunek?
-2. Nazwy i metryki projektów (Perun Tac, TCC Global, Oboda Group): można pokazać? Jakie liczby?
-3. Kontakt: mailto wystarczy na start, czy od razu Cal.com / formularz? Jaki adres e-mail?
-4. Domena i dane do stopki (NIP, social).
-5. Zdjęcie do sekcji Studio.
-6. Zgoda na Three.js (chunk 555 kB raw, ok. 140 kB brotli, ładowany po preloaderze w `requestIdleCallback`; Turbopack nie wycina nieużywanych części three) w zamian za scenę 3D nici + chrome. Alternatywa: fallback SVG na stałe (perf 0,98 w Lighthouse).
-7. Czy showreel ma zostać generatywny (obecnie: "To nie jest film" jako świadoma teza), czy podmieniamy na materiał wideo, gdy powstanie.
+1. Czerwień: Żar `#FF2E1A` (ciepła, bliska referencji). Alternatywa monochromatyczna (światło w kości `#F4F4F5`) to zmiana jednego uniformu i dwóch tokenów, bez przebudowy.
+2. Wagi liter: NEST 600 / STUDIO 400 (kontrast jak w wordmarku). Można ujednolicić do 600 (jedna zmiana w `scripts/title-glyphs.py`).
+3. Nici nad literami w hero: nici z przodu przecinają litery (gniazdo "łapie" nazwę). Zostawić czy schować nici pod literami?
+4. Sekwencja na telefonach: zostaje (`TITLE_SEQUENCE_ON_TOUCH = true`) czy wyłączyć, jeśli PageSpeed mobile spadnie za bardzo?
+5. Poprzednie pytania (znak A/B, nazwy i metryki projektów, kontakt, domena, zdjęcie, showreel) bez zmian.
 
 ## Jak uruchomić
 
@@ -49,4 +51,7 @@ npm install
 npm run dev      # http://localhost:3000
 npm run build    # static export do out/
 npm test         # vitest
+python3 scripts/title-glyphs.py   # po zmianie wag liter (wymaga fonttools + brotli)
 ```
+
+Weryfikacja w przeglądarce: `lab/README.md` (`titles.mjs`, `frame.mjs`, `fallbacks.mjs`, `finale.mjs`).

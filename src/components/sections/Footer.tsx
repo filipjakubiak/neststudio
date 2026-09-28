@@ -4,21 +4,34 @@ import { useRef } from 'react';
 import type { Content } from '@/content/types';
 import { ASK_AI, EMAIL, LEGAL_NAME, NIP, PHONE, SOCIAL } from '@/content/site';
 import { Mark } from '@/components/ui/Mark';
-import { gsap, useGSAP } from '@/lib/gsap';
-import { MOTION_OK } from '@/lib/motion';
+import { Lockup } from '@/components/ui/Lockup';
+import { gsap, useGSAP, ScrollTrigger } from '@/lib/gsap';
+import { MOTION_OK, STACKED } from '@/lib/motion';
+import { getSceneBus, measureAnchor } from '@/scene/state';
 
+/* Stopka: klamra. Lockup "NEST STUDIO" wraca (litery 3D w boksie .footer-lockup), rim za kursorem. */
 export function Footer({ c }: { c: Content }) {
   const year = new Date().getFullYear();
   const root = useRef<HTMLElement>(null);
 
   useGSAP(() => {
     const el = root.current!;
+    const bus = getSceneBus();
+    const box = el.querySelector<HTMLElement>('.footer-lockup')!;
+    const measure = () => { bus.anchors.footer = measureAnchor(box, window.matchMedia(STACKED).matches); };
+    measure();
+    window.addEventListener('resize', measure);
     const mm = gsap.matchMedia();
     mm.add(MOTION_OK, () => {
-      gsap.fromTo(el.querySelector('.footer-wordmark'), { yPercent: 40 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom bottom', scrub: true } });
+      ScrollTrigger.create({
+        trigger: el, start: 'top 92%',
+        onRefresh: measure,
+        onEnter: () => gsap.to(bus.state, { titlesFooter: 1, duration: 1.6, ease: 'power2.out', overwrite: 'auto' }),
+        onLeaveBack: () => gsap.to(bus.state, { titlesFooter: 0, duration: 0.5, ease: 'power2.in', overwrite: 'auto' }),
+      });
       gsap.from(el.querySelectorAll('.footer-col'), { opacity: 0, y: 16, duration: 0.8, stagger: 0.08, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 80%', once: true } });
     });
-    return () => mm.revert();
+    return () => { window.removeEventListener('resize', measure); mm.revert(); };
   }, { scope: root });
 
   return (
@@ -55,7 +68,7 @@ export function Footer({ c }: { c: Content }) {
         </div>
       </div>
       <div className="wrap footer-mark" aria-hidden="true">
-        <span className="footer-wordmark t-display">Nest <span style={{ fontWeight: 300 }}>Studio</span></span>
+        <Lockup className="footer-lockup" />
         <Mark size={64} className="footer-glyph" />
       </div>
       <div className="wrap footer-bottom t-caption text-ink-soft">

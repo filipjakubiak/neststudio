@@ -7,6 +7,8 @@ export const LEGAL_NAME = 'Nest Studio Filip Jakubiak'; // [PH]
 export const NIP = '000-000-00-00'; // [PH]
 export const SHOWREEL_SRC = ''; // [PH] pusty = sekwencja generatywna
 export const FOUNDED_YEAR = 2014;
+/* Sekwencja tytułowa także na urządzeniach dotykowych (D17). false = telefony dostają stronę od razu, lockup 3D bez sekwencji. */
+export const TITLE_SEQUENCE_ON_TOUCH = true;
 export const SOCIAL: { label: string; href: string; placeholder: boolean }[] = [
   { label: 'Instagram', href: '#', placeholder: true },
   { label: 'LinkedIn', href: '#', placeholder: true },

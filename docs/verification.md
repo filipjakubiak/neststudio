@@ -73,3 +73,33 @@ npx lighthouse http://localhost:4173/ --preset=desktop
 ```
 
 Skrypty labu (`walk.mjs`, `menu.mjs`, `spots.mjs`, `og.mjs`) są w `lab/` (poza buildem, ignorowane przez git poza plikami źródłowymi).
+
+## Sekwencja tytułowa (branch `claude/nest-studio-title-sequence-3yjej7`, 28.09.2026)
+
+Narzędzia: `lab/titles.mjs` (przewija timeline `window.__nestTitles` do zadanych czasów i składa arkusz), `lab/frame.mjs` (jedna klatka w pełnej rozdzielczości), `lab/fallbacks.mjs` (brak WebGL, wolny chunk three), `lab/finale.mjs`, `lab/reduced.mjs`, `lab/revisit.mjs`, `lab/walk.mjs`. Chromium headless z SwiftShader (bez GPU).
+
+| Co | Wynik |
+|---|---|
+| Sekwencja desktop 1440×900, klatki 0,05 s do 4,9 s | pierwsze kanty liter w kadrze od 0,05 s, litery zbiegają się do lockupu, lock w 4,25 s, overlay gaśnie, hero wjeżdża; litery 3D pokrywają się z boksem DOM (kotwica 58/112/1325×147 px) |
+| Sekwencja mobile 390×844 (dotyk) | dwie linie NEST / STUDIO, kanty w kadrze od pierwszej klatki (wejścia skalowane do wąskiego kadru), reszta jak desktop |
+| Hero po sekwencji, scroll | litery odrywają się od boksu, cofają w głąb i gasną do ok. 70% zjazdu; nici przejmują kadr; brak poziomego scrolla (1440/1440, 390/390) |
+| Powtórna wizyta w sesji | bez overlaya, `data-skip-preloader`, nagłówek bez maski, scena on, litery w hero |
+| Reduced motion | bez sekwencji, bez WebGL, lockup jako SVG z obrysem Żar i poświatą, treść od razu |
+| Brak WebGL (getContext → null) | `nest:ready` po 0,9 s, overlay zdjęty, fallback nici SVG, lockup SVG widoczny |
+| Chunk three opóźniony o 5,2 s | po 3,5 s overlay pokazuje statyczny lockup SVG (`data-static`), po nadejściu sceny sekwencja gra normalnie |
+| Finał (Kontakt, pin 150vh) | gniazdo domknięte i rozżarzone na czerwono (żar + bloom), puls; stopka: litery 3D w boksie, gniazdo z żarem 0,15 |
+| Arkusz całej strony (49 klatek co pół ekranu) | pozostałe sekcje bez zmian względem poprzedniego brancha (napięcie, showreel, blok jasny projektów, usługi, AI, proces, studio, FAQ) |
+| Błędy konsoli | brak (ostrzeżenie o `KHR_parallel_shader_compile` usunięte przez sprawdzenie rozszerzenia) |
+| Testy, typecheck, build | 7/7, czysto, static export OK; HTML strony 87,5 kB (kontury liter raz w dokumencie, lockupy przez `<use>`) |
+
+Lighthouse 13.5 (SwiftShader, pomiary sekwencyjne):
+
+| Wariant | Perf | FCP | LCP | TBT | CLS | a11y / BP / SEO |
+|---|---|---|---|---|---|---|
+| Desktop, pierwsza wizyta (sekwencja) | 0,60 | 0,4 s | 1,4 s | 4 060 ms | 0 | 1,0 / 1,0 / 1,0 |
+| Mobile, pierwsza wizyta (sekwencja, wolne 4G, CPU ×4) | 0,40 | 1,8 s | 7,0 s | 6 020 ms | 0 | 1,0 / 1,0 / 1,0 |
+| Poprzedni branch, desktop (dla porównania) | 0,80 | 0,4 s | 1,3 s | 380 ms | 0,007 | 1,0 / 1,0 / 1,0 |
+
+Interpretacja: FCP, LCP i CLS bez zmian (LCP mobile to nadal podmiana fontu, D14). TBT rośnie, bo scena startuje od razu (D17), a w kontenerze WebGL liczy się na CPU: rozbicie pracy głównego wątku pokazuje 2,3 s "Unattributable/Other" (tworzenie kontekstu i kompilacja shaderów w SwiftShader) i pętlę renderowania liczoną jako skrypt. Na GPU te pozycje znikają; zostaje parsowanie chunku three (593 kB raw) i kompilacja shaderów (async, gdy sterownik wspiera). **Wynik z prawdziwego urządzenia jest jedynym miarodajnym**; do zrobienia po deployu (PageSpeed Insights, obie wersje).
+
+Czego nie sprawdzono: płynność sekwencji (klatki są przewijane, nie odtwarzane w czasie), jasność czerwieni na prawdziwym ekranie, Safari (kompilacja shaderów, `KHR_parallel_shader_compile`, MSAA na render targecie HalfFloat).

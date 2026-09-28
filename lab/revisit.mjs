@@ -9,12 +9,12 @@ await page.waitForTimeout(250);
 await page.screenshot({ path: `${prefix}-first-250ms.png` });
 await page.waitForTimeout(3500);
 await page.screenshot({ path: `${prefix}-first-hero.png` });
-const s1 = await page.evaluate(() => ({ skip: document.documentElement.hasAttribute('data-skip-preloader'), pre: document.documentElement.getAttribute('data-preloading'), preloaderInDom: !!document.querySelector('.preloader'), scene: document.documentElement.dataset.scene }));
+const s1 = await page.evaluate(() => ({ skip: document.documentElement.hasAttribute('data-skip-preloader'), pre: document.documentElement.getAttribute('data-preloading'), preloaderInDom: !!document.querySelector('.titles-overlay'), scene: document.documentElement.dataset.scene }));
 // revisit in same session
 await page.reload({ waitUntil: 'domcontentloaded' });
 await page.waitForTimeout(120);
 await page.screenshot({ path: `${prefix}-revisit-120ms.png` });
-const s2 = await page.evaluate(() => ({ skip: document.documentElement.hasAttribute('data-skip-preloader'), preloaderVisible: (() => { const p = document.querySelector('.preloader'); return p ? getComputedStyle(p).display !== 'none' : false; })(), heroLineTransform: getComputedStyle(document.querySelector('.hero-line-inner')).transform }));
+const s2 = await page.evaluate(() => ({ skip: document.documentElement.hasAttribute('data-skip-preloader'), preloaderVisible: (() => { const p = document.querySelector('.titles-overlay'); return p ? getComputedStyle(p).display !== 'none' : false; })(), heroLineTransform: getComputedStyle(document.querySelector('.hero-line-inner')).transform }));
 await page.waitForTimeout(1500);
 await page.screenshot({ path: `${prefix}-revisit-hero.png` });
 console.log(JSON.stringify({ s1, s2, errors }));

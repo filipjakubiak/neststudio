@@ -88,7 +88,8 @@ void main() {
 
 const fragmentShader = /* glsl */ `
 precision highp float;
-uniform float uInk, uOpacity;
+uniform float uInk, uOpacity, uGlow;
+uniform vec3 uRed;
 varying float vT;
 varying float vSide;
 varying float vAlpha;
@@ -100,12 +101,17 @@ void main() {
   // bliższe nici wyraźniejsze, dalsze giną w tle
   float depthFade = clamp((15.0 - vDepth) / 9.0, 0.15, 1.0);
   a *= depthFade;
-  vec3 light = vec3(0.957, 0.957, 0.961);
-  vec3 dark = vec3(0.04, 0.04, 0.043);
+  // kolory w przestrzeni liniowej (sRGB #F4F4F5 i #0A0A0B); tone mapping i sRGB na końcu
+  vec3 light = vec3(0.905, 0.905, 0.913);
+  vec3 dark = vec3(0.0028, 0.0028, 0.0032);
   vec3 col = mix(light, dark, uInk);
-  float alpha = a * taper * vAlpha * uOpacity;
+  // żar (finał): nici w HDR, bloom rozświetla gniazdo od środka
+  col = mix(col, uRed * 5.0, uGlow);
+  float alpha = a * taper * vAlpha * uOpacity * (1.0 + uGlow * 2.2);
   if (alpha < 0.003) discard;
   gl_FragColor = vec4(col, alpha);
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
 }
 `;
 
@@ -173,6 +179,8 @@ export class ThreadField {
         uWidth: { value: 1.0 * dpr },
         uInk: { value: 0 },
         uOpacity: { value: 1 },
+        uGlow: { value: 0 },
+        uRed: { value: new Vector3(1.0, 0.027, 0.010) },
         uResolution: { value: resolution },
         uPointer: { value: new Vector3(0, 0, 0) },
         uNestOffset: { value: new Vector2(0, 0) },

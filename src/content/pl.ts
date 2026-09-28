@@ -21,11 +21,10 @@ export const pl: Content = {
     closeMenu: 'Zamknij menu',
     remote: 'Zdalnie, z Polski',
   },
-  preloader: { loading: 'Ładowanie strony' },
+  preloader: { loading: 'Ładowanie strony', skip: 'Pomiń' },
   hero: {
     eyebrow: 'Studio projektowe, od 2014',
     lines: ['Projektujemy marki,', 'które wyglądają', 'na tyle, ile są warte.'],
-    dropAfterLine: 1,
     lead: 'Strategia, identyfikacja, strona i automatyzacje AI. Jedna pracownia, jedna struktura.',
     ctaPrimary: 'Rozpocznij projekt',
     ctaSecondary: 'Zobacz projekty',

@@ -6,19 +6,31 @@ export interface SceneState {
   tunnel: number;     // 0..1 tunel (showreel)
   ink: number;        // 0 jasne nici na ciemnym, 1 ciemne na jasnym
   opacity: number;    // krycie nici
-  dropVisible: number;// 0..1 krycie kropli
-  dropScale: number;  // promień kropli w jednostkach świata
-  dropX: number;
-  dropY: number;
-  dropZ: number;
-  dropAmp: number;    // amplituda "płynności" kropli
-  dropDetach: number; // 0 kropla trzyma się slotu w hero, 1 kropla w pozycji ze stanu
+  glow: number;       // 0..1 żar: nici w gnieździe świecą czerwono (finał)
   nestX: number;      // przesunięcie gniazda w świecie (kompozycja: tekst po lewej, gniazdo po prawej)
   nestY: number;
+  camX: number;
+  camY: number;
   camZ: number;
   camRoll: number;
-  camY: number;
   exposure: number;
+  /* litery "NEST STUDIO" */
+  titlesHero: number;   // krycie liter zakotwiczonych w hero
+  titlesFooter: number; // krycie liter zakotwiczonych w stopce (gdy > 0, litery są w stopce)
+  titlesRecede: number; // 0 lockup w hero, 1 litery cofnięte w głąb i zgaszone (scroll przez hero)
+  lightX: number;       // światło kluczowe (świat)
+  lightY: number;
+  lightZ: number;
+  lightIntensity: number;
+  lightFollow: number;  // 0..1 ile światło podąża za wskaźnikiem / krąży
+  flicker: number;      // amplituda migotania światła (sekwencja)
+  rim: number;          // siła rim light
+  edge: number;         // siła świecenia faz
+  /* post-processing */
+  bloom: number;        // siła bloomu
+  chroma: number;       // aberracja chromatyczna (frakcja ekranu)
+  grain: number;        // ziarno
+  vignette: number;     // winieta (tylko sekwencja, na czarnym)
 }
 
 export const initialState: SceneState = {
@@ -28,24 +40,37 @@ export const initialState: SceneState = {
   tunnel: 0,
   ink: 0,
   opacity: 1,
-  dropVisible: 0,
-  dropScale: 0.28,
-  dropX: 0,
-  dropY: 0,
-  dropZ: 0.5,
-  dropAmp: 0.12,
-  dropDetach: 0,
+  glow: 0,
   nestX: 0,
   nestY: 0,
+  camX: 0,
+  camY: 0,
   camZ: 10,
   camRoll: 0,
-  camY: 0,
   exposure: 1,
+  titlesHero: 0,
+  titlesFooter: 0,
+  titlesRecede: 0,
+  lightX: 2.2,
+  lightY: 2.0,
+  lightZ: 1.4,
+  lightIntensity: 1.4,
+  lightFollow: 0.35,
+  flicker: 0,
+  rim: 1,
+  edge: 1,
+  bloom: 0.7,
+  chroma: 0.0012,
+  grain: 0.035,
+  vignette: 0,
 };
 
+/* Boks lockupu w px dokumentu (top uwzględnia scroll), lewy górny róg + rozmiar; stacked = dwie linie. */
+export interface TitleAnchor { x: number; y: number; w: number; h: number; stacked: boolean }
+
 export interface SceneAnchors {
-  /* Slot kropli w hero, w px względem dokumentu (top uwzględnia scroll). */
-  heroSlot: { x: number; y: number; r: number } | null;
+  hero: TitleAnchor | null;
+  footer: TitleAnchor | null;
 }
 
 export interface SceneBus {
@@ -62,7 +87,7 @@ export function getSceneBus(): SceneBus {
   if (!g[globalKey]) {
     g[globalKey] = {
       state: { ...initialState },
-      anchors: { heroSlot: null },
+      anchors: { hero: null, footer: null },
       pointer: { x: 0, y: 0, active: 0 },
       status: 'idle',
     };
@@ -80,4 +105,11 @@ export function screenToWorldStatic(x: number, y: number, camZ = 10): { x: numbe
 export function pxToWorldStatic(px: number, camZ = 10): number {
   const halfH = Math.tan((35 / 2) * (Math.PI / 180)) * camZ;
   return (2 * halfH * px) / window.innerHeight;
+}
+
+/* Pomiar boksu DOM z layoutu (offsety), niezależny od transformów animacji. */
+export function measureAnchor(el: HTMLElement, stacked: boolean): TitleAnchor {
+  let x = 0, y = 0, node: HTMLElement | null = el;
+  while (node) { x += node.offsetLeft; y += node.offsetTop; node = node.offsetParent as HTMLElement | null; }
+  return { x, y, w: el.offsetWidth, h: el.offsetHeight, stacked };
 }

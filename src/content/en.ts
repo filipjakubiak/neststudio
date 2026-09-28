@@ -21,11 +21,10 @@ export const en: Content = {
     closeMenu: 'Close menu',
     remote: 'Remote, from Poland',
   },
-  preloader: { loading: 'Loading' },
+  preloader: { loading: 'Loading', skip: 'Skip' },
   hero: {
     eyebrow: 'Design studio, since 2014',
     lines: ['We design brands', 'that look like', 'what they are worth.'],
-    dropAfterLine: 1,
     lead: 'Strategy, identity, website and AI automation. One workshop, one structure.',
     ctaPrimary: 'Start a project',
     ctaSecondary: 'See the work',

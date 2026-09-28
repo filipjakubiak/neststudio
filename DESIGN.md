@@ -4,7 +4,7 @@
 
 ## 1. Atmosfera
 
-Czarna, przestronna scena typograficzna. Monumentalny grotesk z ciasnym trackingiem i mono mikro-labelki. Jeden materiałowy akcent zamiast koloru: płynny chrom, używany oszczędnie jako bohater. Suwaki: wariancja 9 (asymetria, kotwica zmienia się sekcja po sekcji), ruch 10 (scroll jako playhead, jedna scena 3D pod stroną), gęstość 3 (galeria). Strona ma jeden motyw: ciemny. Jedyne odwrócenie to blok Projektów na bieli, wprowadzone jako moment fabuły (cięcie na papier), nie jako naprzemienność sekcji.
+Czarna, przestronna scena typograficzna. Monumentalny grotesk z ciasnym trackingiem i mono mikro-labelki. Jeden akcent i jest nim światło: czerwony Żar na kantach liter w sekwencji tytułowej, potem w gnieździe w finale. Interfejs zostaje monochromatyczny. Suwaki: wariancja 9 (asymetria, kotwica zmienia się sekcja po sekcji), ruch 10 (scroll jako playhead, jedna scena 3D pod stroną), gęstość 3 (galeria). Strona ma jeden motyw: ciemny. Jedyne odwrócenie to blok Projektów na bieli, wprowadzone jako moment fabuły (cięcie na papier), nie jako naprzemienność sekcji.
 
 ## 2. Kolor i role
 
@@ -18,13 +18,13 @@ Monochrom. Sześć ról, jeden akcent-materiał.
 | ink-soft | Ash | `#8A8A90` | tekst drugorzędny, labelki (kontrast 5.4:1 na Noir) |
 | ink-faint | Slate | `#3A3A3F` | disabled, siatka, ślady nici w tle |
 | hairline | Hairline | `rgba(244,244,245,0.12)` | separatory 1 px, obrys ghost-pigułek |
-| accent | Chrome | materiał (WebGL); fallback: `linear-gradient(135deg,#F5F5F5 0%,#8C8C90 38%,#2B2B2E 58%,#E8E8EA 100%)` | kropla w hero i CTA, rama portretu, hover znaku |
+| accent | Żar | `#FF2E1A`; w scenie jako światło HDR (liniowo `1.0, 0.027, 0.010`), w CSS tylko `--ember` i `--ember-glow: rgba(255,46,26,0.55)` | wyłącznie światło: litery sekwencji tytułowej i lockupu, żar gniazda w finale, poświata fallbacku SVG. Nigdy przyciski, linki, labelki, tła (D16) |
 
 Blok jasny (Projekty) odwraca role: canvas `#F4F4F5`, surface `#EAEAEC`, ink `#0A0A0B`, ink-soft `#5C5C63` (7.1:1), hairline `rgba(10,10,11,0.12)`. Jeden motyw na sekcję, redefinicja zmiennych na `[data-theme="light"]`.
 
 Semantyczne (tylko formularz i status demo AI): success `#8FE3B0`, warning `#F2D479`, error `#F08A8A`. Nigdy jako dekoracja.
 
-Zakazy: żaden drugi kolor, żaden gradient poza fallbackiem chromu, żaden neon, żaden glow, żadne pure black.
+Zakazy: żaden drugi kolor w interfejsie (Żar jest światłem sceny, nie kolorem UI), żaden gradient, żaden neon, żaden glow w CSS poza `drop-shadow` fallbacku lockupu, żadne pure black.
 
 ## 3. Typografia
 
@@ -106,7 +106,7 @@ Inter/Roboto/Arial jako font; pure black; drugi kolor; neon, glow, gradient text
 :root {
   --canvas: #0A0A0B; --surface: #141416; --ink: #F4F4F5; --ink-soft: #8A8A90; --ink-faint: #3A3A3F;
   --hairline: rgba(244,244,245,0.12);
-  --chrome: linear-gradient(135deg,#F5F5F5 0%,#8C8C90 38%,#2B2B2E 58%,#E8E8EA 100%);
+  --ember: #FF2E1A; --ember-glow: rgba(255,46,26,0.55);
   --ok: #8FE3B0; --warn: #F2D479; --err: #F08A8A;
 
   --font-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;

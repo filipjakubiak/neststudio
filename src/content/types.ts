@@ -30,11 +30,10 @@ export interface Content {
     closeMenu: string;
     remote: string;
   };
-  preloader: { loading: string };
+  preloader: { loading: string; skip: string };
   hero: {
     eyebrow: string;
     lines: string[];
-    dropAfterLine: number;
     lead: string;
     ctaPrimary: string;
     ctaSecondary: string;

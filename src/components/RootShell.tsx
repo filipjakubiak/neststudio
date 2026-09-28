@@ -1,5 +1,6 @@
 import type { Lang } from '@/content/types';
 import { content } from '@/content';
+import { TITLE_SEQUENCE_ON_TOUCH } from '@/content/site';
 
 export function RootShell({ lang, children }: { lang: Lang; children: React.ReactNode }) {
   const c = content[lang];
@@ -13,7 +14,7 @@ export function RootShell({ lang, children }: { lang: Lang; children: React.Reac
         {/* Decyzja o preloaderze przed pierwszym malowaniem: brak mignięcia hero → preloader → hero. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: "(function(){try{var r=matchMedia('(prefers-reduced-motion: reduce)').matches;var s=sessionStorage.getItem('nest_seen')==='1';if(r||s){document.documentElement.setAttribute('data-skip-preloader','');}else{document.documentElement.setAttribute('data-preloading','true');}}catch(e){document.documentElement.setAttribute('data-skip-preloader','');}})();",
+            __html: `(function(){try{var r=matchMedia('(prefers-reduced-motion: reduce)').matches;var s=sessionStorage.getItem('nest_seen')==='1';var t=${TITLE_SEQUENCE_ON_TOUCH ? 'false' : "matchMedia('(pointer: coarse)').matches"};if(r||s||t){document.documentElement.setAttribute('data-skip-preloader','');}else{document.documentElement.setAttribute('data-preloading','true');}}catch(e){document.documentElement.setAttribute('data-skip-preloader','');}})();`,
           }}
         />
       </head>

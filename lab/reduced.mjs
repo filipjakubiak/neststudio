@@ -6,7 +6,7 @@ const errors = []; page.on('pageerror', e => errors.push(e.message));
 await page.goto(url, { waitUntil: 'domcontentloaded' });
 await page.waitForTimeout(150);
 await page.screenshot({ path: out });
-const st = await page.evaluate(() => ({ skip: document.documentElement.hasAttribute('data-skip-preloader'), preloaderVisible: (() => { const p = document.querySelector('.preloader'); return p ? getComputedStyle(p).display !== 'none' : false; })(), heroOpacity: getComputedStyle(document.querySelector('.hero-lead')).opacity, fallback: !!document.querySelector('.scene-fallback') }));
+const st = await page.evaluate(() => ({ skip: document.documentElement.hasAttribute('data-skip-preloader'), preloaderVisible: (() => { const p = document.querySelector('.titles-overlay'); return p ? getComputedStyle(p).display !== 'none' : false; })(), heroOpacity: getComputedStyle(document.querySelector('.hero-lead')).opacity, fallback: !!document.querySelector('.scene-fallback') }));
 await page.waitForTimeout(1500);
 const st2 = await page.evaluate(() => ({ fallback: !!document.querySelector('.scene-fallback'), canvasMode: document.querySelector('.scene-canvas')?.dataset.mode }));
 console.log(JSON.stringify({ st, st2, errors }));

@@ -61,3 +61,15 @@ Na urządzeniach z `(pointer: coarse)` scena Three.js nie startuje automatycznie
 ## D14. Preloader zostaje także na telefonie; LCP mobile zależy od podmiany fontu (28.09.2026)
 
 Pomiar (Lighthouse mobile, symulowane wolne 4G i CPU ×4): element LCP to akapit lead w hero, a jego czas wynika z podmiany fontu (`font-display: swap`) po dociągnięciu Space Grotesk, nie z preloadera ani WebGL (wariant bez obu daje niemal ten sam LCP). Opcje, gdyby wynik terenowy (PageSpeed po wdrożeniu) był poniżej progu: (a) `font-display: optional` dla tekstu (na wolnym łączu zostaje font systemowy w danej sesji), (b) wyłączenie preloadera na dotyku, (c) mniejszy chunk startowy (GSAP ładowany po LCP). Nie wdrażam żadnej bez wyniku z prawdziwych telefonów. Cofnięcie: n/d.
+
+## D15. Sekwencja tytułowa zamiast preloadera z licznikiem i zamiast kropli chromu (28.09.2026, branch `title-sequence`)
+
+Filip: "wejściówka Stranger Things na typografii Nest Studio, zamiast chromowego bloba; gniazdo zostaje". Pierwsza wizyta w sesji otwiera się sekwencją ok. 4,6 s: litery "NEST STUDIO" (ekstruzja 3D, Space Grotesk) wjeżdżają z krawędzi kadru w czerwonym świetle, kamera odjeżdża, lock z pulsem bloomu; litery zostają w hero jako lockup i cofają się przy scrollu. Kropla chromu znika ze wszystkich sekcji; jej beaty przejmują: rim za kursorem w hero, żar w gnieździe w finale, lockup w stopce. Szczegóły: `docs/titles.md`. Poprzednia wersja zostaje na branchu `claude/nest-studio-website-3yjej7`. Cofnięcie: przełączyć branch.
+
+## D16. Jeden akcent: Żar `#FF2E1A`, wyłącznie jako światło (28.09.2026)
+
+DESIGN.md zakazywał drugiego koloru i glow. Wyjątek świadomy i wąski: czerwień jest światłem w scenie 3D (litery, gniazdo w finale, lockup w stopce) i jego imitacją w fallbacku SVG (obrys + `drop-shadow`). Nigdy jako kolor przycisków, linków, labelek, tła, ikon. Powód: to jest to, co Filip zapamiętał z referencji; ograniczenie do światła utrzymuje monochrom interfejsu. Cofnięcie: zmienić `--ember` i uniform `uRed` (np. na kość `#F4F4F5` dla wersji monochromatycznej; architektura tego nie zakłada na sztywno).
+
+## D17. Przy pierwszej wizycie scena WebGL startuje natychmiast, także na dotyku (28.09.2026)
+
+Sekwencja potrzebuje sceny od razu, więc boot nie czeka na `nest:ready` ani na gest (zmiana zakresu D13: gest i `requestIdleCallback` obowiązują tylko przy powtórnej wizycie w sesji i gdy sekwencja jest pominięta przez `data-skip-preloader`). Koszt: TBT przy pierwszej wizycie rośnie o parsowanie three i kompilację shaderów. Timeouty: scena niegotowa po 3,5 s od montażu przełącza overlay w statyczny preloader, po 6 s strona odsłania się bez sekwencji. Cofnięcie: przywrócić warunek z D13 w `SceneCanvas.tsx`.

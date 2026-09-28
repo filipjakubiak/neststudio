@@ -30,6 +30,8 @@ Ruch scrubowany scrollem (Lenis + ScrollTrigger, scrub 0.8 do 1.2) jako główny
 
 ## 3. Motyw: gniazdo, czyli nić
 
+> Aktualizacja 28.09.2026: na branchu `claude/nest-studio-title-sequence-3yjej7` kropla chromu jest zastąpiona sekwencją tytułową "NEST STUDIO" w czerwonym świetle (docs/titles.md, D15 do D17). Gniazdo z nici i cała reszta narracji bez zmian; zdanie "to ta strona..." brzmi tam: *To ta strona, która zaczyna się jak czołówka filmu, a twój scroll splata nici w gniazdo, które na końcu rozżarza się od środka.*
+
 **Gniazdo** to struktura zbudowana z wielu pojedynczych elementów, która staje się domem dla czegoś żywego. Metafora studia: z luźnych nici (strategia, identyfikacja, strona, automatyzacje) splatamy jedną spójną strukturę, w której marka może rosnąć. Chrome to żywe centrum gniazda.
 
 Realizacja: **jedna scena WebGL (Three.js) w tle całej strony**. Kilka tysięcy nici (instancjonowane linie / krzywe sterowane szumem w shaderze) i jedna kropla płynnego chromu. Scroll odwiedzającego jest tym, co splata nici. Stan sceny (parametr `weave` 0 → 1, pozycja i skala kropli, kolor nici, prędkość, chaos) sterowany przez GSAP z ScrollTriggerów każdej sekcji. Sekcje DOM scrollują nad sceną. Metafora pozostaje subtelna: nigdy dosłowny ptasi obrazek.
