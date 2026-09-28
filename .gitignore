@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+dist/
+.wrangler/
+.env*
+*.log
+.DS_Store
+Thumbs.db
+__pycache__/
+.claude/settings.local.json
