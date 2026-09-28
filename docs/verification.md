@@ -14,8 +14,11 @@ Wszystko poniżej zostało **zmierzone**, nie założone. Środowisko: kontener 
 | Reduced motion, desktop | `lab/walk.mjs --reduce` | brak sceny WebGL (statyczny splot SVG + CSS-chrome w slocie), wszystkie nagłówki i treści widoczne bez animacji, brak pinów, brak preloadera, brak rail |
 | Menu | `lab/menu.mjs` | otwarcie (clip-path z prawego górnego rogu, linki maską), fokus na pierwszym linku, `Escape` zamyka i zwraca fokus na przycisk |
 | Błędy konsoli | Playwright `pageerror` | 0 na wszystkich przebiegach |
-| Lighthouse desktop (SwiftShader) | lighthouse 13.5 | perf **0.84** (FCP 0,4 s, LCP 1,3 s, TBT 290 ms, CLS 0,007, SI 1,0 s), a11y **1.0**, best practices **1.0**, SEO **1.0** |
+| Lighthouse desktop (SwiftShader, pomiar bez innych obciążeń) | lighthouse 13.5 | perf **0.80** (FCP 0,4 s, LCP 1,3 s, TBT 380 ms, CLS 0,007, SI 1,0 s), a11y **1.0**, best practices **1.0**, SEO **1.0** |
 | Lighthouse desktop, reduced motion (bez WebGL) | lighthouse 13.5 | perf **0.98**, TBT 0 ms, LCP 1,2 s |
+| Lighthouse mobile (emulacja Moto G, wolne 4G, CPU ×4, SwiftShader) | lighthouse 13.5 | perf **0.55** (FCP 1,8 s, LCP 6,5 s, TBT 870 ms, CLS 0, SI 3,5 s), a11y **1.0**, BP **1.0**, SEO **1.0**. Bez preloadera i bez sceny (reduced motion): perf 0.76, LCP 6,2 s, TBT 120 ms. Wniosek: symulowane LCP mobile to podmiana fontu po dociągnięciu Space Grotesk na wolnym łączu (element LCP: akapit lead), a TBT to hydracja i inicjalizacja GSAP pod CPU ×4 (ok. 200 ms realnie). Analiza i opcje: `docs/decisions.md` D13, D14. |
+| Scena na dotyku | `lab/gesture.mjs` | przed gestem `data-mode="pending"`, po dotknięciu i scrollu `on`, bez błędów |
+| Powtórna wizyta w sesji | `lab/revisit.mjs` | preloader pominięty przed pierwszym malowaniem (skrypt w `<head>`), hero widoczne od razu, bez mignięcia |
 | Polskie znaki | zrzuty | ą ę ł ż ś ć ń widoczne w Space Grotesk 300/400/500 i Space Mono (labelki, licznik) |
 | Znak | render 16 do 200 px, ciemne i jasne tło | czytelny od 16 px w wariancie w polu (favicon), splot widoczny od 40 px |
 
@@ -27,6 +30,10 @@ Wszystko poniżej zostało **zmierzone**, nie założone. Środowisko: kontener 
 4. Lighthouse a11y 0.92 → 1.0: SplitText dodawał `aria-label` na `<p>/<span>` (`aria: 'none'`), wygaszone kroki procesu miały kontrast 2,3:1 (teraz zmiana koloru ink-soft → ink, min 5,4:1).
 5. TBT 2 370 ms → 290 ms: scena startuje po preloaderze i w `requestIdleCallback`, splitowanie tekstu po `document.fonts.ready`.
 6. Overlay menu przykrywał przycisk X: `--z-overlay` poniżej `--z-nav`.
+7. Preloader renderował się dopiero po hydracji (mignięcie hero → preloader → hero): teraz jest w HTML, a skrypt w `<head>` decyduje przed malowaniem (powtórna wizyta, reduced motion) o jego pominięciu.
+8. Linie hero chowane CSS-em były wczytywane przez GSAP jako `y: 88px` i po intro zostawały pod maską (nagłówek znikał): chowanie tylko pod kurtyną preloadera (`nest:prepare`), h1 maluje się od razu.
+9. CSS 93,6 KB → 34,8 KB: Tailwind v4 skanował całe repo (markdown skilli) i emitował utility dla każdej wspomnianej klasy; skan ograniczony do `src/`.
+10. Na dotyku scena startuje po pierwszym geście (D13), budżet 900 do 1 400 nici, DPR ≤ 1,25, kropla o niższej rozdzielczości.
 
 ## Pre-Flight (design-taste-frontend §14), stan
 
@@ -49,7 +56,7 @@ Wszystko poniżej zostało **zmierzone**, nie założone. Środowisko: kontener 
 ## Czego NIE dało się sprawdzić w kontenerze (do zrobienia przez Filipa)
 
 1. **Prawdziwy telefon** (iOS Safari): pasek adresu przy pinach, płynność sceny (budżet 1 800 nici, DPR ≤ 1,5, strażnik FPS przełącza na fallback poniżej ~25 fps). Kontener emuluje tylko szerokość.
-2. **Prawdziwe GPU**: Lighthouse perf 0,84 to wynik z renderowaniem programowym; na desktopie z GPU TBT powinien spaść wyraźnie poniżej 200 ms. Cel z briefu (≥ 90) do potwierdzenia po wdrożeniu (PageSpeed Insights).
+2. **Prawdziwe GPU**: Lighthouse perf 0,80 to wynik z renderowaniem programowym (kompilacja i pierwsze klatki sceny liczone na CPU); na desktopie z GPU TBT powinien spaść wyraźnie poniżej 200 ms. Cel z briefu (≥ 90) do potwierdzenia po wdrożeniu (PageSpeed Insights). Mobile: patrz tabela i D14.
 3. **Hover i magnetyzm**: przetestowane logicznie (tylko `(hover: hover) and (pointer: fine)`), nie wizualnie w ruchu.
 4. **Odtwórz w showreelu**: przewijanie przez pin sterowane Lenis; w headless działa, na iOS wymaga sprawdzenia dotyku (przerwanie odtwarzania gestem jest obsłużone).
 5. **Deploy** na Cloudflare (konfiguracja gotowa, brak konta w sesji).

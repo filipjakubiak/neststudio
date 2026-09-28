@@ -3,7 +3,7 @@ import { ThreadField } from './ThreadField';
 import { ChromeDrop } from './ChromeDrop';
 import { getSceneBus, type SceneBus } from './state';
 
-export interface SceneOptions { threads: number; dpr: number }
+export interface SceneOptions { threads: number; dpr: number; dropDetail?: number }
 
 const FOV = 35;
 
@@ -93,7 +93,7 @@ export class NestScene {
 
     this.threads = new ThreadField(opts.threads, this.resolution, opts.dpr);
     this.scene.add(this.threads.mesh);
-    this.drop = new ChromeDrop();
+    this.drop = new ChromeDrop(opts.dropDetail ?? 6);
     this.scene.add(this.drop.mesh);
 
     const key = new DirectionalLight(0xffffff, 1.2);

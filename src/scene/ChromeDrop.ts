@@ -7,8 +7,8 @@ export class ChromeDrop {
   material: MeshPhysicalMaterial;
   private uniforms = { uTime: { value: 0 }, uAmp: { value: 0.12 }, uFreq: { value: 0.85 } };
 
-  constructor() {
-    const geo = new IcosahedronGeometry(1, 6);
+  constructor(detail = 6) {
+    const geo = new IcosahedronGeometry(1, detail);
     this.material = new MeshPhysicalMaterial({
       color: 0xffffff,
       metalness: 1,

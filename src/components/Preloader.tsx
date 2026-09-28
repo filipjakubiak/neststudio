@@ -2,24 +2,23 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap, useGSAP } from '@/lib/gsap';
-import { markReady, prefersReducedMotion } from '@/lib/motion';
+import { markPrepare, markReady, prefersReducedMotion } from '@/lib/motion';
 import { FOUNDED_YEAR } from '@/content/site';
 
 const KEY = 'nest_seen';
 
 /* Licznik 2014 → rok + rysowanie znaku. Raz na sesję, nigdy przy reduced motion (decyzja D8). */
 export function Preloader({ label }: { label: string }) {
-  const [active, setActive] = useState<boolean | null>(null);
+  /* Markup jest w SSR (widoczny od razu); skrypt w <head> decyduje przed malowaniem, czy go pominąć. */
+  const [active, setActive] = useState<boolean>(true);
   const root = useRef<HTMLDivElement>(null);
   const count = useRef<HTMLSpanElement>(null);
   const year = new Date().getFullYear();
 
   useEffect(() => {
-    let seen = false;
-    try { seen = sessionStorage.getItem(KEY) === '1'; } catch { /* prywatny tryb */ }
-    const skip = seen || prefersReducedMotion();
-    if (skip) { markReady(); setActive(false); }
-    else { document.documentElement.setAttribute('data-preloading', 'true'); setActive(true); }
+    const skip = document.documentElement.hasAttribute('data-skip-preloader') || prefersReducedMotion();
+    if (skip) { document.documentElement.removeAttribute('data-preloading'); markReady(); setActive(false); }
+    else document.documentElement.setAttribute('data-preloading', 'true');
   }, []);
 
   useGSAP(() => {
@@ -30,6 +29,7 @@ export function Preloader({ label }: { label: string }) {
       onComplete: () => {
         try { sessionStorage.setItem(KEY, '1'); } catch { /* ignore */ }
         document.documentElement.removeAttribute('data-preloading');
+        document.documentElement.setAttribute('data-skip-preloader', '');
         markReady();
         setActive(false);
       },
@@ -37,7 +37,8 @@ export function Preloader({ label }: { label: string }) {
     tl.set(el.querySelectorAll('.nest-thread'), { drawSVG: '0%' })
       .to(el.querySelectorAll('.nest-thread'), { drawSVG: '100%', duration: 0.5, stagger: 0.18, ease: 'power2.inOut' }, 0)
       .to(counter, { v: year, duration: 1.15, ease: 'expo.inOut', snap: { v: 1 }, onUpdate: () => { if (count.current) count.current.textContent = String(Math.round(counter.v)); } }, 0)
-      .to(el, { yPercent: -100, duration: 0.75, ease: 'expo.inOut' }, '+=0.2');
+      .call(markPrepare, [], '+=0.2')
+      .to(el, { yPercent: -100, duration: 0.75, ease: 'expo.inOut' });
   }, { dependencies: [active], scope: root });
 
   if (!active) return null;

@@ -16,7 +16,7 @@ function budget(): { threads: number; dpr: number } {
   const coarse = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
   const cores = navigator.hardwareConcurrency || 4;
   const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
-  if (coarse) return { threads: mem >= 4 ? 1800 : 1200, dpr: Math.min(1.5, window.devicePixelRatio || 1) };
+  if (coarse) return { threads: mem >= 4 ? 1400 : 900, dpr: Math.min(1.25, window.devicePixelRatio || 1) };
   if (cores >= 8 && mem >= 8) return { threads: 6000, dpr: Math.min(2, window.devicePixelRatio || 1) };
   return { threads: 3500, dpr: Math.min(1.5, window.devicePixelRatio || 1) };
 }
@@ -45,7 +45,7 @@ export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
       if (disposed || !ref.current) return;
       const b = budget();
       try {
-        scene = new NestScene(ref.current, { threads: b.threads, dpr: b.dpr });
+        scene = new NestScene(ref.current, { threads: b.threads, dpr: b.dpr, dropDetail: coarse ? 5 : 6 });
       } catch {
         bus.status = 'fallback'; setMode('fallback'); return;
       }
@@ -69,21 +69,33 @@ export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
           bus.status = 'fallback'; setMode('fallback');
         } else if (avg > 24 && b.threads > 1500) {
           scene.dispose();
-          scene = new NestScene(ref.current!, { threads: Math.round(b.threads / 2), dpr: Math.min(1.25, b.dpr) });
+          scene = new NestScene(ref.current!, { threads: Math.round(b.threads / 2), dpr: Math.min(1.25, b.dpr), dropDetail: 5 });
           scene.start();
         }
       }, 2600);
     };
     /* start po preloaderze i w wolnej chwili, żeby nie blokować pierwszego malowania */
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+    let interactionCleanup = () => {};
     const idle = (cb: () => void) => {
-      if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(cb, { timeout: 1200 });
-      else window.setTimeout(cb, 200);
+      const go = () => { if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(cb, { timeout: 1500 }); else window.setTimeout(cb, 200); };
+      if (!coarse) { go(); return; }
+      /* Na dotyku scena rusza dopiero przy pierwszym geście (scroll/dotyk): strona jest
+         interaktywna od razu, kompilacja shaderów nie blokuje startu, a do tego czasu
+         w slocie hero stoi chrom z CSS (decyzja D13). */
+      let fired = false;
+      const once = () => { if (fired) return; fired = true; interactionCleanup(); go(); };
+      window.addEventListener('scroll', once, { passive: true, once: true });
+      window.addEventListener('touchstart', once, { passive: true, once: true });
+      window.addEventListener('pointerdown', once, { passive: true, once: true });
+      interactionCleanup = () => { window.removeEventListener('scroll', once); window.removeEventListener('touchstart', once); window.removeEventListener('pointerdown', once); };
     };
     const cancelReady = whenReady(() => { raf = window.requestAnimationFrame(() => idle(boot)); });
 
     return () => {
       disposed = true;
       cancelReady();
+      interactionCleanup();
       window.cancelAnimationFrame(raf);
       window.clearTimeout(checkTimer);
       window.removeEventListener('pointermove', onPointer);

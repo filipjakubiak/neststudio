@@ -1,0 +1,14 @@
+import { chromium } from 'playwright-core';
+const [,, url] = process.argv;
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await (await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })).newPage();
+const errors = []; page.on('pageerror', e => errors.push(e.message));
+await page.goto(url, { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(4000);
+const before = await page.evaluate(() => ({ scene: document.documentElement.dataset.scene || null, mode: document.querySelector('.scene-canvas')?.dataset.mode }));
+await page.touchscreen.tap(200, 500);
+await page.evaluate(() => window.scrollTo({ top: 120, behavior: 'instant' }));
+await page.waitForTimeout(2500);
+const after = await page.evaluate(() => ({ scene: document.documentElement.dataset.scene || null, mode: document.querySelector('.scene-canvas')?.dataset.mode }));
+console.log(JSON.stringify({ before, after, errors }));
+await browser.close();

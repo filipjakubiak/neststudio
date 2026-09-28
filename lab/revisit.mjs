@@ -1,0 +1,21 @@
+import { chromium } from 'playwright-core';
+const [,, url, prefix] = process.argv;
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+const page = await ctx.newPage();
+const errors = []; page.on('pageerror', e => errors.push(e.message));
+await page.goto(url, { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(250);
+await page.screenshot({ path: `${prefix}-first-250ms.png` });
+await page.waitForTimeout(3500);
+await page.screenshot({ path: `${prefix}-first-hero.png` });
+const s1 = await page.evaluate(() => ({ skip: document.documentElement.hasAttribute('data-skip-preloader'), pre: document.documentElement.getAttribute('data-preloading'), preloaderInDom: !!document.querySelector('.preloader'), scene: document.documentElement.dataset.scene }));
+// revisit in same session
+await page.reload({ waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(120);
+await page.screenshot({ path: `${prefix}-revisit-120ms.png` });
+const s2 = await page.evaluate(() => ({ skip: document.documentElement.hasAttribute('data-skip-preloader'), preloaderVisible: (() => { const p = document.querySelector('.preloader'); return p ? getComputedStyle(p).display !== 'none' : false; })(), heroLineTransform: getComputedStyle(document.querySelector('.hero-line-inner')).transform }));
+await page.waitForTimeout(1500);
+await page.screenshot({ path: `${prefix}-revisit-hero.png` });
+console.log(JSON.stringify({ s1, s2, errors }));
+await browser.close();

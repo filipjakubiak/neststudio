@@ -5,7 +5,7 @@ import type { Content } from '@/content/types';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
 import { gsap, useGSAP } from '@/lib/gsap';
-import { MOTION_OK, MOTION_REDUCED, whenReady } from '@/lib/motion';
+import { MOTION_OK, MOTION_REDUCED, whenPrepare, whenReady } from '@/lib/motion';
 import { getSceneBus } from '@/scene/state';
 
 export function Hero({ c }: { c: Content }) {
@@ -29,20 +29,30 @@ export function Hero({ c }: { c: Content }) {
     mm.add(MOTION_OK, () => {
       const lines = el.querySelectorAll('.hero-line-inner');
       const side = el.querySelectorAll('.hero-eyebrow, .hero-lead, .hero-ctas > *');
-      gsap.set(lines, { yPercent: 110 });
-      gsap.set(side, { opacity: 0, y: 14 });
       bus.state.dropVisible = 0;
+      /* Intro gra tylko zaraz po preloaderze. Linie chowamy dopiero pod nieprzezroczystą kurtyną
+         (nest:prepare), więc h1 maluje się od razu (LCP) i nic nie miga. Przy powtórnej wizycie
+         hero stoi od razu i tylko kropla się pojawia. */
+      const withPreloader = document.documentElement.getAttribute('data-preloading') === 'true';
+      let cancel = () => {};
+      if (withPreloader) {
+        const cancelPrepare = whenPrepare(() => {
+          gsap.set(lines, { yPercent: 110, y: 0 });
+          gsap.set(side, { opacity: 0, y: 14 });
+        });
+        const cancelReady = whenReady(() => {
+          gsap.timeline()
+            .to(lines, { yPercent: 0, duration: 1.3, stagger: 0.09, ease: 'expo.out' }, 0)
+            .to(side, { opacity: 1, y: 0, duration: 0.9, stagger: 0.06, ease: 'expo.out' }, 0.45)
+            .to(bus.state, { dropVisible: 1, duration: 1.4, ease: 'expo.out' }, 0.55)
+            .fromTo(bus.state, { dropAmp: 0.55 }, { dropAmp: 0.12, duration: 2.2, ease: 'expo.out' }, 0.55);
+        });
+        cancel = () => { cancelPrepare(); cancelReady(); };
+      } else {
+        cancel = whenReady(() => { gsap.to(bus.state, { dropVisible: 1, duration: 1.2, ease: 'expo.out' }); });
+      }
 
-      const play = () => {
-        gsap.timeline()
-          .to(lines, { yPercent: 0, duration: 1.3, stagger: 0.09, ease: 'expo.out' }, 0)
-          .to(side, { opacity: 1, y: 0, duration: 0.9, stagger: 0.06, ease: 'expo.out' }, 0.45)
-          .to(bus.state, { dropVisible: 1, duration: 1.4, ease: 'expo.out' }, 0.55)
-          .fromTo(bus.state, { dropAmp: 0.55 }, { dropAmp: 0.12, duration: 2.2, ease: 'expo.out' }, 0.55);
-      };
-      const cancel = whenReady(play);
-
-      /* Zjazd: hero w lekkiej paralaksie, kropla odłącza się od nagłówka i płynie do sekcji napięcia. */
+      /* Zjazd: elementy boczne w lekkiej paralaksie, kropla odłącza się od nagłówka i płynie do sekcji napięcia. */
       gsap.to(el.querySelectorAll('.hero-side, .hero-eyebrow'), {
         yPercent: -30, ease: 'none',
         scrollTrigger: { trigger: el, start: 'top top', end: 'bottom top', scrub: true },

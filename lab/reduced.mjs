@@ -1,0 +1,13 @@
+import { chromium } from 'playwright-core';
+const [,, url, out] = process.argv;
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const page = await (await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' })).newPage();
+const errors = []; page.on('pageerror', e => errors.push(e.message));
+await page.goto(url, { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(150);
+await page.screenshot({ path: out });
+const st = await page.evaluate(() => ({ skip: document.documentElement.hasAttribute('data-skip-preloader'), preloaderVisible: (() => { const p = document.querySelector('.preloader'); return p ? getComputedStyle(p).display !== 'none' : false; })(), heroOpacity: getComputedStyle(document.querySelector('.hero-lead')).opacity, fallback: !!document.querySelector('.scene-fallback') }));
+await page.waitForTimeout(1500);
+const st2 = await page.evaluate(() => ({ fallback: !!document.querySelector('.scene-fallback'), canvasMode: document.querySelector('.scene-canvas')?.dataset.mode }));
+console.log(JSON.stringify({ st, st2, errors }));
+await browser.close();

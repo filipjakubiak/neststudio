@@ -1,6 +1,9 @@
 @import './tokens.css';
 @import './sections.css';
-@import 'tailwindcss';
+/* Skan klas tylko w src (Tailwind v4 domyślnie skanuje całe repo, w tym markdown skilli). */
+@import 'tailwindcss' source(none);
+@source '../app';
+@source '../components';
 
 @theme inline {
   --color-canvas: var(--canvas);
@@ -150,4 +153,6 @@
   .preloader-count { font-family: var(--font-mono); font-size: var(--t-h3); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
   .preloader-name { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; color: var(--ink-soft); font-size: var(--t-small); }
   html[data-preloading='true'] { overflow: hidden; }
+  html[data-skip-preloader] .preloader { display: none; }
+
 }

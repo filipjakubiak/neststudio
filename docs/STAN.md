@@ -4,7 +4,7 @@
 
 ## Gdzie jesteśmy (28.09.2026, wieczór)
 
-**K1 do K6 zrobione: strona działa w całości, zweryfikowana w przeglądarce, gotowa do deployu.** Szczegóły pomiarów: `docs/verification.md`.
+**K1 do K6 zrobione: strona działa w całości, zweryfikowana w przeglądarce, gotowa do deployu.** Szczegóły pomiarów: `docs/verification.md`. Lighthouse (renderowanie programowe): desktop perf 0,80, a11y/BP/SEO 1,0; mobile perf 0,55 (analiza: D14). Decyzje dodane w tej sesji: D13 (scena na dotyku po geście), D14 (preloader zostaje, LCP mobile to podmiana fontu).
 
 Co jest:
 - Next.js 16 static export, PL na `/`, EN na `/en/`, tokeny z `DESIGN.md`, fonty self-hosted (latin + latin-ext).

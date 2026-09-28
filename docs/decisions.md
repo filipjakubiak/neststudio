@@ -53,3 +53,11 @@ Jedna rodzina, waga `light` (1.5 px), zgodnie z high-end-visual-design i design-
 ## D12. Case studies: kandydaci z briefu jako placeholdery bez danych (28.09.2026)
 
 Perun Tac, TCC Global, Oboda Group pojawiają się jako nazwy robocze z zakresem z briefu, ale bez metryk i bez opisów wyników. Metryki mają wartość `—` zastąpioną tekstem "metryka do uzupełnienia" i atrybut `data-placeholder`. Nic nie udaje prawdziwego wyniku. Cofnięcie: uzupełnić `src/content/projects.ts` po akceptacji Filipa.
+
+## D13. Na dotyku scena WebGL startuje po pierwszym geście (28.09.2026)
+
+Na urządzeniach z `(pointer: coarse)` scena Three.js nie startuje automatycznie: rusza przy pierwszym scrollu, dotyku albo kliknięciu (crossfade 1,2 s), a do tego czasu w slocie hero stoi kropla z gradientu CSS. Powody: kompilacja shaderów i PMREM nie blokują startu strony na telefonie, oszczędność baterii na stronie, której nikt nie przewija, i czystsze Core Web Vitals (TBT). Na desktopie scena startuje po preloaderze w `requestIdleCallback`. Cofnięcie: usunąć warunek `coarse` w `SceneCanvas.tsx`.
+
+## D14. Preloader zostaje także na telefonie; LCP mobile zależy od podmiany fontu (28.09.2026)
+
+Pomiar (Lighthouse mobile, symulowane wolne 4G i CPU ×4): element LCP to akapit lead w hero, a jego czas wynika z podmiany fontu (`font-display: swap`) po dociągnięciu Space Grotesk, nie z preloadera ani WebGL (wariant bez obu daje niemal ten sam LCP). Opcje, gdyby wynik terenowy (PageSpeed po wdrożeniu) był poniżej progu: (a) `font-display: optional` dla tekstu (na wolnym łączu zostaje font systemowy w danej sesji), (b) wyłączenie preloadera na dotyku, (c) mniejszy chunk startowy (GSAP ładowany po LCP). Nie wdrażam żadnej bez wyniku z prawdziwych telefonów. Cofnięcie: n/d.
