@@ -206,6 +206,6 @@ Przepływy (log, po jednej linii na krok):
 - [x] Jedna etykieta na intencję "kontakt": "Rozpocznij projekt" (nav, hero, finał).
 - [x] Jedna etykieta na intencję "portfolio": "Zobacz projekty" (hero) i nagłówek "Wybrane projekty".
 - [x] Eyebrow: 4 na 12 sekcji.
-- [x] Hero: h1 3 linie po ≤ 4 słowa, lead 11 słów, dwa CTA.
+- [x] Hero: h1 3 linie po ≤ 5 słów, lead 11 słów, dwa CTA.
 - [x] Cytaty/opinie: brak (nie mamy prawdziwych; nie wymyślamy).
 - [x] Liczby: tylko 2014 i lata liczone z daty; metryki projektów to placeholdery.

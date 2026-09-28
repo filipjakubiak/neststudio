@@ -5,7 +5,11 @@ dist/
 .wrangler/
 .env*
 *.log
+*.tsbuildinfo
+next-env.d.ts
 .DS_Store
 Thumbs.db
 __pycache__/
+lab/node_modules/
+lab/shots/
 .claude/settings.local.json

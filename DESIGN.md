@@ -36,6 +36,7 @@ Dwie rodziny, obie self-hosted (woff2, subsety latin + latin-ext, `font-display:
 | Token | Rozmiar | Interlinia | Tracking | Waga |
 |---|---|---|---|---|
 | `--t-display` | `clamp(3.4rem, 10vw, 11rem)` | 0.92 | -0.04em | 500 |
+| `--t-hero` | `clamp(2.6rem, 7vw, 7.5rem)` | 0.94 | -0.04em | 500 (h1 w hero: 3 linie po ≤ 5 słów muszą zmieścić się w 1324 px) |
 | `--t-h1` | `clamp(2.6rem, 6.5vw, 6.5rem)` | 0.96 | -0.035em | 500 |
 | `--t-h2` | `clamp(2rem, 4.5vw, 4.25rem)` | 1.0 | -0.03em | 500 |
 | `--t-h3` | `clamp(1.375rem, 2.2vw, 2rem)` | 1.1 | -0.015em | 500 |
@@ -112,7 +113,7 @@ Inter/Roboto/Arial jako font; pure black; drugi kolor; neon, glow, gradient text
   --font-text: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'Space Mono', ui-monospace, monospace;
 
-  --t-display: clamp(3.4rem, 10vw, 11rem); --t-h1: clamp(2.6rem, 6.5vw, 6.5rem); --t-h2: clamp(2rem, 4.5vw, 4.25rem);
+  --t-display: clamp(3.4rem, 10vw, 11rem); --t-hero: clamp(2.6rem, 7vw, 7.5rem); --t-h1: clamp(2.6rem, 6.5vw, 6.5rem); --t-h2: clamp(2rem, 4.5vw, 4.25rem);
   --t-h3: clamp(1.375rem, 2.2vw, 2rem); --t-lead: clamp(1.125rem, 1.5vw, 1.375rem); --t-body: 1.0625rem;
   --t-small: 0.9375rem; --t-caption: 0.8125rem; --t-label: 0.6875rem;
 
