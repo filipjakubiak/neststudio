@@ -72,3 +72,17 @@ Uwagi Filipa: gniazdo wyglądało jak pączek (pochylony torus), brakowało gry 
 - **Telefon** (`SceneDirector.tsx`): pozycje gniazda z desktopu przesuwane o 70%, żeby gniazdo wchodziło w kadr bokiem, a w kontakcie środek zgodnie z `Contact.tsx` (wcześniej tween reżysera nadpisywał tam `nestX` na 2,3 i gniazda nie było widać).
 
 Fallback (`SceneFallback.tsx`) rysuje splot nici, nie gniazdo, więc bez zmian. Porównania przed/po: `docs/shots/nest/`. Cofnięcie: przywrócić `nestPos()` z torusem i liczby w `budget()`; tokeny `--rim-*` można zostawić.
+
+## D16. Chrom z Remotion jako sekwencja klatek, zamiast kropli liczonej na żywo w Three.js (29.09.2026)
+
+Prośba Filipa: wrócić do chromu, ale zamiast liczyć go w JS użyć Remotion, żeby chrom prowadził oko klienta przez całą stronę. Zrobione tak:
+
+- **Render offline** w `remotion/` (osobny `package.json`, nic z Remotion nie trafia do bundla strony): jedna ciągła animacja 240 klatek (10 s, 24 fps), 1280 px, PNG z alfą, potem `sharp` → WebP z alfą: desktop 640 px (2,39 MB łącznie, śr. 10 kB/klatkę), mobile 360 px (1,12 MB), plakat = klatka 0 (6,3 kB / 3,2 kB). Budżety 3,5 / 1,5 MB, więc jest zapas na więcej klatek albo wyższą jakość.
+- **Dlaczego sekwencja, a nie scena na żywo:** jakość nieosiągalna w czasie rzeczywistym na telefonie (raymarching pola odległości z 220 krokami, AO, dyspersja, 2x supersampling), zero kompilacji shaderów i PMREM na urządzeniu, zero kosztu GPU na chrom (rysowanie to jedno `drawImage` przy zmianie klatki), identyczny wygląd na każdym sprzęcie. Kształt może zmieniać topologię (kropla pęka na dwie, soczewka wyciąga się w nić), czego nie dawała icosfera z przemieszczeniem.
+- **Dlaczego pole odległości, a nie siatka z przemieszczeniem:** podział kropli na dwie i przejście w nić wymagają zmiany topologii; SDF morfuje bez szwów. Materiał jest fizyczny (Fresnel Schlick, F0 chromu), środowisko to analityczne studio HDR w shaderze (nie HDRI z zewnątrz, więc nic do licencjonowania).
+- **Ładowanie:** plakat preloadowany i widoczny od pierwszego malowania jako `<img>` w slocie hero; klatki dociągane w tle dopiero po `nest:ready` + `requestIdleCallback`, maks. 4 naraz, najbliższe bieżącej pozycji scrolla najpierw, dekodowane przez `createImageBitmap` (poza głównym wątkiem); brakująca klatka = najbliższa załadowana. Save-Data albo 2G/3G: co druga klatka. Adresy klatek mają `?v=` z manifestu, więc w `_headers` są immutable.
+- **Choreografia w przeglądarce:** klatki niosą kształt i światło, a pozycję, skalę, kierunek i warstwę składa `src/components/chrome/choreography.ts` per sekcja (patrz DESIGN.md §7a). Scroll przewija klatki z wygładzaniem i przenikaniem sąsiednich klatek.
+- **Usunięte:** `src/scene/ChromeDrop.ts`, proceduralne środowisko i PMREM w `NestScene`, pola `drop*` w stanie sceny i tweeny kropli w sekcjach, CSS-owa kropla z gradientu w slocie hero (D13 jej potrzebował, bo scena na dotyku startuje po geście; plakat ją zastępuje). Token `--chrome` zostaje (CTA, rama portretu).
+- **Reduced motion / bez JS:** plakat w slocie hero i w gnieździe w Kontakcie, bez scrubowania i bez pobierania klatek.
+
+Koszt: 2,4 MB (desktop) / 1,1 MB (mobile) obrazów dociąganych w tle, ale tylko po starcie strony i bez wpływu na LCP. Chunk three zmalał o 14 kB raw (4 kB gzip), bo Turbopack i tak nie wycina nieużywanych części three (patrz STAN, pytanie 6). Cofnięcie: przywrócić `ChromeDrop` z historii gita (commit 5cf84a1) i usunąć `<ChromeGuide />` z `Site.tsx`. Ponowny render: `npm run chrome:render` (README).

@@ -145,7 +145,13 @@
   .scene-canvas[data-mode='on'] { opacity: 1; }
   .scene-fallback { position: fixed; inset: 0; z-index: var(--z-scene); pointer-events: none; color: var(--ink); opacity: 0.5; }
   .scene-fallback svg { width: 100%; height: 100%; }
-  html[data-scene='on'] .drop-slot { background: transparent; }
+  /* Chrom (D16): kanwa 2D z klatkami Remotion; plakat = pierwsza klatka jako <img>. */
+  .chrome-guide { position: fixed; left: 0; top: 0; z-index: var(--z-scene); pointer-events: none; transform-origin: 50% 50%; will-change: transform, opacity; visibility: hidden; }
+  .chrome-guide[data-layer='front'] { z-index: calc(var(--z-content) + 1); }
+  html[data-chrome='on'] .chrome-guide { visibility: visible; }
+  .chrome-picture { display: contents; }
+  html[data-chrome='on'] .drop-poster { visibility: hidden; }
+  html[data-chrome='pending'] .contact-poster, html[data-chrome='on'] .contact-poster { display: none; }
   .split { text-wrap: initial; }
   .preloader { position: fixed; inset: 0; z-index: var(--z-preloader); background: var(--canvas); color: var(--ink); display: grid; place-items: center; }
   .preloader-inner { display: grid; justify-items: center; gap: var(--s-6); }

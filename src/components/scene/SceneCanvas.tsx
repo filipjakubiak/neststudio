@@ -45,7 +45,7 @@ export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
       if (disposed || !ref.current) return;
       const b = budget();
       try {
-        scene = new NestScene(ref.current, { threads: b.threads, dpr: b.dpr, dropDetail: coarse ? 5 : 6 });
+        scene = new NestScene(ref.current, { threads: b.threads, dpr: b.dpr });
       } catch {
         bus.status = 'fallback'; setMode('fallback'); return;
       }
@@ -69,7 +69,7 @@ export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
           bus.status = 'fallback'; setMode('fallback');
         } else if (avg > 24 && b.threads > 900) {
           scene.dispose();
-          scene = new NestScene(ref.current!, { threads: Math.round(b.threads / 2), dpr: Math.min(1.25, b.dpr), dropDetail: 5 });
+          scene = new NestScene(ref.current!, { threads: Math.round(b.threads / 2), dpr: Math.min(1.25, b.dpr) });
           scene.start();
         }
       }, 2600);
@@ -82,7 +82,7 @@ export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
       if (!coarse) { go(); return; }
       /* Na dotyku scena rusza dopiero przy pierwszym geście (scroll/dotyk): strona jest
          interaktywna od razu, kompilacja shaderów nie blokuje startu, a do tego czasu
-         w slocie hero stoi chrom z CSS (decyzja D13). */
+         w slocie hero stoi plakat chromu (D13, D16). */
       let fired = false;
       const once = () => { if (fired) return; fired = true; interactionCleanup(); go(); };
       window.addEventListener('scroll', once, { passive: true, once: true });

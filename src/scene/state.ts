@@ -6,13 +6,6 @@ export interface SceneState {
   tunnel: number;     // 0..1 tunel (showreel)
   ink: number;        // 0 jasne nici na ciemnym, 1 ciemne na jasnym
   opacity: number;    // krycie nici
-  dropVisible: number;// 0..1 krycie kropli
-  dropScale: number;  // promień kropli w jednostkach świata
-  dropX: number;
-  dropY: number;
-  dropZ: number;
-  dropAmp: number;    // amplituda "płynności" kropli
-  dropDetach: number; // 0 kropla trzyma się slotu w hero, 1 kropla w pozycji ze stanu
   nestX: number;      // przesunięcie gniazda w świecie (kompozycja: tekst po lewej, gniazdo po prawej)
   nestY: number;
   camZ: number;
@@ -28,13 +21,6 @@ export const initialState: SceneState = {
   tunnel: 0,
   ink: 0,
   opacity: 1,
-  dropVisible: 0,
-  dropScale: 0.28,
-  dropX: 0,
-  dropY: 0,
-  dropZ: 0.5,
-  dropAmp: 0.12,
-  dropDetach: 0,
   nestX: 0,
   nestY: 0,
   camZ: 10,
@@ -43,14 +29,8 @@ export const initialState: SceneState = {
   exposure: 1,
 };
 
-export interface SceneAnchors {
-  /* Slot kropli w hero, w px względem dokumentu (top uwzględnia scroll). */
-  heroSlot: { x: number; y: number; r: number } | null;
-}
-
 export interface SceneBus {
   state: SceneState;
-  anchors: SceneAnchors;
   pointer: { x: number; y: number; active: number };
   status: 'idle' | 'loading' | 'on' | 'fallback';
 }
@@ -62,7 +42,6 @@ export function getSceneBus(): SceneBus {
   if (!g[globalKey]) {
     g[globalKey] = {
       state: { ...initialState },
-      anchors: { heroSlot: null },
       pointer: { x: 0, y: 0, active: 0 },
       status: 'idle',
     };
@@ -70,14 +49,11 @@ export function getSceneBus(): SceneBus {
   return g[globalKey]!;
 }
 
-/* Konwersja px ekranu -> świat (z=0) bez importu three; parametry kamery jak w NestScene (fov 35). */
-export function screenToWorldStatic(x: number, y: number, camZ = 10): { x: number; y: number } {
+/* Świat (płaszczyzna z=0) -> px ekranu, parametry kamery jak w NestScene (fov 35). Używa ChromeGuide,
+   żeby posadzić chrom w gnieździe nici (nestX/nestY). */
+export function worldToScreenStatic(x: number, y: number, camZ = 10): { x: number; y: number } {
   const w = window.innerWidth, h = window.innerHeight;
   const halfH = Math.tan((35 / 2) * (Math.PI / 180)) * camZ;
   const halfW = halfH * (w / h);
-  return { x: ((x / w) * 2 - 1) * halfW, y: (1 - (y / h) * 2) * halfH };
-}
-export function pxToWorldStatic(px: number, camZ = 10): number {
-  const halfH = Math.tan((35 / 2) * (Math.PI / 180)) * camZ;
-  return (2 * halfH * px) / window.innerHeight;
+  return { x: ((x / halfW) + 1) / 2 * w, y: (1 - y / halfH) / 2 * h };
 }

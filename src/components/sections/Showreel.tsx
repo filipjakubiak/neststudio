@@ -61,9 +61,7 @@ export function Showreel({ c }: { c: Content }) {
       /* scena: tunel */
       tl.fromTo(bus.state, { speed: 0.05, tunnel: 0 }, { speed: 0.9, tunnel: 1, duration: 0.4, ease: 'power2.inOut', immediateRender: false }, 0.06)
         .fromTo(bus.state, { camZ: 10 }, { camZ: 7.2, duration: 0.6, ease: 'power1.inOut', immediateRender: false }, 0.1)
-        .fromTo(bus.state, { dropDetach: 1, dropX: 0, dropY: 0.2, dropZ: 0, dropScale: 0.5, dropAmp: 0.2, dropVisible: 1 }, { dropScale: 1.25, dropY: 0.75, dropAmp: 0.34, duration: 0.3, ease: 'power2.inOut', immediateRender: false }, 0.2)
-        .fromTo(bus.state, { weave: 0.22 }, { weave: 0.75, duration: 0.5, ease: 'none', immediateRender: false }, 0.35)
-        .to(bus.state, { dropScale: 0.7, dropY: 1.1, duration: 0.25, ease: 'power2.inOut' }, 0.62);
+        .fromTo(bus.state, { weave: 0.22 }, { weave: 0.75, duration: 0.5, ease: 'none', immediateRender: false }, 0.35);
 
       /* pięć cięć w głąb */
       cuts.forEach((cut, i) => {
@@ -74,7 +72,7 @@ export function Showreel({ c }: { c: Content }) {
 
       /* cięcie na biel */
       tl.to(flash, { opacity: 1, duration: 0.06, ease: 'power2.in' }, 0.9)
-        .to(bus.state, { tunnel: 0, speed: 0.05, camZ: 10, ink: 1, dropVisible: 0, duration: 0.08, ease: 'power2.inOut' }, 0.9)
+        .to(bus.state, { tunnel: 0, speed: 0.05, camZ: 10, ink: 1, duration: 0.08, ease: 'power2.inOut' }, 0.9)
         .to({}, { duration: 0.02 });
 
       /* Odtwórz: przewijanie przez pin ze stałą prędkością */

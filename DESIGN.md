@@ -18,7 +18,7 @@ Monochrom. Sześć ról, jeden akcent-materiał.
 | ink-soft | Ash | `#8A8A90` | tekst drugorzędny, labelki (kontrast 5.4:1 na Noir) |
 | ink-faint | Slate | `#3A3A3F` | disabled, siatka, ślady nici w tle |
 | hairline | Hairline | `rgba(244,244,245,0.12)` | separatory 1 px, obrys ghost-pigułek |
-| accent | Chrome | materiał (WebGL); fallback: `linear-gradient(135deg,#F5F5F5 0%,#8C8C90 38%,#2B2B2E 58%,#E8E8EA 100%)` | kropla w hero i CTA, rama portretu, hover znaku |
+| accent | Chrome | materiał: sekwencja klatek z Remotion (§7a); gradient `linear-gradient(135deg,#F5F5F5 0%,#8C8C90 38%,#2B2B2E 58%,#E8E8EA 100%)` tylko dla CTA, ramy portretu i hovera znaku | przewodnik po stronie (kropla → nić → kropla w gnieździe), rama portretu, hover znaku |
 | rim-cool | Rim Steel | `#6F8FB8` | światło krawędziowe nici, strona cienia (tylko WebGL) |
 | rim-core | Rim Bone | `#F4F4F5` | światło krawędziowe, środek gradientu i pasmo przemiatania |
 | rim-warm | Rim Warm | `#E8C79A` | światło krawędziowe, strona światła (tylko WebGL) |
@@ -28,7 +28,7 @@ Blok jasny (Projekty) odwraca role: canvas `#F4F4F5`, surface `#EAEAEC`, ink `#0
 
 Semantyczne (tylko formularz i status demo AI): success `#8FE3B0`, warning `#F2D479`, error `#F08A8A`. Nigdy jako dekoracja.
 
-Zakazy: żaden drugi kolor, żaden gradient poza fallbackiem chromu, żaden neon, żaden glow, żadne pure black.
+Zakazy: żaden drugi kolor, żaden gradient poza tokenem chromu, żaden neon, żaden glow, żadne pure black.
 
 **Światło krawędziowe (rim light), jedyny wyjątek od zakazu glow.** Gradient "chrome spectral" Rim Steel → Rim Bone → Rim Warm to światło na metalu, nie kolor marki. Wolno go użyć wyłącznie w scenie WebGL, na 10 do 18% nici gniazda (wybór z seeda), i tylko tam, gdzie nić leży na sylwetce bryły względem widza (fresnel) albo w wolnym paśmie przemiatania. Strona cienia chłodna, strona światła ciepła, środek Bone; nasycenie niskie, blask addytywny, nigdy pełne pokrycie bryły. W chaosie i w tunelu gaśnie razem ze splotem. Na jasnym tle (Projekty, `uInk = 1`) zero blasku: nić ze światłem staje się ciemniejszym połyskiem Rim Sheen. Nigdy w UI, tekście, przyciskach ani w SVG. Tokeny CSS `--rim-*` istnieją tylko jako dokumentacja i dla ewentualnego statycznego fallbacku sceny; źródło wartości dla shadera to `RIM` w `src/scene/ThreadField.ts`.
 
@@ -101,6 +101,27 @@ Baza 4 px. Skala: `--s-1` 4, `--s-2` 8, `--s-3` 12, `--s-4` 16, `--s-5` 24, `--s
 | wyjścia | 60% czasu wejścia | |
 
 Reguły: tylko `transform`, `opacity`, `clip-path` (i `height` wyłącznie w akordeonach przez GSAP na elemencie poza layoutem krytycznym). Scrub 0.8 do 1.2. Żadnego `linear`, `ease-in-out`, bounce, elastic. Każda animacja musi dać się uzasadnić jednym zdaniem (hierarchia, narracja, feedback, zmiana stanu). Wszystko w `gsap.matchMedia`: wariant `(prefers-reduced-motion: reduce)` pokazuje treść od razu, bez pinów, bez sceny WebGL, akordeony przełączają się natychmiast.
+
+## 7a. Chrom: przewodnik (D16)
+
+Chrom nie jest renderowany na żywo. To jedna ciągła animacja ("chrome journey", 240 klatek, 10 s przy 24 fps) wyrenderowana w Remotion (`remotion/`) jako PNG z alfą i skonwertowana do WebP z alfą. Scroll całej strony jest jej playheadem.
+
+| Sekcja | Klatki | Forma |
+|---|---|---|
+| hero | 0 do 29 | ciężka kropla w slocie nagłówka (`.drop-slot` po linii `dropAfterLine`), studio powoli obraca się wokół niej |
+| tension | 29 do 79 | rozciąga się, skręca, szyjka cienieje i pęka na dwie krople dokładnie na linii między słowami |
+| showreel | 79 do 124 | krople wpadają w siebie i otwierają się w dużą soczewkę na środku kadru; pod cięciem na biel soczewka wyciąga się w nić |
+| projects, services, ai, process, studio, faq | 124 do 215 | cienka wstęga-nić z czubkiem; wskazuje nazwę aktywnego projektu, opis otwartej usługi, pierwszy węzeł automatyzacji, zapaloną stację procesu, nagłówki |
+| contact | 215 do 239 | nić wskazuje CTA, zbiera się w kroplę, spada do gniazda nici, uderza (squash), oddycha i trzyma |
+
+Zasady:
+- Kształt, obrót i światło są w klatkach. Pozycja, skala, kierunek (obrót/lustro kanwy) i warstwa są w przeglądarce: `src/components/chrome/choreography.ts`, jedna funkcja pozy na sekcję, ostatnie 22% odcinka płynie do pozy następnej sekcji.
+- Materiał: lustrzany metal (Fresnel Schlick, F0 0,78), analityczne studio HDR (długie paski światła, softboxy, jasna linia horyzontu), lekka dyspersja kanałów przy krawędzi. Żadnych kolorów poza tym, co odbija studio.
+- Warstwa: domyślnie pod treścią (tekst zawsze wygrywa), nad treścią tylko w Projektach (nieprzezroczyste arkusze) i tylko w marginesach tekstu.
+- Płynność: klatki podążają za scrollem z wygładzaniem (stała 7/s) i przenikaniem sąsiednich klatek, pozycja trzyma się treści ciasno (11/s, w hero 40/s). Nigdy skokowo.
+- Hero: lekka paralaksa i przechył za kursorem (maks. 10 px / 5°), tylko `(hover: hover) and (pointer: fine)`.
+- Pierwsze malowanie: plakat (klatka 0, 6 kB desktop / 3 kB mobile, preload) jako `<img>` w slocie; kanwa przejmuje go po intro nagłówka. Bez JS i przy `prefers-reduced-motion`: plakat w slocie hero i w gnieździe w Kontakcie, bez scrubowania.
+- Budżet: zestaw desktop (640 px) ≤ 3,5 MB, mobile (360 px, poniżej 768 px szerokości) ≤ 1,5 MB. Klatki dociągane w tle po pierwszym malowaniu, najbliższe pozycji scrolla najpierw; Save-Data / 2G / 3G: co druga klatka.
 
 ## 8. Anty-wzorce (zakazane)
 
