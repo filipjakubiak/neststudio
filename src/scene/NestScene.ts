@@ -110,6 +110,7 @@ export class NestScene {
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
     this.resolution.set(w * this.opts.dpr, h * this.opts.dpr);
+    this.threads.setAspect(this.camera.aspect);
   }
 
   /* px ekranu -> świat na płaszczyźnie z=zPlane */

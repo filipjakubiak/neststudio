@@ -56,6 +56,12 @@
   --ink-faint: #3a3a3f;
   --hairline: rgba(244, 244, 245, 0.12);
   --chrome: linear-gradient(135deg, #f5f5f5 0%, #8c8c90 38%, #2b2b2e 58%, #e8e8ea 100%);
+  /* światło krawędziowe nici (DESIGN.md §2): tylko scena WebGL / jej statyczny fallback, nigdy UI */
+  --rim-steel: #6f8fb8;
+  --rim-bone: #f4f4f5;
+  --rim-warm: #e8c79a;
+  --rim-sheen: #46505c;
+  --rim-gradient: linear-gradient(120deg, var(--rim-steel) 0%, var(--rim-bone) 52%, var(--rim-warm) 100%);
   --ok: #8fe3b0;
   --warn: #f2d479;
   --err: #f08a8a;

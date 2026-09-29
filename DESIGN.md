@@ -19,12 +19,18 @@ Monochrom. Sześć ról, jeden akcent-materiał.
 | ink-faint | Slate | `#3A3A3F` | disabled, siatka, ślady nici w tle |
 | hairline | Hairline | `rgba(244,244,245,0.12)` | separatory 1 px, obrys ghost-pigułek |
 | accent | Chrome | materiał (WebGL); fallback: `linear-gradient(135deg,#F5F5F5 0%,#8C8C90 38%,#2B2B2E 58%,#E8E8EA 100%)` | kropla w hero i CTA, rama portretu, hover znaku |
+| rim-cool | Rim Steel | `#6F8FB8` | światło krawędziowe nici, strona cienia (tylko WebGL) |
+| rim-core | Rim Bone | `#F4F4F5` | światło krawędziowe, środek gradientu i pasmo przemiatania |
+| rim-warm | Rim Warm | `#E8C79A` | światło krawędziowe, strona światła (tylko WebGL) |
+| rim-sheen | Rim Sheen | `#46505C` | wariant światła w bloku jasnym: ciemniejszy stalowy połysk zamiast blasku |
 
 Blok jasny (Projekty) odwraca role: canvas `#F4F4F5`, surface `#EAEAEC`, ink `#0A0A0B`, ink-soft `#5C5C63` (7.1:1), hairline `rgba(10,10,11,0.12)`. Jeden motyw na sekcję, redefinicja zmiennych na `[data-theme="light"]`.
 
 Semantyczne (tylko formularz i status demo AI): success `#8FE3B0`, warning `#F2D479`, error `#F08A8A`. Nigdy jako dekoracja.
 
 Zakazy: żaden drugi kolor, żaden gradient poza fallbackiem chromu, żaden neon, żaden glow, żadne pure black.
+
+**Światło krawędziowe (rim light), jedyny wyjątek od zakazu glow.** Gradient "chrome spectral" Rim Steel → Rim Bone → Rim Warm to światło na metalu, nie kolor marki. Wolno go użyć wyłącznie w scenie WebGL, na 10 do 18% nici gniazda (wybór z seeda), i tylko tam, gdzie nić leży na sylwetce bryły względem widza (fresnel) albo w wolnym paśmie przemiatania. Strona cienia chłodna, strona światła ciepła, środek Bone; nasycenie niskie, blask addytywny, nigdy pełne pokrycie bryły. W chaosie i w tunelu gaśnie razem ze splotem. Na jasnym tle (Projekty, `uInk = 1`) zero blasku: nić ze światłem staje się ciemniejszym połyskiem Rim Sheen. Nigdy w UI, tekście, przyciskach ani w SVG. Tokeny CSS `--rim-*` istnieją tylko jako dokumentacja i dla ewentualnego statycznego fallbacku sceny; źródło wartości dla shadera to `RIM` w `src/scene/ThreadField.ts`.
 
 ## 3. Typografia
 
