@@ -16,9 +16,9 @@ function budget(): { threads: number; dpr: number } {
   const coarse = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
   const cores = navigator.hardwareConcurrency || 4;
   const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
-  if (coarse) return { threads: mem >= 4 ? 1400 : 900, dpr: Math.min(1.25, window.devicePixelRatio || 1) };
-  if (cores >= 8 && mem >= 8) return { threads: 6000, dpr: Math.min(2, window.devicePixelRatio || 1) };
-  return { threads: 3500, dpr: Math.min(1.5, window.devicePixelRatio || 1) };
+  if (coarse) return { threads: mem >= 4 ? 620 : 400, dpr: Math.min(1.25, window.devicePixelRatio || 1) };
+  if (cores >= 8 && mem >= 8) return { threads: 2400, dpr: Math.min(2, window.devicePixelRatio || 1) };
+  return { threads: 1400, dpr: Math.min(1.5, window.devicePixelRatio || 1) };
 }
 
 /* Fixed canvas pod treścią. Decyduje: scena WebGL albo statyczny fallback. */
@@ -67,7 +67,7 @@ export function SceneCanvas({ noWebglNote }: { noWebglNote: string }) {
           scene.dispose(); scene = null;
           document.documentElement.removeAttribute('data-scene');
           bus.status = 'fallback'; setMode('fallback');
-        } else if (avg > 24 && b.threads > 1500) {
+        } else if (avg > 24 && b.threads > 900) {
           scene.dispose();
           scene = new NestScene(ref.current!, { threads: Math.round(b.threads / 2), dpr: Math.min(1.25, b.dpr), dropDetail: 5 });
           scene.start();

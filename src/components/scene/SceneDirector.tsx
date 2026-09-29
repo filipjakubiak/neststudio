@@ -18,6 +18,14 @@ const STATES: Record<string, Partial<SceneState>> = {
   footer: { weave: 1, speed: 0.02, opacity: 0.3, dropVisible: 0, nestX: 2.3, nestY: 2.2 },
 };
 
+/* Wąski ekran (< 768 px): kadr ma ~1,45 jednostki od środka do krawędzi, więc gniazdo z pozycji desktopowych
+   (x ≈ 2,3) zniknęłoby za krawędzią. 70% przesunięcia = gniazdo wchodzi w kadr bokiem, mniej pod tekstem; w kontakcie
+   środek, zgodnie z choreografią Contact.tsx (inaczej ten tween nadpisywał jej nestX). */
+function narrowNest(name: string, target: Partial<SceneState>): Partial<SceneState> {
+  if (typeof window === 'undefined' || window.innerWidth >= 768 || target.nestX === undefined) return {};
+  return { nestX: name === 'contact' ? 0 : target.nestX * 0.7 };
+}
+
 export function SceneDirector() {
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -26,7 +34,7 @@ export function SceneDirector() {
     Object.entries(STATES).forEach(([name, target]) => {
       const el = document.querySelector<HTMLElement>(`[data-section="${name}"]`);
       if (!el) return;
-      const apply = () => gsap.to(bus.state, { ...target, duration: 1.4, ease: 'power2.inOut', overwrite: 'auto' });
+      const apply = () => gsap.to(bus.state, { ...target, ...narrowNest(name, target), duration: 1.4, ease: 'power2.inOut', overwrite: 'auto' });
       triggers.push(ScrollTrigger.create({ trigger: el, start: 'top 60%', end: 'bottom 40%', onEnter: apply, onEnterBack: apply }));
     });
     return () => triggers.forEach((t) => t.kill());
