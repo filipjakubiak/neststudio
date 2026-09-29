@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   reactStrictMode: true,
   images: { unoptimized: true },
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || undefined,
   agentRules: false,
 };
 

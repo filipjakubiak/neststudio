@@ -1,5 +1,7 @@
 /* Stałe strony. Placeholdery opisane w docs/placeholders.md. */
-export const SITE_URL = 'https://neststudio.pl'; // [PH]
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://neststudio.pl'; // [PH]
+/* Pusty na Cloudflare; '/neststudio' na GitHub Pages (project page). Ustawiany w buildzie. */
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
 export const EMAIL = 'hello@neststudio.pl'; // [PH]
 export const PHONE = '+48 000 000 000'; // [PH]
 export const CAL_URL = ''; // [PH] pusty = link ukryty

@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { gsap, useGSAP } from '@/lib/gsap';
 import { prefersReducedMotion } from '@/lib/motion';
 import type { Content } from '@/content/types';
-import { EMAIL } from '@/content/site';
+import { BASE_PATH, EMAIL } from '@/content/site';
 import { Wordmark } from '@/components/ui/Wordmark';
 import { Button } from '@/components/ui/Button';
 import { LangSwitch } from './LangSwitch';
@@ -61,7 +61,7 @@ export function Nav({ content }: { content: Content }) {
     <>
       <header className="nav" data-scrolled={scrolled ? 'true' : 'false'}>
         <div className="wrap nav-inner">
-          <Wordmark href={content.lang === 'pl' ? '/' : '/en/'} />
+          <Wordmark href={`${BASE_PATH}${content.lang === 'pl' ? '/' : '/en/'}`} />
           <div className="nav-right">
             <LangSwitch lang={content.lang} label={content.nav.langLabel} />
             <Button href="#kontakt" className="nav-cta" magnetic>{content.nav.cta}</Button>

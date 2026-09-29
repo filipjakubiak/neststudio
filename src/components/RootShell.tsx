@@ -1,14 +1,14 @@
 import type { Lang } from '@/content/types';
 import { content } from '@/content';
-import { TITLE_SEQUENCE_ON_TOUCH } from '@/content/site';
+import { BASE_PATH, TITLE_SEQUENCE_ON_TOUCH } from '@/content/site';
 
 export function RootShell({ lang, children }: { lang: Lang; children: React.ReactNode }) {
   const c = content[lang];
   return (
     <html lang={lang} data-lang={lang}>
       <head>
-        <link rel="preload" href="/fonts/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/space-grotesk-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href={`${BASE_PATH}/fonts/space-grotesk-latin-wght-normal.woff2`} as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href={`${BASE_PATH}/fonts/space-grotesk-latin-ext-wght-normal.woff2`} as="font" type="font/woff2" crossOrigin="anonymous" />
         <meta name="theme-color" content="#0a0a0b" />
         <meta name="color-scheme" content="dark" />
         {/* Decyzja o preloaderze przed pierwszym malowaniem: brak mignięcia hero → preloader → hero. */}

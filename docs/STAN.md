@@ -11,6 +11,10 @@
 
 Reszta strony (sekcje, teksty, gniazdo z nici, nawigacja, EN) jest wspólna. Ten plik opisuje branch `title-sequence`.
 
+## GitHub Pages (29.09.2026)
+
+Build pod project page `https://filipjakubiak.github.io/neststudio/`: zmienne `NEXT_PUBLIC_BASE_PATH=/neststudio` i `NEXT_PUBLIC_SITE_URL` (bez nich build jest jak dotąd, dla Cloudflare). Workflow: `.github/workflows/pages.yml` (build, prefiks `url(/fonts/` w CSS, `.nojekyll`, deploy). Zweryfikowane lokalnie pod prefiksem (Chromium): zero 404, zero błędów, fonty PL załadowane. **Wymaga ustawień po stronie Filipa:** Settings → Pages → Source: GitHub Actions oraz dopuszczenia brancha w Settings → Environments → github-pages (Deployment branches). Repo musi być publiczne (albo plan z Pages dla prywatnych).
+
 ## Gdzie jesteśmy (28.09.2026, noc)
 
 **Sekwencja tytułowa działa od pierwszej klatki do stopki.** Koncepcja i storyboard: `docs/titles.md`. Decyzje: D15 (sekwencja zamiast preloadera i kropli), D16 (jeden akcent Żar `#FF2E1A`, wyłącznie jako światło), D17 (przy pierwszej wizycie scena startuje od razu, także na dotyku).
