@@ -53,6 +53,38 @@ describe('content', () => {
   });
 
   it('hero headline lines stay short', () => {
-    for (const c of [pl, en]) for (const line of c.hero.lines) expect(line.split(' ').length).toBeLessThanOrEqual(5);
+    for (const c of [pl, en]) for (const line of c.hero.lines) expect(line.split(/[  ]/).length).toBeLessThanOrEqual(5);
+  });
+
+  it('keeps the hero structure the chrome drop relies on', () => {
+    for (const c of [pl, en]) {
+      expect(c.hero.lines).toHaveLength(3);
+      expect(c.hero.dropAfterLine).toBeGreaterThanOrEqual(0);
+      expect(c.hero.dropAfterLine).toBeLessThan(c.hero.lines.length);
+    }
+  });
+
+  it('follows the copy style bans (docs/copy.md)', () => {
+    const strings: { path: string; value: string }[] = [];
+    walk(pl, 'pl', strings);
+    walk(en, 'en', strings);
+    const banned = /!|innowacyjn|kompleksow|pasj|dedykowan|najwyższej jakości|innovative|cutting-edge|passion|seamless|elevate|unleash|game-changer/i;
+    expect(strings.filter((s) => banned.test(s.value))).toEqual([]);
+  });
+
+  it('binds Polish single-letter words to the next word', () => {
+    const strings: { path: string; value: string }[] = [];
+    walk(pl, 'pl', strings);
+    const loose = strings.filter((s) => !/askPrompt|href|slug|\.id$/.test(s.path) && /(^|\s)[aiouwz] /i.test(s.value));
+    expect(loose).toEqual([]);
+  });
+
+  it('uses unique keys where components key by text', () => {
+    for (const c of [pl, en]) {
+      expect(new Set(c.tension.closing).size).toBe(c.tension.closing.length);
+      expect(new Set(c.showreel.cuts.map((x) => x.label)).size).toBe(c.showreel.cuts.length);
+      expect(new Set(c.process.steps.map((x) => x.title)).size).toBe(c.process.steps.length);
+      expect(new Set(c.faq.items.map((x) => x.q)).size).toBe(c.faq.items.length);
+    }
   });
 });

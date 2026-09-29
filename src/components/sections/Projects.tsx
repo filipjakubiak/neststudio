@@ -66,7 +66,7 @@ export function Projects({ c }: { c: Content }) {
               <div className="sheet-body">
                 <h3 id={`project-${p.slug}`} className="t-h2" data-placeholder={p.placeholder || undefined}>{p.name}</h3>
                 <p className="t-body text-ink-soft sheet-summary" data-placeholder={p.placeholder || undefined}>{p.summary}</p>
-                <ul className="sheet-scope" aria-label="Zakres">
+                <ul className="sheet-scope" aria-label={c.lang === 'pl' ? 'Zakres' : 'Scope'}>
                   {p.scope.map((s) => (<li className="chip" key={s}>{s}</li>))}
                 </ul>
               </div>
