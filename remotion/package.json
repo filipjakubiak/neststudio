@@ -1,0 +1,26 @@
+{
+  "name": "neststudio-chrome",
+  "private": true,
+  "type": "module",
+  "description": "Remotion: renders the liquid-chrome journey to an image sequence for the site. Not part of the site bundle.",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "node scripts/render.mjs",
+    "encode": "node scripts/encode.mjs",
+    "build": "node scripts/render.mjs && node scripts/encode.mjs"
+  },
+  "dependencies": {
+    "@react-three/fiber": "9.8.1",
+    "@remotion/cli": "4.0.530",
+    "@remotion/three": "4.0.530",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "4.0.530",
+    "sharp": "^0.35.5",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/three": "^0.186.0"
+  }
+}

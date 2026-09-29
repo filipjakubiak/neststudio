@@ -2,13 +2,17 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## 29.09.2026: chrom z Remotion (D15)
+
+Kropla liczona na żywo w Three.js zastąpiona sekwencją 240 klatek z Remotion (`remotion/`, render `npm run chrome:render`). Chrom prowadzi oko przez całą stronę: kropla w nagłówku, pęknięcie na linii napięcia, soczewka w showreelu, nić wskazująca projekt / usługę / stację procesu, lądowanie w gnieździe przy CTA. Szczegóły: DESIGN.md §7a, decyzja D15. Do decyzji Filipa: czy nić w sekcjach środkowych ma być większa (teraz subtelna, 180 do 250 px), i czy zostawiamy 240 klatek (jest zapas budżetu na 300+).
+
 ## Gdzie jesteśmy (28.09.2026, wieczór)
 
 **K1 do K6 zrobione: strona działa w całości, zweryfikowana w przeglądarce, gotowa do deployu.** Szczegóły pomiarów: `docs/verification.md`. Lighthouse (renderowanie programowe): desktop perf 0,80, a11y/BP/SEO 1,0; mobile perf 0,55 (analiza: D14). Decyzje dodane w tej sesji: D13 (scena na dotyku po geście), D14 (preloader zostaje, LCP mobile to podmiana fontu).
 
 Co jest:
 - Next.js 16 static export, PL na `/`, EN na `/en/`, tokeny z `DESIGN.md`, fonty self-hosted (latin + latin-ext).
-- Jedna scena Three.js pod całą stroną: nici (instancjonowane wstęgi, shader chaos → gniazdo → tunel) i kropla liquid chrome (proceduralne odbicia studyjne). Stan sceny sterowany przez GSAP z każdej sekcji; przesunięcie gniazda komponowane sekcja po sekcji (tekst po lewej, gniazdo po prawej).
+- Jedna scena Three.js pod całą stroną: nici (instancjonowane wstęgi, shader chaos → gniazdo → tunel) ; chrom to od 29.09 osobna kanwa 2D z klatkami Remotion (D15). Stan sceny sterowany przez GSAP z każdej sekcji; przesunięcie gniazda komponowane sekcja po sekcji (tekst po lewej, gniazdo po prawej).
 - Preloader (2014 → rok, rysowanie znaku, raz na sesję), hero (intro maską, kropla w nagłówku, reaguje na kursor), napięcie (pin, rozsypane znaki wracają na miejsce), showreel (pin 400vh, cięcia w głąb, player z timecode i Odtwórz, cięcie na biel), projekty (biały blok, sticky stack, covery rysowane DrawSVG), usługi (akordeon poziomy z czterema mikro-animacjami), AI demo (przepływy składają się same, pakiet płynie po węzłach), proces (pin, nić rysuje się przez pięć stacji), studio (paralaksa, licznik lat), FAQ (GSAP height), finał (pin, kropla ląduje w gnieździe i trzyma), stopka (wordmark scrub, "Zapytaj Claude / ChatGPT / Perplexity").
 - Nić-rail po prawej (desktop), menu overlay (clip-path, focus trap, Escape), Lenis + ScrollTrigger na jednym tickerze, pełne `prefers-reduced-motion`, fallback bez WebGL.
 - Znak A + wordmark + lockup (SVG), favicon, OG, `wrangler.jsonc`, `_headers`, README.

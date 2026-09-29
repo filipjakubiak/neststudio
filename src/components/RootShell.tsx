@@ -4,10 +4,13 @@ import { content } from '@/content';
 export function RootShell({ lang, children }: { lang: Lang; children: React.ReactNode }) {
   const c = content[lang];
   return (
-    <html lang={lang} data-lang={lang}>
+    <html lang={lang} data-lang={lang} suppressHydrationWarning>
       <head>
         <link rel="preload" href="/fonts/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/space-grotesk-latin-ext-wght-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        {/* plakat chromu (klatka 0, D15): mały, w slocie hero od pierwszego malowania */}
+        <link rel="preload" href="/chrome/poster-d.webp" as="image" type="image/webp" media="(min-width: 768px)" />
+        <link rel="preload" href="/chrome/poster-m.webp" as="image" type="image/webp" media="(max-width: 767px)" />
         <meta name="theme-color" content="#0a0a0b" />
         <meta name="color-scheme" content="dark" />
         {/* Decyzja o preloaderze przed pierwszym malowaniem: brak mignięcia hero → preloader → hero. */}

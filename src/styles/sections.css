@@ -7,7 +7,9 @@
 .hero-title { font-size: var(--t-hero); line-height: 0.94; letter-spacing: -0.04em; }
 .hero-line { display: block; overflow: hidden; }
 .hero-line-inner { display: inline-block; padding-bottom: 0.06em; }
-.drop-slot { display: inline-block; width: 1.05em; height: 0.8em; vertical-align: -0.08em; margin-left: 0.18em; border-radius: var(--r-pill); background: var(--chrome); opacity: 0.9; }
+.drop-slot { position: relative; display: inline-block; width: 0.84em; height: 0.8em; vertical-align: -0.08em; margin-left: 0.18em; }
+/* plakat: klatka 0 sekwencji, kropla zajmuje 37% boku klatki (DROP_FILL), więc klatka = 0.8em / 0.37 */
+.drop-poster { position: absolute; left: 50%; top: 50%; width: 2.16em; height: 2.16em; max-width: none; transform: translate(-50%, -50%); pointer-events: none; user-select: none; }
 .hero-side { display: grid; gap: var(--s-5); align-content: end; }
 .hero-lead { max-width: 34ch; }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: var(--s-3); }
@@ -178,7 +180,10 @@
 }
 
 /* CONTACT */
-.contact { min-height: 100dvh; display: grid; align-items: center; padding-block: var(--section); }
+.contact { position: relative; min-height: 100dvh; display: grid; align-items: center; padding-block: var(--section); }
+/* statyczny chrom w gnieździe (bez JS / reduced motion); środek jak nest() w components/chrome/choreography.ts */
+.contact-poster { position: absolute; left: 50%; top: 29%; width: 70vmin; height: 70vmin; transform: translate(-50%, -50%); pointer-events: none; z-index: -1; }
+@media (min-width: 1024px) { .contact-poster { left: 72.8%; top: 50%; width: 65vmin; height: 65vmin; } }
 .contact-inner { display: grid; gap: var(--s-6); }
 .contact-title { max-width: 12ch; }
 .contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-5); margin-top: var(--s-4); }

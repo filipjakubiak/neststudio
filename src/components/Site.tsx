@@ -4,6 +4,7 @@ import { SmoothScroll } from '@/components/motion/SmoothScroll';
 import { Preloader } from '@/components/Preloader';
 import { SceneCanvas } from '@/components/scene/SceneCanvas';
 import { SceneDirector } from '@/components/scene/SceneDirector';
+import { ChromeGuide } from '@/components/chrome/ChromeGuide';
 import { ThreadRail } from '@/components/nav/ThreadRail';
 import { Hero } from '@/components/sections/Hero';
 import { Tension } from '@/components/sections/Tension';
@@ -40,6 +41,8 @@ export function Site({ content }: { content: Content }) {
         <Contact c={content} />
       </main>
       <Footer c={content} />
+      {/* ostatni: jego ScrollTriggery liczą się po pinach sekcji; kanwa jest fixed (warstwa przez z-index) */}
+      <ChromeGuide />
     </>
   );
 }

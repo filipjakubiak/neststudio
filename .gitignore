@@ -13,3 +13,7 @@ __pycache__/
 lab/node_modules/
 lab/shots/
 .claude/settings.local.json
+remotion/node_modules/
+remotion/out/
+.shots/
+lab/shots-chrome/

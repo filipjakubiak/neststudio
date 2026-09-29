@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import type { Content } from '@/content/types';
 import { gsap, useGSAP, SplitText, ScrollTrigger } from '@/lib/gsap';
 import { MOTION_OK, MOTION_REDUCED } from '@/lib/motion';
-import { getSceneBus, pxToWorldStatic, screenToWorldStatic } from '@/scene/state';
+import { getSceneBus } from '@/scene/state';
 import { useReveal } from '@/components/motion/useReveal';
 
 /* Split stage: "jak wyglądasz" (znaki rozsypane) kontra "ile jesteś wart" (stałe); scroll domyka lukę. Pin 200vh. */
@@ -33,28 +33,15 @@ export function Tension({ c }: { c: Content }) {
       gsap.set(labels, { opacity: 0 });
       gsap.set(closingSplit.lines, { yPercent: 110 });
 
-      const divider = el.querySelector<HTMLElement>('.tension-divider')!;
-      const dropTarget = () => {
-        const s = el.getBoundingClientRect();
-        const d = divider.getBoundingClientRect();
-        const w = screenToWorldStatic(d.left + d.width / 2 - s.left + s.left, d.top + d.height / 2 - s.top);
-        return w;
-      };
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el, start: 'top top', end: '+=200%', pin: true, scrub: 0.9, invalidateOnRefresh: true,
-          onRefresh: () => {
-            const t = dropTarget();
-            bus.state.dropX = t.x; bus.state.dropY = t.y; bus.state.dropZ = 0;
-            bus.state.dropScale = pxToWorldStatic(Math.min(window.innerHeight, window.innerWidth) * 0.07);
-          },
         },
       });
       tl.to(chars, { x: 0, y: 0, rotation: 0, opacity: 1, ease: 'weave', duration: 0.55, stagger: { each: 0.018, from: 'random' } }, 0)
         .to(labels, { opacity: 1, duration: 0.15 }, 0.1)
         .fromTo(bus.state, { weave: 0 }, { weave: 0.22, duration: 0.98, ease: 'none', immediateRender: false }, 0.02)
-        .fromTo(bus.state, { dropAmp: 0.12 }, { dropAmp: 0.22, duration: 0.48, ease: 'power2.inOut', immediateRender: false }, 0.02)
         .to(you, { opacity: 1, y: 0, duration: 0.18, ease: 'power2.out' }, 0.5)
         .to(body, { opacity: 1, y: 0, duration: 0.18, ease: 'power2.out' }, 0.58)
         .to(closingSplit.lines, { yPercent: 0, duration: 0.22, stagger: 0.07, ease: 'power3.out' }, 0.72)

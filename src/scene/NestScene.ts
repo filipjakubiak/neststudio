@@ -1,71 +1,22 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, Vector2, Vector3, PMREMGenerator, Texture, CanvasTexture, EquirectangularReflectionMapping, SRGBColorSpace, ACESFilmicToneMapping, DirectionalLight, MathUtils } from 'three';
+import { WebGLRenderer, Scene, PerspectiveCamera, Vector2, Vector3, ACESFilmicToneMapping, MathUtils } from 'three';
 import { ThreadField } from './ThreadField';
-import { ChromeDrop } from './ChromeDrop';
 import { getSceneBus, type SceneBus } from './state';
 
+/* dropDetail: bez znaczenia od D15 (chrom to sekwencja klatek z Remotion, ChromeGuide); zostaje opcjonalne,
+   żeby SceneCanvas (edytowany równolegle) kompilował się bez zmian. Do usunięcia przy scaleniu. */
 export interface SceneOptions { threads: number; dpr: number; dropDetail?: number }
 
 const FOV = 35;
 
-/* Proceduralna mapa środowiska: ciemne studio z jasnymi pasami światła, żeby chrom miał kontrastowe odbicia. */
-function makeChromeEnvironment(): Texture {
-  const w = 1024, h = 512;
-  const c = document.createElement('canvas');
-  c.width = w; c.height = h;
-  const ctx = c.getContext('2d')!;
-  const base = ctx.createLinearGradient(0, 0, 0, h);
-  base.addColorStop(0, '#d9d9dc');
-  base.addColorStop(0.42, '#6a6a70');
-  base.addColorStop(0.6, '#1c1c1f');
-  base.addColorStop(1, '#0a0a0b');
-  ctx.fillStyle = base;
-  ctx.fillRect(0, 0, w, h);
-  const band = (y: number, height: number, alpha: number) => {
-    const g = ctx.createLinearGradient(0, y - height / 2, 0, y + height / 2);
-    g.addColorStop(0, 'rgba(255,255,255,0)');
-    g.addColorStop(0.5, `rgba(255,255,255,${alpha})`);
-    g.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, y - height / 2, w, height);
-  };
-  band(70, 110, 1);
-  band(160, 30, 0.95);
-  band(215, 12, 0.7);
-  band(275, 46, 0.5);
-  band(345, 16, 0.85);
-  band(420, 70, 0.3);
-  band(480, 22, 0.55);
-  // ciemne przerwy skośne, żeby odbicia miały rytm
-  ctx.globalCompositeOperation = 'multiply';
-  for (let i = 0; i < 6; i++) {
-    const x = (i / 6) * w + 40;
-    const g = ctx.createLinearGradient(x, 0, x + 120, 0);
-    g.addColorStop(0, 'rgba(255,255,255,1)');
-    g.addColorStop(0.5, 'rgba(40,40,44,1)');
-    g.addColorStop(1, 'rgba(255,255,255,1)');
-    ctx.fillStyle = g;
-    ctx.fillRect(x, 0, 120, h);
-  }
-  ctx.globalCompositeOperation = 'source-over';
-  const tex = new CanvasTexture(c);
-  tex.mapping = EquirectangularReflectionMapping;
-  tex.colorSpace = SRGBColorSpace;
-  return tex;
-}
-
-/* Jedna scena na stronę: nici + kropla. Stan czyta z SceneBus co klatkę. */
+/* Jedna scena na stronę: nici. Stan czyta z SceneBus co klatkę. Chrom nie jest już renderowany tutaj (D15). */
 export class NestScene {
   renderer: WebGLRenderer;
   scene = new Scene();
   camera: PerspectiveCamera;
   threads: ThreadField;
-  drop: ChromeDrop;
   bus: SceneBus;
   private resolution = new Vector2(1, 1);
-  private pmrem: PMREMGenerator;
-  private envTexture: Texture;
   private smoothedPointer = new Vector3();
-  private dropPos = new Vector3();
   private frames = 0;
   private frameTimeSum = 0;
   private lastT = 0;
@@ -84,21 +35,10 @@ export class NestScene {
     this.camera = new PerspectiveCamera(FOV, 1, 0.1, 100);
     this.camera.position.set(0, 0, 10);
 
-    this.pmrem = new PMREMGenerator(this.renderer);
-    const equirect = makeChromeEnvironment();
-    this.envTexture = this.pmrem.fromEquirectangular(equirect).texture;
-    equirect.dispose();
-    this.scene.environment = this.envTexture;
     (window as unknown as { __nestScene?: NestScene }).__nestScene = this;
 
     this.threads = new ThreadField(opts.threads, this.resolution, opts.dpr);
     this.scene.add(this.threads.mesh);
-    this.drop = new ChromeDrop(opts.dropDetail ?? 6);
-    this.scene.add(this.drop.mesh);
-
-    const key = new DirectionalLight(0xffffff, 1.2);
-    key.position.set(3, 4, 6);
-    this.scene.add(key);
 
     this.resize();
   }
@@ -119,12 +59,6 @@ export class NestScene {
     const halfH = Math.tan(MathUtils.degToRad(FOV / 2)) * dist;
     const halfW = halfH * (w / h);
     return new Vector3(((x / w) * 2 - 1) * halfW, (1 - (y / h) * 2) * halfH + this.camera.position.y, zPlane);
-  }
-
-  worldUnitsPerPixel(zPlane = 0): number {
-    const dist = this.camera.position.z - zPlane;
-    const halfH = Math.tan(MathUtils.degToRad(FOV / 2)) * dist;
-    return (2 * halfH) / window.innerHeight;
   }
 
   start() {
@@ -176,37 +110,12 @@ export class NestScene {
     this.camera.rotation.z = s.camRoll;
     this.renderer.toneMappingExposure = s.exposure;
 
-    // kropla: slot w hero (px dokumentu) albo pozycja ze stanu
-    const anchor = this.bus.anchors.heroSlot;
-    let ax = s.dropX, ay = s.dropY, az = s.dropZ, ar = s.dropScale;
-    if (anchor && s.dropDetach < 1) {
-      const sw = this.screenToWorld(anchor.x, anchor.y - window.scrollY, 0);
-      const r = anchor.r * this.worldUnitsPerPixel(0);
-      const k = s.dropDetach;
-      ax = sw.x * (1 - k) + s.dropX * k;
-      ay = sw.y * (1 - k) + s.dropY * k;
-      az = 0 * (1 - k) + s.dropZ * k;
-      ar = r * (1 - k) + s.dropScale * k;
-    }
-    // lekkie podążanie za wskaźnikiem w hero
-    const follow = (1 - s.dropDetach) * p.active * 0.12;
-    this.dropPos.set(ax + (this.smoothedPointer.x - ax) * follow, ay + (this.smoothedPointer.y - ay) * follow, az);
-    this.drop.mesh.position.copy(this.dropPos);
-    const narrow = Math.min(1, Math.max(0.5, this.camera.aspect / 0.9));
-    this.drop.mesh.scale.setScalar(Math.max(0.0001, ar * (s.dropDetach > 0.5 ? narrow : 1)));
-    this.drop.mesh.visible = s.dropVisible > 0.01 && ar > 0.001;
-    this.drop.material.opacity = s.dropVisible;
-    this.drop.update(t, s.dropAmp);
-
     this.renderer.render(this.scene, this.camera);
   }
 
   dispose() {
     this.stop();
     this.threads.dispose();
-    this.drop.dispose();
-    this.envTexture.dispose();
-    this.pmrem.dispose();
     this.renderer.dispose();
   }
 }
