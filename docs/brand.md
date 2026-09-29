@@ -8,6 +8,7 @@
 - **Pozycjonowanie:** Nest Studio to studio projektowe dla founderów i firm, które chcą wyglądać na tyle, ile naprawdę są warte, bo łączy strategię, branding, web i AI w jednej pracowni, od 2014.
 - **Wyróżnik (jedno zdanie):** Studio, które projektuje markę i od razu buduje jej maszynownię.
 - **Obietnica:** Z luźnych nici splatamy jedną strukturę, w której marka może rosnąć.
+- **Idea przewodnia (od 29.09.2026, pełna strategia w `docs/copy.md`):** Splecione trzyma, luźne się rwie. Hasło: *Projektujemy marki i budujemy wszystko, co je trzyma.*
 - **Dowody (proof points):** od 2014 w branży; cztery filary w jednej pracowni (strategia, branding, www, AI); sama strona jako case study (ruch, kod, wydajność, dostępność); wybrane projekty (po akceptacji nazw i metryk: `docs/placeholders.md`).
 
 ## 2. Głos
@@ -32,7 +33,7 @@ Pięć cech (z pary "jest, a nie"):
 
 ## 3. Architektura komunikatu
 
-- **Komunikat główny:** Wyglądaj na tyle, ile jesteś wart.
+- **Komunikat główny:** Projektujemy marki i budujemy wszystko, co je trzyma. (Poprzedni, "Wyglądaj na tyle, ile jesteś wart", przeszedł do sekcji napięcia jako para Wygląd / Wartość.)
 - **Wspierające:** (1) Jedna pracownia: strategia, branding, www, AI. (2) Strona, która jest dowodem, a nie obietnicą. (3) Automatyzacje, które widać w działaniu, nie w prezentacji. (4) Od 2014, konkretne projekty, jasny proces.
 - **Pitch 10 s:** Nest Studio projektuje markę i od razu buduje jej maszynownię: identyfikację, stronę i automatyzacje AI.
 - **Pitch 30 s:** Większość firm wygląda słabiej, niż jest. My domykamy tę lukę: strategia, identyfikacja, strona i automatyzacje w jednej pracowni, od 2014. Zamiast czterech wykonawców, jedna struktura, w której marka rośnie. Zacznij od rozmowy.

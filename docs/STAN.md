@@ -2,6 +2,10 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## 29.09.2026: nowe teksty (gałąź roboczy worktree, niewypchnięte)
+
+Wszystkie teksty PL i EN napisane od nowa wokół jednej idei: **splecione trzyma, luźne się rwie**. Hero: "Projektujemy marki / i budujemy wszystko, / co je trzyma." Strategia, łuk narracji i uzasadnienia: `docs/copy.md`. Nowe: polska typografia (sieroty wiązane twardą spacją, `src/content/typography.ts`), testy zakazów stylu. Do decyzji Filipa: liczby i opisy projektów oraz obietnice procesu (`docs/placeholders.md`).
+
 ## Gdzie jesteśmy (28.09.2026, wieczór)
 
 **K1 do K6 zrobione: strona działa w całości, zweryfikowana w przeglądarce, gotowa do deployu.** Szczegóły pomiarów: `docs/verification.md`. Lighthouse (renderowanie programowe): desktop perf 0,80, a11y/BP/SEO 1,0; mobile perf 0,55 (analiza: D14). Decyzje dodane w tej sesji: D13 (scena na dotyku po geście), D14 (preloader zostaje, LCP mobile to podmiana fontu).

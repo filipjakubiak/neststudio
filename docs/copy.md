@@ -1,211 +1,246 @@
-# Nest Studio: teksty (PL główny, EN pod `/en`)
+# Nest Studio: strategia komunikacji i teksty (PL główny, EN pod `/en`)
 
-> Etap 3 wg CLAUDE.md. Najpierw tu, potem w `src/content/pl.ts` i `src/content/en.ts`. Zasady głosu: `docs/brand.md`. Zero em-dash. Zero słów zakazanych. Placeholdery oznaczone `[PH]` i opisane w `docs/placeholders.md`.
->
-> **Osoba gramatyczna:** studio mówi "my" (tak mówią pracownie i tak brzmi zaproszenie do wspólnej roboty). Sekcja "Studio" mówi "ja", bo za Nest Studio stoi jedna osoba i nie udajemy korporacji. Konsekwentnie: "my" wszędzie poza tą sekcją.
->
-> **Eyebrow (mono labelki) tylko w czterech miejscach:** hero, showreel, usługi, kontakt. Reszta sekcji niesie się nagłówkiem.
+> Wersja 2 (29.09.2026), zastępuje pierwszy zestaw tekstów z K1. Najpierw strategia, potem teksty sekcja po sekcji. Źródło prawdy dla kodu: `src/content/pl.ts` i `src/content/en.ts`; ten dokument mówi, **dlaczego** tak brzmią. Głos i znak: `docs/brand.md`. Wszystko, czego nie da się udowodnić, jest w `docs/placeholders.md`.
 
-## 0. Meta
+---
+
+## Część I. Strategia
+
+### 1. Pozycjonowanie
+
+**Nest Studio to pracownia, która projektuje markę i sama buduje to, co ją niesie: strategię, identyfikację, stronę i automatyzacje AI. Dla founderów i firm, które urosły szybciej niż ich wizerunek. Dlatego, że wszystkie cztery warstwy powstają w jednych rękach, więc nic nie gubi się na styku.**
+
+Wersja robocza jednym zdaniem: *Projektujemy marki i budujemy wszystko, co je trzyma.*
+
+### 2. Idea przewodnia (jedna, używana oszczędnie)
+
+**Splecione trzyma. Luźne się rwie.**
+
+Gniazdo nie jest mocne dzięki jednej gałązce, tylko dzięki splotowi. Firma nie wygląda solidnie dzięki jednemu dobremu logo, tylko dzięki temu, że logo, strona, oferta i codzienna obsługa klienta są jedną strukturą. To zdanie łączy trzy rzeczy, które już są na ekranie: tło (chaos nici, który scroll splata w gniazdo), obiekt z chromu (żywe centrum, które ta struktura trzyma) i realny wyróżnik studia (cztery usługi z jednej ręki).
+
+Zasady użycia metafory:
+- **Czasowniki, nie ozdobniki.** "Trzyma", "splata", "rwie się", "wisi luzem". Nigdy "magia splotu", nigdy ptaki, nigdy "przytulne gniazdko".
+- **Najwyżej jeden obraz na sekcję**, a w części sekcji zero (projekty, AI demo, FAQ mówią konkretem).
+- **Słowo "gniazdo" nie pada w tekstach ani razu.** Gniazdo widać w tle, więc nazywanie go byłoby tłumaczeniem dowcipu. Zostaje w nazwie studia i w obrazie.
+- "Maszynownia" to termin, nie druga metafora: oznacza warstwę automatyzacji i pojawia się tylko tam, gdzie o niej mowa (showreel, proces).
+
+### 3. Odbiorca i jego prawdziwe napięcie
+
+Founder albo właściciel firmy usługowej lub produktowej, zwykle 5 do 50 osób. Firma działa dobrze: ma klientów, polecenia, zespół. Problem nie jest w produkcie, tylko w tym, jak firma wygląda i jak pracuje z zewnątrz:
+
+- **Wizerunek został w tyle.** Logo z pierwszego roku, strona robiona trzy lata temu przez kogoś innego, oferty składane w Wordzie. Każdy element osobno jest "w porządku", razem nie pasują.
+- **Koszt jest ukryty, ale realny.** Klient ocenia firmę, zanim przeczyta ofertę. Niespójność płaci się zaufaniem, niższą stawką i czasem spędzonym na tłumaczeniu, kim się jest.
+- **Zmęczenie wykonawcami.** Grafik oddaje pliki, programista robi po swojemu, automatyzacje dokłada ktoś trzeci. Founder jest jedynym, kto spina całość, i ma tego dość.
+- **Ręczna robota.** Te same maile, te same oferty, te same faktury przepisywane co tydzień.
+
+Czego się boi: że wyda pieniądze na "ładne", które nic nie zmieni; że znowu będzie tłumaczył to samo trzem osobom. Czego chce: jednego partnera, który rozumie całość i robi to porządnie.
+
+### 4. Dowody, które możemy uczciwie podać
+
+| Dowód | Źródło | Gdzie na stronie |
+|---|---|---|
+| Od 2014 w branży (lata liczone automatycznie) | BRIEF §1 | eyebrow hero, preloader, studio |
+| Cztery warstwy z jednej ręki: strategia, branding, www, AI | BRIEF §1 | hero lead, usługi, FAQ |
+| Ta strona jako próbka: ruch, scena 3D, kod, dostępność | sama strona | showreel, usługi (web), FAQ |
+| AI pokazane w działaniu, nie opisane | sekcja AI demo | AI demo |
+| Perun Tac: strona PL/EN + własny panel CMS, z którego 3 osoby po stronie klienta publikują szkolenia i terminy | notatki projektowe Filipa (CMS wdrożony 26.08.2026) | projekty **[do akceptacji]** |
+| TCC Global: nowa strona oparta na ruchu, w dwóch kierunkach dla zarządu | notatki projektowe Filipa (Lens, Lumen) | projekty **[do akceptacji]** |
+| Oboda Group: koncepcja nowej strony, 9 kategorii zamienionych na 5 ścieżek według roli w gabinecie | notatki projektowe Filipa (faza 1) | projekty **[do akceptacji]** |
+| Rozmawiasz z osobą, która projektuje | charakter studia (jedna osoba) | studio |
+
+Czego **nie** piszemy, bo nie mamy źródła: liczby klientów, wzrostów konwersji, nagród, opinii, czasu realizacji w tygodniach, stawek. Proces (rozmowa, wycena na piśmie, harmonogram z datami, wsparcie po wdrożeniu) jest opisany ogólnie i czeka na potwierdzenie Filipa (`docs/placeholders.md`).
+
+### 5. Zasady tonu
+
+Głos: pewny, konkretny, spokojny. Mówimy jak dobry rzemieślnik do klienta, któremu nie trzeba nic wmawiać.
+
+| Rób | Przykład | Nie rób | Przykład |
+|---|---|---|---|
+| Rzeczownik i czasownik | "Logo z pierwszego roku. Strona sprzed trzech lat." | Przymiotniki-wypełniacze | "Kompleksowe, innowacyjne rozwiązania" |
+| Krótkie zdania z ciężarem | "Firma urosła. Wizerunek nie." | Zdania-kiełbasy | "W dzisiejszym dynamicznym świecie..." |
+| Mów, jak coś działa | "AI przygotowuje, człowiek zatwierdza." | Mistyka | "Odkryj magię AI" |
+| Nazwij koszt wprost | "Ta luka kosztuje: zaufanie, stawki..." | Straszenie | "Tracisz klientów każdego dnia" |
+| Ty do odbiorcy, my o studiu, ja w sekcji Studio | "Rozmawiasz z tym, kto zrobi robotę." | "Państwo", korporacyjne "nasz zespół ekspertów" | |
+| Kropka, przecinek, dwukropek | "Tyle, ile wynika z zakresu." | Myślniki, wykrzykniki, pytania retoryczne na otwarcie | "Chcesz więcej klientów?!" |
+
+Zakazy twarde (pilnuje ich `tests/content.test.ts`): em-dash i en-dash, wykrzykniki, "innowacyjny", "kompleksowy", "dedykowany", "pasja", "najwyższej jakości", "cutting-edge", "seamless", "elevate", "unleash", "game-changer", konstrukcja "nie jesteśmy tylko X, jesteśmy Y", trójki przymiotników.
+
+**Typografia polska:** jednoliterowe spójniki i przyimki (i, a, o, u, w, z) są wiązane twardą spacją z następnym słowem. Robi to automatycznie `src/content/typography.ts` dla całego słownika PL (poza polami trafiającymi do URL-i). Pojedyncze frazy, które nie mogą się rozpaść (np. "Nic nie wisi luzem."), mają twarde spacje wpisane ręcznie.
+
+**Osoba gramatyczna:** studio mówi "my", sekcja Studio mówi "ja" (za studiem stoi jedna osoba, a jej obecność jest dowodem, nie problemem). Do odbiorcy zawsze "ty".
+
+### 6. Łuk narracji (co czytelnik ma poczuć i w co uwierzyć po każdej sekcji)
+
+| # | Sekcja | Tło i chrom | Po tej sekcji czytelnik czuje | ...i wierzy, że |
+|---|---|---|---|---|
+| 1 | Hero | luźne nici w dryfie, chrom w środku zdania | skalę, pewność | to studio robi całość: markę i to, co ją trzyma |
+| 2 | Napięcie | rozsypane litery "Wygląd" wracają na miejsce | rozpoznanie ("to o mnie") | luka między wyglądem a wartością kosztuje i da się ją domknąć; luźne się rwie, splecione trzyma |
+| 3 | Showreel (peak) | tunel nici, chrom rośnie | dreszcz | to, co widzi, jest dowodem umiejętności, nie obietnicą |
+| 4 | Projekty | cięcie na biel, nici jako tusz | zaufanie | są prawdziwe firmy i konkretny zakres, bez nadmuchanych liczb |
+| 5 | Usługi | cztery pasma | jasność | może wziąć jedną nić, ale najmocniej działają razem |
+| 6 | AI demo | przepływ składa się sam | sprawczość | automatyzacja to konkretne kroki w jego firmie, a decyzja zostaje u człowieka |
+| 7 | Proces | jedna nić przez pięć stacji | spokój, pewność | wie, co się stanie po kolei i co dostanie na piśmie |
+| 8 | Studio | portret, paralaksa | bliskość | będzie rozmawiał z osobą, która robi robotę |
+| 9 | FAQ | cisza | ulgę | jego obiekcje (cena, czas, "mam już grafika") mają uczciwe odpowiedzi |
+| 10 | Kontakt | gniazdo domknięte, chrom ląduje w środku | rozstrzygnięcie | pierwszy krok jest mały: jedna rozmowa |
+
+### 7. Uzasadnienie kluczowych linii
+
+- **Hero: "Projektujemy marki / i budujemy wszystko, / co je trzyma."** Pierwsza połowa to kategoria (studio projektowe), druga to wyróżnik (budujemy, nie tylko rysujemy) i idea przewodnia w jednym czasowniku. "Wszystko" jest celowo szerokie: obejmuje stronę, automatyzacje i strategię bez wyliczanki w nagłówku (wyliczanka jest w leadzie). Chrom siedzi po słowie "wszystko,": obiekt staje się tym "wszystkim", żywym centrum, które struktura trzyma. EN: "that holds them together", bo "holds them up" po angielsku znaczy też "opóźnia".
+- **Lead: "...z jednej pracowni. Nic nie wisi luzem." / "No loose ends."** Idiom z nicią w obu językach, a jednocześnie obietnica procesu: nic nie zostaje niedokończone ani przerzucone na klienta.
+- **Napięcie: "Firma urosła. Wizerunek nie."** Zastępuje ogólne "firmy wyglądają słabiej, niż są". Czytelnik nie musi się zgadzać z tezą o "większości firm", tylko rozpoznaje własną sytuację. Pary słów "Wygląd / Wartość" (EN "Looks / Worth") mają aliterację i są krótkie, co jest ważne dla rozsypanych liter.
+- **"Logo z pierwszego roku. Strona sprzed trzech lat. Oferty w Wordzie."** Inwentarz zamiast diagnozy. Trzy przedmioty, które każdy founder ma w szufladzie.
+- **"Luźne nici się rwą. / Splecione trzymają."** Jedyne miejsce, gdzie idea przewodnia pada wprost, dokładnie w momencie, gdy na ekranie rozsypane litery się układają. Zastępuje "Nie egzekucja. Nie osobne usługi.", które było budowane na wzorcu "nie X, tylko Y".
+- **Showreel: "To nie jest film."** Zostaje, bo jest prawdą i dobrym zaczepem. Cięcia opisują rzemiosło, a nie zachwyt: "Litery zamiast zdjęć", "Metal, który nie stygnie", "Z chaosu w splot".
+- **Projekty: "Co było do zrobienia i co zrobiliśmy."** Uczciwe wobec braku metryk. Zamiast wymyślonych procentów: liczby, które są faktami projektu (3 redaktorów, 2 kierunki, 9 → 5 kategorii).
+- **Usługi: "Cztery nici. Jeden splot."** Skrót całej oferty. Nota pod pasmami ("Każdą nić można wziąć osobno. Najmocniej trzymają splecione.") zdejmuje lęk przed dużym projektem.
+- **Proces: "Jedna nić, pięć etapów."** Nazywa to, co widać: jedna linia rysuje się przez pięć stacji.
+- **Studio: "Rozmawiasz z tym, kto zrobi robotę."** Zamienia potencjalną słabość (jedna osoba) w główny argument. Imię i nazwisko pada w pierwszym zdaniu akapitu.
+- **FAQ: "Zanim napiszesz".** Nagłówek prowadzi do kontaktu. Nowe pytanie "Po co mi jedna pracownia, skoro mam grafika i programistę?" to najczęstsza obiekcja wobec pozycjonowania, więc dostaje własną odpowiedź.
+- **Kontakt: "Zacznijmy od pierwszej nici."** Finał domyka obraz: gniazdo na ekranie jest gotowe, a zaproszenie jest małe i konkretne. Zastępuje dosłowne "Zbudujmy gniazdo dla twojej marki".
+
+---
+
+## Część II. Teksty sekcja po sekcji
+
+Twarde spacje są w kodzie; tu zapis zwykły.
+
+### 0. Meta i SEO (`src/lib/metadata.ts` czyta je z `content.meta`)
 
 | | PL | EN |
 |---|---|---|
 | title | Nest Studio: branding, strony www i automatyzacje AI | Nest Studio: branding, websites and AI automation |
-| description | Studio projektowe Filipa Jakubiaka, od 2014. Strategia marki, identyfikacja, strony www i automatyzacje AI w jednej pracowni. | Filip Jakubiak's design studio, since 2014. Brand strategy, identity, websites and AI automation in one workshop. |
-| og:title | Wyglądaj na tyle, ile jesteś wart. | Look like what you are worth. |
+| description | Studio projektowe Filipa Jakubiaka, od 2014. Strategia marki, identyfikacja, strony www i automatyzacje AI z jednej pracowni, więc nic nie wisi luzem. | Filip Jakubiak's design studio, since 2014. Brand strategy, identity, websites and AI automation from one studio, with no loose ends. |
+| og:title | Projektujemy marki i budujemy wszystko, co je trzyma. | We design brands and build everything that holds them together. |
 
-## 1. Preloader
+### 1. Nawigacja i preloader
 
-| PL | EN |
-|---|---|
-| licznik: `2014` → `{rok bieżący}` (mono) | same |
-| pod licznikiem: `Nest Studio` | same |
-| dostępność: `aria-label="Ładowanie strony"`, `aria-busy` | `Loading` |
+Bez zmian: Projekty · Usługi · Proces · Studio · Kontakt / Work · Services · Process · Studio · Contact. CTA: Rozpocznij projekt / Start a project (ta sama etykieta w nav, hero i kontakcie). "Zdalnie, z Polski" / "Remote, from Poland".
 
-## 2. Nawigacja
+### 2. Hero
 
 | Element | PL | EN |
 |---|---|---|
-| wordmark | Nest Studio | Nest Studio |
-| linki (overlay) | Projekty · Usługi · Proces · Studio · Kontakt | Work · Services · Process · Studio · Contact |
-| CTA | Rozpocznij projekt | Start a project |
-| przełącznik | PL / EN (`aria-label="Zmień język"`) | PL / EN (`aria-label="Change language"`) |
-| menu | `aria-label="Menu"` / `"Zamknij menu"` | `Menu` / `Close menu` |
-| overlay, stopka menu | mail `[PH]`, "Zdalnie, z Polski" | email `[PH]`, "Remote, from Poland" |
+| eyebrow | Studio projektowe, od 2014 | Design studio, since 2014 |
+| h1 (3 linie, chrom po linii 2, `dropAfterLine: 1`) | Projektujemy marki / i budujemy wszystko, / co je trzyma. | We design brands / and build everything / that holds them together. |
+| lead | Strategia, identyfikacja, strona i automatyzacje AI z jednej pracowni. Nic nie wisi luzem. | Strategy, identity, website and AI automation, all from one studio. No loose ends. |
+| CTA | Rozpocznij projekt · Zobacz projekty | Start a project · See the work |
 
-## 3. Hero
+### 3. Napięcie
 
 | Element | PL | EN |
 |---|---|---|
-| eyebrow (1/4) | Studio projektowe, od 2014 | Design studio, since 2014 |
-| h1 (3 linie, kropla chromu po słowie "wyglądają" / "look") | Projektujemy marki, / które wyglądają / na tyle, ile są warte. | We design brands / that look like / what they are worth. |
-| lead (≤ 20 słów) | Strategia, identyfikacja, strona i automatyzacje AI. Jedna pracownia, jedna struktura. | Strategy, identity, website and AI automation. One workshop, one structure. |
-| CTA primary | Rozpocznij projekt | Start a project |
-| CTA ghost | Zobacz projekty | See the work |
+| h2 | Firma urosła. Wizerunek nie. | The company grew. Its image didn't. |
+| lewa: labelka / słowo (rozsypane) | jak cię widzą / Wygląd | how you are seen / Looks |
+| prawa: labelka / słowo | ile jesteś wart / Wartość | what you are worth / Worth |
+| zdanie h3 | Logo z pierwszego roku. Strona sprzed trzech lat. Oferty w Wordzie. | A logo from year one. A three-year-old website. Proposals in Word. |
+| akapit | Każdą część robił ktoś inny i w innym czasie, więc nic do siebie nie pasuje. Klient widzi to, zanim przeczyta ofertę. Ta luka kosztuje: zaufanie, stawki i godziny tłumaczenia, kim jesteś. | Each part was made by someone else, at a different time, so nothing matches. A client sees it before reading a word of your proposal. That gap has a price: trust, rates, and hours spent explaining who you are. |
+| zamknięcie (2 linie) | Luźne nici się rwą. / Splecione trzymają. | Loose threads snap. / Woven ones hold. |
 
-Uwaga do h1: 6 słów w wersie maksymalnie; na telefonie łamanie zostaje takie samo, rozmiar schodzi do `--t-h1`.
-
-## 4. Napięcie (split stage)
-
-| Element | PL | EN |
-|---|---|---|
-| h2 | Większość firm wygląda słabiej, niż jest. | Most companies look weaker than they are. |
-| lewa kolumna, labelka | jak wyglądasz | how you look |
-| lewa kolumna, słowo (znaki rozsypane) | Widoczność | Visibility |
-| prawa kolumna, labelka | ile jesteś wart | what you are worth |
-| prawa kolumna, słowo (znaki stałe) | Wartość | Worth |
-| zdanie "ty" (jedyne w drugiej osobie poza CTA) | Twoja pewnie też. Tę lukę da się domknąć. | Yours probably does too. That gap can be closed. |
-| akapit | Luka między tym, jak firma wygląda, a tym, ile jest warta, kosztuje: zaufanie, ceny, czas rozmów. Domykamy ją strategią, identyfikacją, stroną i maszynownią, która robi robotę za ciebie. | The gap between how a company looks and what it is worth has a price: trust, pricing power, time spent explaining. We close it with strategy, identity, a website and an engine room that does the work for you. |
-| stan końcowy (po domknięciu, obie kolumny) | Nie egzekucja. Nie osobne usługi. Jedna struktura. | Not execution. Not separate services. One structure. |
-
-## 5. Showreel (peak)
+### 4. Showreel (peak)
 
 | Element | PL | EN |
 |---|---|---|
-| eyebrow (2/4) | Showreel, renderowany na żywo | Showreel, rendered live |
-| h2 (przed wejściem w pin) | To nie jest film. | This is not a video. |
-| lead | Ten reel renderuje się na żywo z tej samej sceny, na której stoi strona. Scroll jest jego suwakiem. | This reel renders live from the same scene the site stands on. Your scroll is the scrubber. |
-| cięcia (labelki w playerze, bez numerów) | Typografia · Chrom · Nici · Web · Automatyzacje | Type · Chrome · Threads · Web · Automation |
-| teksty cięć (po jednym zdaniu, wchodzą w głąb) | Typografia gra rolę obrazu. / Metal, który się nie zatrzymuje. / Tysiące nici. Jeden splot. / Strony, które są dowodem. / Maszynownia, którą widać. | Type does the work of an image. / Metal that never settles. / Thousands of threads. One weave. / Websites that are the proof. / An engine room you can see. |
-| player | `00:00:00` mono, Odtwórz / Zatrzymaj, `aria-label="Odtwórz showreel"` | `Play` / `Pause`, `aria-label="Play showreel"` |
-| gdy jest film [PH] | labelki metadanych z pliku: czas, rozdzielczość | same |
+| eyebrow | Showreel, renderowany na żywo | Showreel, rendered live |
+| h2 | To nie jest film. | This is not a video. |
+| lead | Wszystko, co tu widzisz, powstaje na żywo w twojej przeglądarce. Scroll jest suwakiem. | Everything you see here is rendered live, in your browser. Your scroll is the scrubber. |
+| cięcia (labelka: linia) | Typografia: Litery zamiast zdjęć. · Chrom: Metal, który nie stygnie. · Nici: Z chaosu w splot. · Web: Strona jest dowodem. · Automatyzacje: Maszynownia, którą widać. | Type: Letters instead of footage. · Chrome: Metal that never cools. · Threads: From tangle to weave. · Web: The site is the proof. · Automation: An engine room in plain sight. |
+| player | Odtwórz / Zatrzymaj | Play / Pause |
 
-## 6. Wybrane projekty (biały blok)
+### 5. Wybrane projekty (biały blok) **[wszystkie dane do akceptacji Filipa]**
 
 | Element | PL | EN |
 |---|---|---|
 | h2 | Wybrane projekty | Selected work |
-| lead | Metryka na pierwszym planie. Pełne case study na życzenie. | The metric first. Full case study on request. |
+| lead | Co było do zrobienia i co zrobiliśmy. Pełne case study pokażemy na rozmowie. | What needed doing, and what we did. Full case studies on a call. |
 | link | Poproś o pełne case study | Ask for the full case study |
 
-Arkusze (struktura; dane `[PH]` do akceptacji Filipa, patrz D12):
+| Projekt | Zakres | Liczba / opis liczby | Rok | Opis PL | Opis EN |
+|---|---|---|---|---|---|
+| Perun Tac | Branding · Strona · CMS | 3 / redaktorów prowadzi stronę z własnego panelu | 2026 | Szkolenia strzeleckie i taktyczne z Wrocławia. Strona w dwóch językach i panel, w którym zespół sam publikuje szkolenia i terminy. | Firearms and tactical training in Wrocław. A bilingual website and a panel where the team publishes courses and dates on its own. |
+| TCC Global | Strona · Motion | 2 / kierunki nowej strony do wyboru | 2026 | Programy lojalnościowe dla sieci handlowych i marek. Nowa strona opowiedziana ruchem, w dwóch kierunkach do decyzji zarządu. | Loyalty programmes for grocery retailers and brands. A new website told through motion, in two directions for the board to decide on. |
+| Oboda Group | Redesign · Architektura treści | 9 → 5 / kategorii zamienionych na ścieżki według roli | 2026 | Szkolenia i doradztwo dla stomatologii. Koncepcja nowej strony, na której lekarz, asystentka i właściciel gabinetu od razu trafiają do swojej oferty. | Training and consulting for dentistry. A concept for a new site where dentists, assistants and practice owners each land on their own offer. |
 
-| Pole | Projekt 1 | Projekt 2 | Projekt 3 |
-|---|---|---|---|
-| nazwa | Perun Tac [PH] | TCC Global [PH] | Oboda Group [PH] |
-| zakres (chipy) | Branding · Strona · CMS | Strona | Redesign |
-| metryka (mono, duża) | metryka do uzupełnienia [PH] | metryka do uzupełnienia [PH] | metryka do uzupełnienia [PH] |
-| opis metryki | np. "wzrost zapytań w 3 miesiące" [PH] | [PH] | [PH] |
-| rok | [PH] | [PH] | [PH] |
-| jedno zdanie | Identyfikacja, strona i CMS dla marki wyposażenia taktycznego. [PH do potwierdzenia] | Strona dla firmy szkoleniowo-doradczej. [PH do potwierdzenia] | Redesign strony grupy. [PH do potwierdzenia] |
-| EN nazwa/opis | same names; "Identity, website and CMS for a tactical equipment brand." / "Website for a training and consulting company." / "Group website redesign." | | |
-
-## 7. Usługi (akordeon poziomy)
+### 6. Usługi
 
 | Element | PL | EN |
 |---|---|---|
-| eyebrow (3/4) | Usługi | Services |
-| h2 | Cztery nici. Jedna struktura. | Four threads. One structure. |
+| eyebrow / h2 | Usługi / Cztery nici. Jeden splot. | Services / Four threads. One weave. |
+| Strategia marki | Pozycjonowanie, komunikacja, architektura marki. Ustalamy, co mówisz, komu i dlaczego właśnie ty. Dopiero potem rysujemy. | Brand strategy: Positioning, messaging, brand architecture. We settle what you say, to whom, and why it should be you. Only then do we draw. |
+| Branding | Znak, typografia, kolor, zasady i gotowe pliki. System, z którego twój zespół korzysta od pierwszego dnia, bez dzwonienia do nas. | Mark, type, colour, rules and ready files. A system your team can use from day one without calling us. |
+| Strony www | Projekt i kod z jednej ręki. Szybkie, dostępne, z ruchem tylko tam, gdzie coś wyjaśnia. Ta strona jest próbką. | Websites: Design and code by the same hands. Fast, accessible, with motion only where it explains something. This site is the sample. |
+| AI i automatyzacje | Zapytania, oferty, faktury, obsługa klienta. Przepływy AI podpięte do narzędzi, których już używasz. Człowiek zatwierdza, maszyna robi resztę. | AI and automation: Inquiries, proposals, invoices, customer support. AI flows wired into the tools you already use. A person approves, the machine does the rest. |
+| nota | Każdą nić można wziąć osobno. Najmocniej trzymają splecione. | Each thread can be taken on its own. They hold best woven together. |
 
-| Pasmo | PL tytuł | PL opis | EN tytuł | EN opis |
-|---|---|---|---|---|
-| 1 | Strategia marki | Pozycjonowanie, komunikacja, architektura marki. Zanim cokolwiek narysujemy, wiemy, po co i dla kogo. | Brand strategy | Positioning, messaging, brand architecture. Before we draw anything, we know why and for whom. |
-| 2 | Branding | Znak, typografia, kolor, zasady i pliki. System, którego twój zespół użyje od pierwszego dnia. | Branding | Mark, typography, colour, rules and files. A system your team can use from day one. |
-| 3 | Strony www | Projekt i kod. Szybkie, dostępne, z ruchem, który coś znaczy. Taka jak ta. | Websites | Design and code. Fast, accessible, with motion that means something. Like this one. |
-| 4 | AI i automatyzacje | Wdrożenia AI i automatyzacje procesów: zapytania, oferty, faktury, obsługa. Maszynownia, którą widać w działaniu. | AI and automation | AI deployments and process automation: inquiries, proposals, invoices, support. An engine room you can watch working. |
-
-Lista pod pasmami (mono, drobna): "Możesz wziąć jedną nić. Najlepiej działają splecione." / "You can take one thread. They work best woven together."
-
-## 8. AI demo (żywa powierzchnia)
+### 7. AI demo
 
 | Element | PL | EN |
 |---|---|---|
-| h2 | Automatyzacja, którą widać. | Automation you can see. |
-| lead | Wybierz proces, który dziś robisz ręcznie. Przepływ złoży się sam. | Pick a process you do by hand today. The flow assembles itself. |
-| presety (chipy) | Zapytanie z formularza · Nowa faktura · Oferta dla klienta · Wpis do social mediów | Form inquiry · New invoice · Client proposal · Social media post |
-| przycisk | Uruchom przepływ | Run the flow |
-| status | Gotowe · Pracuje · Zakończone | Ready · Running · Done |
-| adnotacja (mono) | Demo działa na przykładowych danych. We wdrożeniu łączymy przepływ z twoimi narzędziami. | Demo runs on sample data. In deployment we connect the flow to your tools. |
+| h2 | Automatyzacja, którą widać. | Automation you can watch. |
+| lead | Wybierz proces, który dziś ktoś u ciebie robi ręcznie, i uruchom przepływ. | Pick a process someone on your team still does by hand, and run the flow. |
+| przycisk / statusy | Uruchom przepływ · Gotowe / Pracuje / Zakończone | Run the flow · Ready / Running / Done |
+| adnotacja | Demo działa na przykładowych danych. Przy wdrożeniu podpinamy przepływ pod twoje narzędzia. | The demo runs on sample data. In a real deployment we connect the flow to your tools. |
+| presety | Zapytanie z formularza · Nowa faktura · Oferta dla klienta · Post w social mediach | Form inquiry · New invoice · Client proposal · Social media post |
 
-Słownik węzłów (etykiety w interfejsie): Wyzwalacz, Odczyt, Klasyfikacja, Wersja robocza, Sprawdzenie, CRM, E-mail, Dokument, Kalendarz, Powiadomienie / Trigger, Read, Classify, Draft, Review, CRM, Email, Document, Calendar, Notify.
+Kroki przepływów: w kodzie (po 5 na preset, pilnuje test). Język interfejsu, nie marketingu: "Szkic odpowiedzi w tonie twojej marki", "Dokument czeka na twoją akceptację".
 
-Przepływy (log, po jednej linii na krok):
-
-| Preset | Kroki PL | Kroki EN |
-|---|---|---|
-| Zapytanie z formularza | Nowe zgłoszenie z formularza / Klasyfikacja: oferta, wsparcie, spam / Wpis do CRM z podsumowaniem / Wersja robocza odpowiedzi w twoim tonie / Powiadomienie z jednym przyciskiem: wyślij | New form submission / Classify: sales, support, spam / CRM entry with summary / Reply draft in your tone / Notification with one button: send |
-| Nowa faktura | Faktura z e-maila lub skrzynki / Odczyt danych: kontrahent, kwota, termin / Dopasowanie do zamówienia / Wpis do księgowości / Przypomnienie przed terminem | Invoice from email or inbox / Read the data: vendor, amount, due date / Match to purchase order / Post to accounting / Reminder before due date |
-| Oferta dla klienta | Notatka ze spotkania / Wyciągnięcie zakresu i założeń / Wersja robocza oferty z twojego szablonu / Sprawdzenie cen i terminów / Dokument do twojej akceptacji | Meeting notes / Extract scope and assumptions / Proposal draft from your template / Check pricing and dates / Document for your approval |
-| Wpis do social mediów | Nowy projekt w portfolio / Trzy wersje wpisu w tonie marki / Dobór grafiki z systemu / Kolejka publikacji / Raport po tygodniu | New project in the portfolio / Three post drafts in the brand voice / Visual picked from the system / Publishing queue / Report after a week |
-
-## 9. Proces (nić przez pięć stacji)
+### 8. Proces
 
 | Element | PL | EN |
 |---|---|---|
-| h2 | Jak to wygląda | How it works |
+| h2 | Jedna nić, pięć etapów. | One thread, five stages. |
+| Rozmowa | O firmie, klientach i o tym, co dziś zjada najwięcej czasu. Po niej dostajesz zakres i wycenę na piśmie. | Conversation: About the company, your clients and what eats most of your time. Afterwards you get a written scope and quote. |
+| Strategia | Pozycjonowanie i komunikacja spisane na kilku stronach. Ten dokument rozstrzyga potem każdy spór o kolor i słowo. | Positioning and messaging on a few pages. Later, that document settles every argument about a colour or a word. |
+| Projekt | Identyfikacja i projekt strony. Pokazujemy kierunki, wybieramy jeden i dopracowujemy go razem z tobą. | Design: Identity and website design. We show directions, choose one and refine it with you. |
+| Budowa | Kod, treści, wdrożenie. Strona powstaje tam, gdzie ją zaprojektowano, więc nic nie ginie przy przekazaniu. | Build: Code, content, launch. The site is built where it was designed, so nothing gets lost in the handover. |
+| Maszynownia | Automatyzacje i AI podpięte do twoich narzędzi. Uruchamiamy je, uczymy zespół i zostajemy na wsparcie. | Engine room: Automation and AI wired into your tools. We launch it, train the team and stay on for support. |
 
-| Stacja | PL tytuł | PL opis | EN tytuł | EN opis |
-|---|---|---|---|---|
-| Rozmowa | Rozmowa | Godzina o tym, co robisz, dla kogo i co dziś robisz ręcznie. Po niej dostajesz zakres i wycenę. | Conversation | An hour on what you do, for whom, and what you still do by hand. You get a scope and a quote after it. |
-| Strategia | Strategia | Pozycjonowanie, komunikacja, architektura. Krótki dokument, który potem trzyma wszystko w ryzach. | Strategy | Positioning, messaging, architecture. A short document that keeps everything in line later. |
-| Projekt | Projekt | Identyfikacja i projekt strony. Pokazujemy kierunki, wybieramy jeden, dopracowujemy. | Design | Identity and website design. We show directions, pick one, refine it. |
-| Budowa | Budowa | Kod, treści, wdrożenie. Szybko, dostępnie, z ruchem, który coś znaczy. | Build | Code, content, launch. Fast, accessible, with motion that means something. |
-| Maszynownia | Maszynownia | Automatyzacje i AI podpięte do twoich narzędzi. Uruchamiamy, uczymy zespół, zostajemy na wsparcie. | Engine room | Automation and AI wired into your tools. We launch, train the team, stay for support. |
-
-## 10. Studio (o Filipie, pierwsza osoba)
+### 9. Studio (pierwsza osoba)
 
 | Element | PL | EN |
 |---|---|---|
-| h2 | Za studiem stoi Filip Jakubiak. | Behind the studio is Filip Jakubiak. |
-| akapit 1 | Projektuję od 2014. Zaczynałem od identyfikacji, potem doszły strony, a od kilku lat automatyzacje i AI, bo marka bez maszynowni to tylko obrazek. | I have been designing since 2014. I started with identity, then came websites, and for the last few years automation and AI, because a brand without an engine room is just a picture. |
-| akapit 2 | Pracuję sam albo z małym zespołem dobranym do projektu. Rozmawiasz ze mną, nie z opiekunem klienta. | I work alone or with a small team picked for the project. You talk to me, not to an account manager. |
-| liczby (mono, liczone) | {lata} lat w branży · od 2014 | {years} years in the field · since 2014 |
-| zdjęcie | portret [PH], alt: "Filip Jakubiak, Nest Studio" | same |
+| h2 | Rozmawiasz z tym, kto zrobi robotę. | You talk to the person who does the work. |
+| akapit 1 | Jestem Filip Jakubiak, projektuję od 2014 roku. Zaczynałem od identyfikacji, potem doszły strony, a dziś także automatyzacje i AI. Robię je razem, bo osobno się rozjeżdżają. | I'm Filip Jakubiak, and I have been designing since 2014. I started with identity, then came websites, and now automation and AI as well. I do them together, because apart they drift. |
+| akapit 2 | Pracuję sam albo z małym zespołem dobranym do projektu. Nie ma opiekuna klienta ani briefu podawanego dalej. Kto z tobą rozmawia, ten projektuje. | I work alone or with a small team picked for the project. No account manager, no brief passed down the line. The person you talk to is the person who designs. |
+| liczniki | {lata} lat w branży · od 2014 | {years} years in the field · since 2014 |
 
-## 11. FAQ
+### 10. FAQ
 
-| # | PL pytanie | PL odpowiedź | EN pytanie | EN odpowiedź |
-|---|---|---|---|---|
-| 1 | Ile kosztuje projekt? | Zależy od zakresu. Identyfikacja, strona i automatyzacje to trzy różne budżety, ale jedna wycena po rozmowie. Wyceniamy zakres, nie godziny. | How much does a project cost? | It depends on the scope. Identity, a website and automation are three different budgets, but one quote after the first call. We price the scope, not the hours. |
-| 2 | Ile to trwa? | Identyfikacja zwykle tygodnie, strona od kilku tygodni do kilku miesięcy, automatyzacje często dni. Harmonogram ustalamy przed startem i go trzymamy. | How long does it take? | Identity usually takes weeks, a website from a few weeks to a few months, automation often days. We agree the schedule before we start and we keep it. |
-| 3 | Mogę zamówić tylko stronę albo tylko automatyzację? | Tak. Każda nić działa osobno. Najlepiej działają splecione, więc zawsze powiemy, co warto dołożyć, i uszanujemy, jeśli nie teraz. | Can I order just the website or just the automation? | Yes. Each thread works on its own. They work best woven together, so we will say what is worth adding, and respect a "not now". |
-| 4 | Jak wygląda praca z AI w praktyce? | Zaczynamy od procesu, który robisz ręcznie. Budujemy przepływ na twoich narzędziach, testujemy na prawdziwych danych, uczymy zespół. AI robi robotę, człowiek akceptuje. | What does working with AI look like in practice? | We start with a process you do by hand. We build the flow on your tools, test it on real data, train the team. AI does the work, a person approves. |
-| 5 | Co dostaję na koniec? | Pliki źródłowe, system marki, kod strony, dostępy, dokumentację przepływów i instrukcje. Wszystko jest twoje. | What do I get at the end? | Source files, the brand system, the website code, access, flow documentation and instructions. All of it is yours. |
-| 6 | Czy moja strona będzie tak animowana jak ta? | Jeśli to służy marce. Ruch to narzędzie, nie ozdoba. Ta strona jest showreelem, twoja ma sprzedawać. | Will my website be as animated as this one? | If it serves the brand. Motion is a tool, not decoration. This site is a showreel, yours has to sell. |
-| 7 | Gdzie pracujecie? | Zdalnie, z Polski, po polsku i po angielsku. Spotkania online, w razie potrzeby na miejscu. | Where do you work from? | Remotely, from Poland, in Polish and English. Meetings online, on site when needed. |
+Nagłówek: **Zanim napiszesz** / **Before you write**. Osiem pytań (było siedem):
 
-## 12. Kontakt (finał)
+1. Ile kosztuje projekt? / How much does a project cost?
+2. Ile to trwa? / How long does it take?
+3. Po co mi jedna pracownia, skoro mam grafika i programistę? / Why one studio, when I already have a designer and a developer? **(nowe)**
+4. Mogę zamówić tylko stronę albo tylko automatyzację? / Can I order just the website or just the automation?
+5. Jak wygląda praca z AI w praktyce? / What does working with AI look like in practice?
+6. Co dostaję na koniec? / What do I get at the end?
+7. Czy moja strona będzie tak animowana jak ta? / Will my website be as animated as this one?
+8. Gdzie pracujecie? / Where do you work from?
 
-| Element | PL | EN |
-|---|---|---|
-| eyebrow (4/4) | Kontakt | Contact |
-| h2 | Zbudujmy gniazdo dla twojej marki. | Let's build a nest for your brand. |
-| lead | Jedna rozmowa, bez prezentacji i bez zobowiązań. Opowiedz, co robisz ręcznie i jak chcesz wyglądać. | One conversation, no deck, no strings. Tell us what you do by hand and how you want to look. |
-| CTA primary (jedyne CTA "kontakt" na stronie, ta sama etykieta co w nav i hero) | Rozpocznij projekt | Start a project |
-| link mailowy (tekst, nie przycisk) | hello@neststudio.pl [PH] | same |
-| link kalendarza (tekst, ukryty do czasu podania linku) | albo wybierz termin w kalendarzu [PH] | or pick a time in the calendar [PH] |
+Odpowiedzi w kodzie. Świadomie nie podają stawek ani liczby tygodni (brak źródła): cena i harmonogram "na piśmie, po pierwszej rozmowie".
 
-## 13. Stopka
+### 11. Kontakt (finał)
 
 | Element | PL | EN |
 |---|---|---|
-| wordmark w wielkiej skali | Nest Studio | Nest Studio |
-| kolumna Kontakt | hello@neststudio.pl [PH] · +48 000 000 000 [PH] | same |
-| kolumna Dane | Nest Studio Filip Jakubiak [PH] · NIP 000-000-00-00 [PH] · Polska | same, "Poland" |
-| kolumna Social | Instagram [PH] · LinkedIn [PH] · Behance [PH] | same |
-| nagłówek | Zapytaj o Nest Studio | Ask about Nest Studio |
-| przyciski | Claude · ChatGPT · Perplexity | same |
-| prompt w linkach | Co wiesz o Nest Studio, studiu projektowym Filipa Jakubiaka (neststudio.pl)? Czym się zajmuje i co wyróżnia? | What do you know about Nest Studio, Filip Jakubiak's design studio (neststudio.pl)? What does it do and what makes it different? |
-| dolna linia | © {rok} Nest Studio. Zaprojektowane i zbudowane w Nest Studio. | © {year} Nest Studio. Designed and built at Nest Studio. |
-| link | Polityka prywatności [PH, gdy powstanie] | Privacy policy [PH] |
+| eyebrow | Kontakt | Contact |
+| h2 | Zacznijmy od pierwszej nici. | Let's start with the first thread. |
+| lead | Jedna rozmowa, bez prezentacji i bez zobowiązań. Opowiedz, czym zajmuje się twoja firma i co dziś robicie ręcznie. Resztę ułożymy razem. | One conversation, no pitch deck, no commitment. Tell us what your company does and what you still do by hand. We will work out the rest together. |
+| CTA | Rozpocznij projekt | Start a project |
 
-## 14. Teksty systemowe
+### 12. Stopka i teksty systemowe
 
-| Klucz | PL | EN |
-|---|---|---|
-| skip link | Przejdź do treści | Skip to content |
-| rail, aria | Nawigacja po sekcjach | Section navigation |
-| reduced motion, informacja (tylko dla czytników) | Animacje wyłączone zgodnie z ustawieniami systemu. | Animations disabled according to your system settings. |
-| brak WebGL, informacja | Scena 3D niedostępna w tej przeglądarce. Treść działa bez niej. | 3D scene unavailable in this browser. The content works without it. |
-| 404 | Tej strony nie ma. Wróć na stronę główną. | This page does not exist. Go back home. |
+Bez zmian poza promptem "zapytaj AI" (dodane "dla kogo pracuje") i komunikatem o braku WebGL ("Scena 3D nie działa w tej przeglądarce. Cała treść jest dostępna bez niej.").
 
-## 15. Autoaudyt tekstów (przed wdrożeniem)
+---
 
-- [x] Zero em-dash, zero en-dash.
-- [x] Zero słów zakazanych (innowacyjny, kompleksowy, dedykowany, pasja, elevate, seamless...).
-- [x] Jedna etykieta na intencję "kontakt": "Rozpocznij projekt" (nav, hero, finał).
-- [x] Jedna etykieta na intencję "portfolio": "Zobacz projekty" (hero) i nagłówek "Wybrane projekty".
-- [x] Eyebrow: 4 na 12 sekcji.
-- [x] Hero: h1 3 linie po ≤ 5 słów, lead 11 słów, dwa CTA.
-- [x] Cytaty/opinie: brak (nie mamy prawdziwych; nie wymyślamy).
-- [x] Liczby: tylko 2014 i lata liczone z daty; metryki projektów to placeholdery.
+## Część III. Autoaudyt
+
+- [x] Zero em-dash i en-dash, zero wykrzykników, zero słów zakazanych (test automatyczny).
+- [x] Jedna idea przewodnia; słowo "gniazdo" nie pada w tekstach; metafora najwyżej raz na sekcję.
+- [x] Jedna etykieta na intencję kontaktu: "Rozpocznij projekt" (nav, hero, finał).
+- [x] Eyebrow tylko w czterech miejscach: hero, showreel, usługi, kontakt.
+- [x] Hero: 3 linie po ≤ 5 słów, `dropAfterLine: 1` bez zmian (kontrakt z pracą nad chromem).
+- [x] Brak wymyślonych klientów, metryk, opinii, nagród. Liczby w projektach to fakty z notatek projektowych, oznaczone jako placeholder do akceptacji.
+- [x] Polskie sieroty (i, a, o, u, w, z) wiązane twardą spacją.
+- [x] Sprawdzone wizualnie: desktop 1440×900 i mobile 390×844, PL i EN, każda sekcja, brak poziomego przepełnienia.
