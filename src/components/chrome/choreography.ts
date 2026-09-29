@@ -77,10 +77,10 @@ export const CHOREO: Record<string, SectionChoreo> = {
   },
 
   showreel: {
-    /* Peak: soczewka na środku kadru, pod cięciami typografii; gaśnie w cięciu na biel. */
+    /* Peak: soczewka nad cięciami typografii (wyżej i mniejsza, żeby jasne odbicia nie gasiły białych nagłówków); gaśnie w cięciu na biel. */
     pose: (p, c) => {
       const m = Math.min(c.w, c.h);
-      return base(c.w / 2, c.h * 0.5, c.desktop ? m * 1.02 : c.w * 1.05, { op: 1 - smooth((p - 0.8) / 0.12) * 0.9 });
+      return base(c.w / 2, c.h * (c.desktop ? 0.4 : 0.38), c.desktop ? m * 0.8 : c.w * 0.9, { op: 1 - smooth((p - 0.8) / 0.12) * 0.9 });
     },
   },
 

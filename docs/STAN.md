@@ -2,6 +2,10 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## 29.09.2026 wieczór: gałąź `nest-chrome-remotion` (scalenie trzech strumieni)
+
+Wersja z chromem + nowe teksty + nowe gniazdo + chrom z Remotion, scalone i sprawdzone razem na GPU (Chrome, RX 9070 XT): desktop 1440×900 i mobile 390×844, 10 sekcji, klatki 0 → 239 bez cofania, zero błędów konsoli. Po scaleniu: soczewka w showreelu podniesiona i zmniejszona (nie gasi białych nagłówków), martwe `dropDetail` usunięte, `agentRules: false` w next.config. Znane drobiazgi: na telefonie w Kontakcie kropla ląduje nad nagłówkiem, nie w środku gniazda; przez chwilę w showreelu na telefonie soczewka nachodzi na "To nie jest film."; nić w sekcjach środkowych subtelna (180 do 250 px). Gałąź `claude/nest-studio-title-sequence-3yjej7` zostaje jako alternatywa, nie scalona.
+
 ## 29.09.2026: chrom z Remotion (D16)
 
 Kropla liczona na żywo w Three.js zastąpiona sekwencją 240 klatek z Remotion (`remotion/`, render `npm run chrome:render`). Chrom prowadzi oko przez całą stronę: kropla w nagłówku, pęknięcie na linii napięcia, soczewka w showreelu, nić wskazująca projekt / usługę / stację procesu, lądowanie w gnieździe przy CTA. Szczegóły: DESIGN.md §7a, decyzja D16. Do decyzji Filipa: czy nić w sekcjach środkowych ma być większa (teraz subtelna, 180 do 250 px), i czy zostawiamy 240 klatek (jest zapas budżetu na 300+).
