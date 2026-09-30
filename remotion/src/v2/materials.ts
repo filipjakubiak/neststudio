@@ -18,7 +18,7 @@ const cometVertex = /* glsl */ `
 `;
 const cometFragment = (count: number) => /* glsl */ `
   uniform float uHeads[${count}];
-  uniform float uTail, uGain;
+  uniform float uTail, uGain, uOpen;
   uniform vec3 uCore, uGold, uBody, uTailCol;
   varying float vS;
   varying float vFacing;
@@ -26,7 +26,9 @@ const cometFragment = (count: number) => /* glsl */ `
     vec3 col = vec3(0.0);
     float neon = 0.25 + 0.75 * pow(vFacing, 1.8); // hot core line, dimmer toward the tube's silhouette
     for (int i = 0; i < ${count}; i++) {
-      float d = fract(uHeads[i] - vS);             // 0 at the head, grows behind it
+      // 0 at the head, grows behind it; open tubes do not wrap (nothing ahead of the head, nothing past the ends)
+      float d = uOpen > 0.5 ? uHeads[i] - vS : fract(uHeads[i] - vS);
+      if (d < 0.0) continue;
       float k = clamp(1.0 - d / uTail, 0.0, 1.0);
       float body = pow(k, 1.5);
       float head = exp(-d * 260.0);
@@ -43,7 +45,7 @@ const cometFragment = (count: number) => /* glsl */ `
 `;
 
 /** One or more comets on a tube whose uv.x runs 0..1 along its length. Set heads with setHeads(). */
-export function cometMaterial(ramp: Ramp, opts: { count?: number; tail?: number; gain?: number } = {}) {
+export function cometMaterial(ramp: Ramp, opts: { count?: number; tail?: number; gain?: number; open?: boolean } = {}) {
   const count = opts.count ?? 1;
   const mat = new ShaderMaterial({
     vertexShader: cometVertex,
@@ -55,6 +57,7 @@ export function cometMaterial(ramp: Ramp, opts: { count?: number; tail?: number;
       uHeads: { value: new Array(count).fill(0) },
       uTail: { value: opts.tail ?? 0.24 },
       uGain: { value: opts.gain ?? 3.6 },
+      uOpen: { value: opts.open ? 1 : 0 },
       uCore: { value: ramp.core },
       uGold: { value: ramp.gold },
       uBody: { value: ramp.body },
@@ -64,7 +67,8 @@ export function cometMaterial(ramp: Ramp, opts: { count?: number; tail?: number;
   return Object.assign(mat, {
     setHeads(heads: number[]) {
       const h = mat.uniforms.uHeads.value as number[];
-      heads.forEach((v, i) => (h[i] = ((v % 1) + 1) % 1));
+      // closed tubes wrap the head into [0,1); open tubes take it as is (may run past 1 to clear the tail)
+      heads.forEach((v, i) => (h[i] = mat.uniforms.uOpen.value ? v : ((v % 1) + 1) % 1));
     },
   });
 }

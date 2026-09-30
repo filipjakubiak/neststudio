@@ -1,3 +1,5 @@
+/* Layer order first: our components must beat Tailwind preflight (declared layers are ordered by first mention). */
+@layer theme, base, components, utilities;
 @import './tokens.css';
 @import './sections.css';
 /* Skan klas tylko w src (Tailwind v4 domyślnie skanuje całe repo, w tym markdown skilli). */
@@ -12,6 +14,7 @@
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
   --color-hairline: var(--hairline);
+  --color-hot: var(--hot);
   --color-ok: var(--ok);
   --color-warn: var(--warn);
   --color-err: var(--err);
@@ -42,7 +45,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;
-    transition: background-color 600ms var(--e-inout), color 600ms var(--e-inout);
   }
   h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; margin: 0; text-wrap: balance; }
   p { margin: 0; text-wrap: pretty; }
@@ -93,18 +95,9 @@
 
   .chip { display: inline-flex; align-items: center; border: 1px solid var(--hairline); border-radius: var(--r-pill); padding: 6px 12px; font-family: var(--font-mono); font-size: var(--t-label); letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.2; }
 
-  .chrome { background: var(--chrome); }
-  .chrome-text { background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
   .placeholder-mark { font-family: var(--font-mono); font-size: var(--t-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
 
-  /* Cienka siatka tła (Evolve), wyłączona pod 768 px */
-  .site-grid { position: fixed; inset: 0; pointer-events: none; z-index: var(--z-content); display: none; }
-  @media (min-width: 768px) {
-    .site-grid { display: grid; grid-template-columns: repeat(6, 1fr); width: 100%; max-width: var(--max-grid); margin-inline: auto; padding-inline: var(--gutter); }
-    .site-grid > span { border-left: 1px solid var(--hairline); opacity: 0.35; }
-    .site-grid > span:last-child { border-right: 1px solid var(--hairline); }
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -140,25 +133,3 @@
   .overlay-foot { display: flex; flex-wrap: wrap; gap: var(--s-5); justify-content: space-between; padding-block: var(--s-6); border-top: 1px solid var(--hairline); }
 }
 
-@layer components {
-  .scene-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: var(--z-scene); pointer-events: none; opacity: 0; transition: opacity 1200ms var(--e-out); }
-  .scene-canvas[data-mode='on'] { opacity: 1; }
-  .scene-fallback { position: fixed; inset: 0; z-index: var(--z-scene); pointer-events: none; color: var(--ink); opacity: 0.5; }
-  .scene-fallback svg { width: 100%; height: 100%; }
-  /* Chrom (D16): kanwa 2D z klatkami Remotion; plakat = pierwsza klatka jako <img>. */
-  .chrome-guide { position: fixed; left: 0; top: 0; z-index: var(--z-scene); pointer-events: none; transform-origin: 50% 50%; will-change: transform, opacity; visibility: hidden; }
-  .chrome-guide[data-layer='front'] { z-index: calc(var(--z-content) + 1); }
-  html[data-chrome='on'] .chrome-guide { visibility: visible; }
-  .chrome-picture { display: contents; }
-  html[data-chrome='on'] .drop-poster { visibility: hidden; }
-  html[data-chrome='pending'] .contact-poster, html[data-chrome='on'] .contact-poster { display: none; }
-  .split { text-wrap: initial; }
-  .preloader { position: fixed; inset: 0; z-index: var(--z-preloader); background: var(--canvas); color: var(--ink); display: grid; place-items: center; }
-  .preloader-inner { display: grid; justify-items: center; gap: var(--s-6); }
-  .preloader-mark { width: clamp(72px, 10vw, 120px); height: auto; }
-  .preloader-count { font-family: var(--font-mono); font-size: var(--t-h3); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
-  .preloader-name { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; color: var(--ink-soft); font-size: var(--t-small); }
-  html[data-preloading='true'] { overflow: hidden; }
-  html[data-skip-preloader] .preloader { display: none; }
-
-}

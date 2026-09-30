@@ -1,5 +1,7 @@
 # Design System: Nest Studio
 
+> **v2 (30.09.2026) nadpisuje ten plik tam, gdzie się różni:** paleta czerwona zmierzona na referencji (tło `#000`, linie `#150205`/`rgba(235,46,42,.2)`, czerwień `#EB2E2A`, rdzeń `#F8CCB8`), zamiast chromu i sceny nici są **pasy w tle** (WebGL) i **obiekty sekcji** (pętle z Remotion), kafle bento dozwolone punktowo, bez preloadera. Pełny opis: `docs/v2/system.md`, struktura: `docs/v2/struktura.md`, teksty: `docs/v2/copy.md`. Tokeny w kodzie: `src/styles/tokens.css`. Typografia, siatka, odstępy i komponenty poniżej obowiązują dalej.
+
 > Jedyne źródło prawdy dla tokenów (odpowiednik `MASTER.md` ze skilla `paint`). Kod odwzorowuje ten plik w `src/styles/tokens.css` (zmienne CSS) i w `@theme` Tailwinda. Każda wartość w komponencie ma pochodzić stąd. Zero magicznych liczb.
 
 ## 1. Atmosfera

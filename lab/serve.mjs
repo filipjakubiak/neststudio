@@ -1,12 +1,13 @@
 // Tiny static server for lab prototypes (ES modules do not load from file://).
-// node lab/serve.mjs [port=4800]  ->  http://localhost:4800/v2-bands/
+// node lab/serve.mjs [port=4800] [root=lab]  ->  http://localhost:4800/v2-bands/
+// node lab/serve.mjs 4801 ../out            ->  the built site (static export)
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-const root = path.dirname(fileURLToPath(import.meta.url));
+const root = process.argv[3] ? path.resolve(process.argv[3]) : path.dirname(fileURLToPath(import.meta.url));
 const port = +(process.argv[2] || 4800);
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mp4': 'video/mp4', '.webm': 'video/webm', '.avif': 'image/avif', '.png': 'image/png', '.json': 'application/json', '.css': 'text/css' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mp4': 'video/mp4', '.webm': 'video/webm', '.avif': 'image/avif', '.png': 'image/png', '.json': 'application/json', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.webp': 'image/webp', '.txt': 'text/plain' };
 http.createServer((req, res) => {
   let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
   if (p.endsWith('/')) p += 'index.html';

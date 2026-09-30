@@ -1,0 +1,19 @@
+{
+  "object": "przeplyw",
+  "variants": {
+    "square": {
+      "seconds": 10,
+      "width": 960,
+      "height": 960,
+      "seamDb": 59.1,
+      "files": {
+        "square-d.webm": 94384,
+        "square-d.mp4": 391519,
+        "square-m.webm": 53794,
+        "square-m.mp4": 144151,
+        "square-poster.avif": 1612
+      }
+    }
+  },
+  "palette": "red"
+}

@@ -1,0 +1,19 @@
+{
+  "object": "kostka",
+  "variants": {
+    "square": {
+      "seconds": 12,
+      "width": 960,
+      "height": 960,
+      "seamDb": 48.9,
+      "files": {
+        "square-d.webm": 112663,
+        "square-d.mp4": 455843,
+        "square-m.webm": 68270,
+        "square-m.mp4": 181440,
+        "square-poster.avif": 3449
+      }
+    }
+  },
+  "palette": "red"
+}

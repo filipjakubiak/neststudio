@@ -1,102 +1,96 @@
+/* Content model v2 (docs/v2/copy.md). One shape for every language; tests keep pl and en in sync. */
 export type Lang = 'pl' | 'en';
 
-export type NodeType =
-  | 'trigger' | 'read' | 'classify' | 'draft' | 'review'
-  | 'crm' | 'email' | 'document' | 'calendar' | 'notify';
+export type ObjectId = 'splot' | 'siatka' | 'kostka' | 'skaner' | 'przeplyw' | 'proces' | 'gniazdo';
 
-export interface FlowStep { node: NodeType; text: string }
-export interface FlowPreset { id: string; label: string; steps: FlowStep[] }
-
-export interface Project {
-  slug: string;
-  name: string;
-  scope: string[];
-  metric: string;
-  metricLabel: string;
-  year: string;
-  summary: string;
-  seed: number;
-  placeholder: boolean;
-}
-
-export interface Content {
+export type Content = {
   lang: Lang;
   meta: { title: string; description: string; ogTitle: string };
-  nav: {
-    links: { label: string; href: string }[];
-    cta: string;
-    langLabel: string;
-    menu: string;
-    closeMenu: string;
-    remote: string;
-  };
-  preloader: { loading: string };
-  hero: {
-    eyebrow: string;
-    lines: string[];
-    dropAfterLine: number;
-    lead: string;
-    ctaPrimary: string;
-    ctaSecondary: string;
-  };
-  tension: {
-    title: string;
-    leftLabel: string;
-    leftWord: string;
-    rightLabel: string;
-    rightWord: string;
-    you: string;
-    body: string;
-    closing: string[];
-  };
-  showreel: {
-    eyebrow: string;
-    title: string;
-    lead: string;
-    cuts: { label: string; line: string }[];
-    play: string;
-    pause: string;
-    playAria: string;
-    pauseAria: string;
-  };
-  projects: { title: string; lead: string; askLink: string; items: Project[] };
-  services: {
-    eyebrow: string;
-    title: string;
-    items: { id: 'strategy' | 'brand' | 'web' | 'ai'; title: string; body: string }[];
-    note: string;
-  };
-  aiDemo: {
-    title: string;
-    lead: string;
-    run: string;
-    status: { ready: string; running: string; done: string };
-    note: string;
-    nodeLabels: Record<NodeType, string>;
-    presets: FlowPreset[];
-    logAria: string;
-  };
-  process: { title: string; steps: { title: string; body: string }[] };
-  studio: { title: string; p1: string; p2: string; years: string; since: string; photoAlt: string; photoPlaceholder: string };
-  faq: { title: string; items: { q: string; a: string }[] };
-  contact: { eyebrow: string; title: string; lead: string; cta: string; calendar: string; or: string };
-  footer: {
-    contact: string;
-    data: string;
-    social: string;
-    ask: string;
-    askPrompt: string;
-    legal: string;
-    privacy: string;
-    country: string;
-  };
   system: {
     skip: string;
-    rail: string;
-    reduced: string;
-    noWebgl: string;
+    navLabel: string;
+    langLabel: string;
+    menu: string;
+    close: string;
+    motionPause: string;
+    motionPlay: string;
+    placeholder: string;
     notFound: string;
     backHome: string;
-    placeholder: string;
   };
-}
+  nav: { links: { label: string; href: string }[]; cta: string };
+  hero: { eyebrow: string; title: string[]; lead: string; ctaPrimary: string; ctaSecondary: string; micro: string };
+  stats: { eyebrow: string; items: { value: string; label: string; placeholder: boolean }[]; note: string };
+  who: { eyebrow: string; title: string[]; body: string[]; pillars: { n: string; title: string; body: string }[] };
+  work: {
+    eyebrow: string;
+    title: string[];
+    lead: string;
+    projects: {
+      id: string;
+      name: string;
+      sentence: string;
+      tags: string[];
+      year: string;
+      status: string;
+      image: string;
+      alt: string;
+      href: string;
+      linkLabel: string;
+    }[];
+    all: string;
+  };
+  services: {
+    eyebrow: string;
+    title: string[];
+    lead: string;
+    items: { id: string; name: string; title: string; body: string; scope: string[]; object: ObjectId | '' }[];
+  };
+  about: { eyebrow: string; title: string[]; body: string[]; principles: { title: string; body: string }[]; link: string };
+  testimonials: { eyebrow: string; items: { quote: string; name: string; role: string; placeholder: boolean }[] };
+  team: { eyebrow: string; title: string[]; lead: string; people: { name: string; role: string; bio: string; placeholder: boolean }[] };
+  process: { eyebrow: string; title: string[]; intro: string; outcomeLabel: string; steps: { title: string; body: string; outcome: string }[] };
+  pricing: {
+    eyebrow: string;
+    title: string[];
+    lead: string;
+    tiers: { name: string; price: string; body: string; scope: string[] }[];
+    note: string;
+    faqTitle: string;
+    faq: { q: string; a: string }[];
+  };
+  partners: { eyebrow: string; title: string; names: string[]; note: string };
+  cta: { title: string[]; body: string; button: string; mailPrefix: string };
+  contact: {
+    eyebrow: string;
+    title: string[];
+    lead: string;
+    required: string;
+    fields: {
+      name: { label: string; hint: string };
+      email: { label: string; hint: string };
+      message: { label: string; hint: string };
+      company: { label: string; hint: string };
+      scope: { label: string; options: string[] };
+      budget: { label: string; options: string[] };
+      timing: { label: string; hint: string };
+    };
+    optional: string;
+    submit: string;
+    privacy: string;
+    nextTitle: string;
+    next: string[];
+    sentTitle: string;
+    sentBody: string;
+    mailSubject: string;
+  };
+  footer: {
+    tagline: string[];
+    cols: { title: string; links: { label: string; href: string }[] }[];
+    contactTitle: string;
+    socialTitle: string;
+    legal: string;
+    privacy: string;
+    top: string;
+  };
+};

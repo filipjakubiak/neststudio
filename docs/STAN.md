@@ -2,6 +2,19 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## 30.09.2026 (4): STRONA v2 GOTOWA (do poprawek), gałąź `nest-v2`
+
+Filip: „dowieź gotową stronę, potem poprawiamy; teksty w większości z .html”. Zrobione i sprawdzone w Chrome (desktop 1440, mobile 390, reduced motion), PL `/` i EN `/en/`, build statyczny OK, 15 testów OK, zero błędów konsoli.
+
+- **Sekcje (kolejność Filipa):** hero, liczby, jeden kierunek (who), realizacje, usługi (bento, 5 kafli), studio + dlaczego my, opinie, zespół, proces, wycena + FAQ, klienci (marquee), CTA, kontakt (formularz), stopka. Teksty ze strategii (`docs/v2/copy.md`), EN = tłumaczenie.
+- **Obiekty (Remotion, czerwone, pętle bez szwu):** splot (hero), skaner (branding), kostka (strony), przeplyw (automatyzacje), siatka (AI), proces (4 etapy, szeroki + pionowy), gniazdo (CTA). `npm run v2:render -- <obiekt> <kadr>`. Na stronie `ObjectLoop`: leniwie, gra tylko w widoku, pauza przełącznikiem.
+- **Pasy (WebGL):** `src/scene/bands/` (fold, recipes, layout z omijaniem tekstu po realnym zasięgu tekstu, engine ładowany w idle), plan w `src/components/Site.tsx` (5 pasów; na telefonie tylko poziome).
+- **Ruch:** przełącznik w nawigacji (czerwona kropka) zatrzymuje pętle, światło pasów i marquee (WCAG 2.2.2); reduced motion startuje zatrzymany. Proces: etap zapala się, gdy kometa w wideo mija jego płytkę.
+- **Usunięte z v1:** preloader, scena nici, chrom-przewodnik, stare sekcje (historia w gicie; źródło chromu zostaje w `remotion/`).
+- **Pułapka naprawiona:** `@layer components` deklarowane przed importem Tailwinda przegrywało z preflightem (zerowało paddingi sekcji). Teraz `@layer theme, base, components, utilities;` na początku `globals.css`.
+- **Placeholdery i czego potrzebuję:** `docs/placeholders.md` (sekcja v2).
+- Podgląd lokalny: `npm run build`, potem `node lab/serve.mjs 4801 ../out` → http://localhost:4801/ ; spacer ze zrzutami: `MSYS_NO_PATHCONV=1 node lab/site-shot.mjs / pl`.
+
 ## 30.09.2026 (3): czerwień 1:1 + systemy pasów i obiektów
 
 Filip: Splot tempo OK, pasy OK, **kierunek czerwony 1:1 jak w referencji**; pasy i rendery mają się budować pod różne scenariusze. Opis obu systemów, paleta zmierzona na klatkach referencji: `docs/v2/system.md`.

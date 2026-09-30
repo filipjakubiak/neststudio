@@ -1,0 +1,19 @@
+{
+  "object": "gniazdo",
+  "variants": {
+    "square": {
+      "seconds": 14,
+      "width": 960,
+      "height": 960,
+      "seamDb": 42.7,
+      "files": {
+        "square-d.webm": 431585,
+        "square-d.mp4": 1166169,
+        "square-m.webm": 209186,
+        "square-m.mp4": 441673,
+        "square-poster.avif": 11818
+      }
+    }
+  },
+  "palette": "red"
+}

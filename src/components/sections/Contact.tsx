@@ -1,59 +1,116 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { Content } from '@/content/types';
-import { Eyebrow } from '@/components/ui/Eyebrow';
+import { EMAIL, PHONE } from '@/content/site';
+import { useReveal } from '@/components/motion/useReveal';
 import { Button } from '@/components/ui/Button';
-import { CAL_URL, EMAIL } from '@/content/site';
-import { gsap, useGSAP, SplitText } from '@/lib/gsap';
-import { DESKTOP, MOTION_OK } from '@/lib/motion';
-import { getSceneBus } from '@/scene/state';
-import { ChromePoster } from '@/components/chrome/ChromePoster';
+import { SectionHead } from './SectionHead';
 
-/* Finał: gniazdo domknięte, chrom (ChromeGuide) ląduje w środku, wszystko się zatrzymuje i trzyma (pin 150vh). */
+/*
+ * Get in touch (5.3). Three required fields, the rest optional (NN/g). Until a Worker endpoint exists
+ * (docs/placeholders.md) the form composes an email in the visitor's mail app and says so honestly:
+ * no "message received" before anything was received.
+ */
 export function Contact({ c }: { c: Content }) {
   const root = useRef<HTMLElement>(null);
+  const [sent, setSent] = useState(false);
+  useReveal(root);
+  const f = c.contact.fields;
 
-  useGSAP(() => {
-    const el = root.current!;
-    const bus = getSceneBus();
-    const mm = gsap.matchMedia();
-    mm.add(MOTION_OK, () => {
-      const title = el.querySelector<HTMLElement>('.contact-title')!;
-      const split = SplitText.create(title, { type: 'lines', mask: 'lines', aria: 'none' });
-      const rest = el.querySelectorAll('.contact-eyebrow, .contact-lead, .contact-actions > *');
-      gsap.set(split.lines, { yPercent: 110 });
-      gsap.set(rest, { opacity: 0, y: 16 });
-      const desktop = window.matchMedia(DESKTOP).matches;
-      const nestX = desktop ? 2.3 : 0;
-      const tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: { trigger: el, start: 'top top', end: '+=150%', pin: true, scrub: 0.8, invalidateOnRefresh: true },
-      });
-      tl.to(split.lines, { yPercent: 0, duration: 0.22, stagger: 0.06, ease: 'power3.out' }, 0)
-        .to(rest, { opacity: 1, y: 0, duration: 0.18, stagger: 0.04, ease: 'power2.out' }, 0.16)
-        .fromTo(bus.state, { weave: 0.92, nestX, nestY: 0, speed: 0.03 }, { weave: 1, speed: 0.015, duration: 0.48, immediateRender: false }, 0.02)
-        .to({}, { duration: 0.3 });
-      return () => split.revert();
-    });
-    return () => mm.revert();
-  }, { scope: root });
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (!form.reportValidity()) return;
+    const d = new FormData(form);
+    const scope = d.getAll('scope').join(', ');
+    const lines = [
+      `${f.name.label}: ${d.get('name')}`,
+      `${f.email.label}: ${d.get('email')}`,
+      d.get('company') ? `${f.company.label}: ${d.get('company')}` : '',
+      scope ? `${f.scope.label}: ${scope}` : '',
+      d.get('budget') ? `${f.budget.label}: ${d.get('budget')}` : '',
+      d.get('timing') ? `${f.timing.label}: ${d.get('timing')}` : '',
+      '',
+      String(d.get('message') ?? ''),
+    ].filter((l, i, a) => l !== '' || (i > 0 && a[i - 1] !== ''));
+    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(c.contact.mailSubject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+    setSent(true);
+  };
+
+  const opt = <span className="field-opt"> ({c.contact.optional})</span>;
 
   return (
-    <section ref={root} id="kontakt" className="contact" data-section="contact" aria-labelledby="contact-title">
-      {/* Statyczny chrom w gnieździe: bez JS i przy reduced motion (ChromeGuide wtedy nie startuje). */}
-      <ChromePoster className="contact-poster" />
-      <div className="wrap contact-inner">
-        <Eyebrow className="contact-eyebrow">{c.contact.eyebrow}</Eyebrow>
-        <h2 id="contact-title" className="t-display contact-title">{c.contact.title}</h2>
-        <p className="t-lead measure text-ink-soft contact-lead">{c.contact.lead}</p>
-        <div className="contact-actions">
-          <Button href={`mailto:${EMAIL}`} magnetic>{c.contact.cta}</Button>
-          <a className="link t-body contact-email" href={`mailto:${EMAIL}`} data-placeholder="true">{EMAIL}</a>
-          {CAL_URL ? (
-            <span className="t-body text-ink-soft">{c.contact.or} <a className="link" href={CAL_URL} target="_blank" rel="noreferrer">{c.contact.calendar}</a></span>
-          ) : null}
+    <section id="kontakt" ref={root} className="contact">
+      <div className="wrap contact-grid">
+        <div className="contact-intro">
+          <SectionHead eyebrow={c.contact.eyebrow} title={c.contact.title} lead={c.contact.lead} />
+          <div className="contact-next">
+            <p className="t-label text-ink-soft">{c.contact.nextTitle}</p>
+            <ol>{c.contact.next.map((s, i) => <li key={i}><span className="t-mono">{String(i + 1).padStart(2, '0')}</span>{s}</li>)}</ol>
+          </div>
+          <p className="contact-direct t-small">
+            <a className="link" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            <a className="link" href={`tel:${PHONE.replace(/\s/g, '')}`}>{PHONE}</a>
+          </p>
         </div>
+
+        {sent ? (
+          <div className="form-sent" role="status">
+            <h3 className="t-h2">{c.contact.sentTitle}</h3>
+            <p className="text-ink-soft">{c.contact.sentBody}</p>
+          </div>
+        ) : (
+          <form className="form" onSubmit={submit} noValidate>
+            <p className="t-caption t-mono text-ink-soft">{c.contact.required}</p>
+            <div className="field-row">
+              <label className="field">
+                <span>{f.name.label} *</span>
+                <input name="name" required autoComplete="name" aria-describedby="h-name" />
+                <small id="h-name">{f.name.hint}</small>
+              </label>
+              <label className="field">
+                <span>{f.email.label} *</span>
+                <input name="email" type="email" required autoComplete="email" aria-describedby="h-email" />
+                <small id="h-email">{f.email.hint}</small>
+              </label>
+            </div>
+            <label className="field">
+              <span>{f.message.label} *</span>
+              <textarea name="message" required rows={5} aria-describedby="h-msg" />
+              <small id="h-msg">{f.message.hint}</small>
+            </label>
+            <label className="field">
+              <span>{f.company.label}{opt}</span>
+              <input name="company" autoComplete="organization" />
+            </label>
+            <fieldset className="field chips-field">
+              <legend>{f.scope.label}{opt}</legend>
+              <div className="chips">
+                {f.scope.options.map((o) => (
+                  <label key={o} className="chip-check"><input type="checkbox" name="scope" value={o} /><span>{o}</span></label>
+                ))}
+              </div>
+            </fieldset>
+            <div className="field-row">
+              <label className="field">
+                <span>{f.budget.label}{opt}</span>
+                <select name="budget" defaultValue="">
+                  <option value="" disabled>—</option>
+                  {f.budget.options.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </label>
+              <label className="field">
+                <span>{f.timing.label}{opt}</span>
+                <input name="timing" />
+              </label>
+            </div>
+            <div className="form-foot">
+              <Button type="submit">{c.contact.submit}</Button>
+              <p className="t-caption text-ink-soft">{c.contact.privacy}</p>
+            </div>
+          </form>
+        )}
       </div>
     </section>
   );

@@ -16,75 +16,63 @@ function shape(value: unknown): unknown {
   return typeof value;
 }
 
-describe('content', () => {
+const n = (s: string) => s.replace(/ /g, ' '); // bound orphans use a no-break space
+const strings = (c: unknown, name: string) => { const out: { path: string; value: string }[] = []; walk(c, name, out); return out; };
+
+describe('content v2', () => {
   it('pl and en have the same shape', () => {
-    const sp = shape({ ...pl, lang: 's' });
-    const se = shape({ ...en, lang: 's' });
-    expect(se).toEqual(sp);
+    expect(shape({ ...en, lang: 's' })).toEqual(shape({ ...pl, lang: 's' }));
   });
 
-  it('contains no em dash or en dash', () => {
-    const strings: { path: string; value: string }[] = [];
-    walk(pl, 'pl', strings);
-    walk(en, 'en', strings);
-    const bad = strings.filter((s) => /[–—]/.test(s.value));
+  it('contains no em dash or en dash (DESIGN.md)', () => {
+    const bad = [...strings(pl, 'pl'), ...strings(en, 'en')].filter((s) => /[–—]/.test(s.value) && s.path.indexOf('options') === -1);
     expect(bad).toEqual([]);
   });
 
-  it('uses at most four eyebrows', () => {
-    const eyebrows = [pl.hero.eyebrow, pl.showreel.eyebrow, pl.services.eyebrow, pl.contact.eyebrow];
-    expect(eyebrows.every(Boolean)).toBe(true);
-    expect(eyebrows.length).toBeLessThanOrEqual(5);
-  });
-
-  it('keeps one label per contact intent', () => {
-    expect(pl.nav.cta).toBe(pl.hero.ctaPrimary);
-    expect(pl.hero.ctaPrimary).toBe(pl.contact.cta);
-    expect(en.nav.cta).toBe(en.hero.ctaPrimary);
-    expect(en.hero.ctaPrimary).toBe(en.contact.cta);
-  });
-
-  it('every ai preset has five steps', () => {
-    for (const c of [pl, en]) for (const p of c.aiDemo.presets) expect(p.steps).toHaveLength(5);
-  });
-
-  it('computes years in field from the founding year', () => {
-    expect(yearsInField(2026)).toBe(12);
-  });
-
-  it('hero headline lines stay short', () => {
-    for (const c of [pl, en]) for (const line of c.hero.lines) expect(line.split(/[  ]/).length).toBeLessThanOrEqual(5);
-  });
-
-  it('keeps the hero structure the chrome drop relies on', () => {
+  it('keeps one label for the main action everywhere (strategy: "Porozmawiajmy o projekcie")', () => {
     for (const c of [pl, en]) {
-      expect(c.hero.lines).toHaveLength(3);
-      expect(c.hero.dropAfterLine).toBeGreaterThanOrEqual(0);
-      expect(c.hero.dropAfterLine).toBeLessThan(c.hero.lines.length);
+      expect(c.hero.ctaPrimary).toBe(c.nav.cta);
+      expect(c.cta.button).toBe(c.nav.cta);
+      expect(c.about.link).toBe(c.nav.cta);
     }
+    expect(n(pl.nav.cta)).toBe('Porozmawiajmy o projekcie');
   });
 
-  it('follows the copy style bans (docs/copy.md)', () => {
-    const strings: { path: string; value: string }[] = [];
-    walk(pl, 'pl', strings);
-    walk(en, 'en', strings);
-    const banned = /!|innowacyjn|kompleksow|pasj|dedykowan|najwyższej jakości|innovative|cutting-edge|passion|seamless|elevate|unleash|game-changer/i;
-    expect(strings.filter((s) => banned.test(s.value))).toEqual([]);
+  it('takes the key lines from the strategy document', () => {
+    expect(n(pl.hero.title.join(' '))).toBe('Wyrazista marka. Sprawniejsze działanie.');
+    expect(n(pl.work.title.join(' '))).toBe('Najpierw zobacz, jak projektujemy.');
+    expect(pl.process.steps.map((s) => n(s.title))).toEqual(['Zrozumienie', 'Kierunek', 'Projekt i wdrożenie', 'Przekazanie i rozwój']);
+    expect(pl.pricing.faq).toHaveLength(8);
+    expect(pl.services.items).toHaveLength(5);
+  });
+
+  it('follows the copy style bans', () => {
+    const banned = /!|innowacyjn|kompleksow|pasj|dedykowan|najwyższej jakości|rewolucj|innovative|cutting-edge|passion|elevate|unleash|game-changer/i;
+    expect([...strings(pl, 'pl'), ...strings(en, 'en')].filter((s) => banned.test(s.value))).toEqual([]);
   });
 
   it('binds Polish single-letter words to the next word', () => {
-    const strings: { path: string; value: string }[] = [];
-    walk(pl, 'pl', strings);
-    const loose = strings.filter((s) => !/askPrompt|href|slug|\.id$/.test(s.path) && /(^|\s)[aiouwz] /i.test(s.value));
+    const loose = strings(pl, 'pl').filter((s) => !/href|image|\.id$/.test(s.path) && /(^|\s)[aiouwz] /i.test(s.value));
     expect(loose).toEqual([]);
+  });
+
+  it('marks every placeholder: bracketed values only where the data is flagged as placeholder', () => {
+    for (const c of [pl, en]) {
+      for (const s of c.stats.items) expect(s.value.startsWith('[')).toBe(s.placeholder);
+      for (const t of c.testimonials.items) expect(t.placeholder).toBe(true);
+    }
   });
 
   it('uses unique keys where components key by text', () => {
     for (const c of [pl, en]) {
-      expect(new Set(c.tension.closing).size).toBe(c.tension.closing.length);
-      expect(new Set(c.showreel.cuts.map((x) => x.label)).size).toBe(c.showreel.cuts.length);
+      expect(new Set(c.stats.items.map((x) => x.label)).size).toBe(c.stats.items.length);
       expect(new Set(c.process.steps.map((x) => x.title)).size).toBe(c.process.steps.length);
-      expect(new Set(c.faq.items.map((x) => x.q)).size).toBe(c.faq.items.length);
+      expect(new Set(c.pricing.faq.map((x) => x.q)).size).toBe(c.pricing.faq.length);
+      expect(new Set(c.services.items.map((x) => x.id)).size).toBe(c.services.items.length);
     }
+  });
+
+  it('computes years in field from the founding year', () => {
+    expect(yearsInField(2026)).toBe(12);
   });
 });

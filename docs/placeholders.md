@@ -1,3 +1,26 @@
+# Placeholdery v2 (od 30.09.2026, strona v2)
+
+Na stronie widać je jako tekst w [nawiasach kwadratowych] (szary). Nic z tej listy nie udaje prawdziwych danych. Treści: `src/content/pl.ts` i `en.ts`, stałe: `src/content/site.ts`.
+
+| Co | Gdzie | Teraz | Potrzebne od Filipa |
+|---|---|---|---|
+| Liczba projektów | Stats, 4. liczba | `[00]` | prawdziwa liczba (pozostałe 3 są prawdziwe: 2014, 12 lat, 5 obszarów) |
+| Opinie klientów | Testimonials | 1 cytat w nawiasach | 2 do 4 cytatów z imieniem, stanowiskiem, firmą i zgodą |
+| Zespół | Team | Filip Jakubiak (rola i bio do potwierdzenia) + 1 slot „[Imię i nazwisko]”, portrety jako inicjały | zdjęcia w jednym stylu, role, 2 zdania bio, decyzja: studio założycielskie czy zespół |
+| Ceny | Pricing, 3 pakiety | `[od 0 000 zł]`, `[wycena indywidualna]` | prawdziwe widełki albo decyzja „bez kwot” (wtedy zostaje sam FAQ) |
+| Budżet w formularzu | Contact → select | `[przedział 1..3]` | te same widełki co w Pricing |
+| Klienci | Partners (marquee) | Perun Tac, Perun Sec, Oboda Group, TCC Global + 2× „[Klient]” | zgody i logotypy SVG |
+| Oboda Group: status | Work | „[Etap 1, do potwierdzenia]” | status projektu i czy można pokazać zrzut (użyty zrzut hero z repo obodagroup, które jest publiczne) |
+| TCC Global | Work | okładka typograficzna, oznaczone „Projekt koncepcyjny” | czy wolno pokazać; zrzuty celowo NIE trafiły do publicznego repo |
+| Perun Tac | Work | zrzut z żywej peruntac.pl (30.09), opis z notatek | akceptacja opisu |
+| Formularz | Contact | składa maila w programie pocztowym (uczciwy komunikat, bez „wiadomość dotarła”) | decyzja: Worker + Email Routing (wtedy prawdziwe potwierdzenie i błąd) |
+| E-mail, telefon, dane firmy, social, domena | `site.ts` | `hello@neststudio.pl`, `+48 000 000 000`, „[Pełna nazwa podmiotu]”, `#` | prawdziwe dane |
+| Polityka prywatności | stopka, formularz | link `#` | treść polityki (dopasowana do sposobu obsługi formularza) |
+
+---
+
+# Placeholdery v1 (archiwum, strona v1 zastąpiona 30.09)
+
 # Placeholdery (co, gdzie, czym podmienić)
 
 Wszystko poniżej jest **nieprawdziwe lub tymczasowe** i w kodzie ma atrybut `data-placeholder="true"`. Nic z tej listy nie udaje prawdziwych danych.

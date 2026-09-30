@@ -8,7 +8,9 @@ import { EMAIL } from '@/content/site';
 import { Wordmark } from '@/components/ui/Wordmark';
 import { Button } from '@/components/ui/Button';
 import { LangSwitch } from './LangSwitch';
+import { MotionToggle } from './MotionToggle';
 
+/* Desktop: links inline. Below 1024 px: the overlay menu (clip-path circle, focus to first link, Escape). */
 export function Nav({ content }: { content: Content }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -26,8 +28,8 @@ export function Nav({ content }: { content: Content }) {
     if (!mounted.current) { mounted.current = true; gsap.set(el, { clipPath: 'circle(0% at calc(100% - 56px) 32px)' }); return; }
     if (open) {
       el.setAttribute('data-open', 'true');
-      const tl = gsap.timeline();
-      tl.fromTo(el, { clipPath: 'circle(0% at calc(100% - 56px) 32px)' }, { clipPath: 'circle(160% at calc(100% - 56px) 32px)', duration: reduced ? 0 : 0.9, ease: 'expo.inOut' })
+      gsap.timeline()
+        .fromTo(el, { clipPath: 'circle(0% at calc(100% - 56px) 32px)' }, { clipPath: 'circle(160% at calc(100% - 56px) 32px)', duration: reduced ? 0 : 0.9, ease: 'expo.inOut' })
         .fromTo(links, { yPercent: 110 }, { yPercent: 0, duration: reduced ? 0 : 0.9, stagger: 0.06, ease: 'expo.out' }, reduced ? 0 : 0.35)
         .fromTo(foot, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: reduced ? 0 : 0.6, stagger: 0.05 }, reduced ? 0 : 0.6);
     } else {
@@ -62,8 +64,12 @@ export function Nav({ content }: { content: Content }) {
       <header className="nav" data-scrolled={scrolled ? 'true' : 'false'}>
         <div className="wrap nav-inner">
           <Wordmark href={content.lang === 'pl' ? '/' : '/en/'} />
+          <nav className="nav-links" aria-label={content.system.navLabel}>
+            {content.nav.links.map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}
+          </nav>
           <div className="nav-right">
-            <LangSwitch lang={content.lang} label={content.nav.langLabel} />
+            <MotionToggle pause={content.system.motionPause} play={content.system.motionPlay} />
+            <span className="nav-lang"><LangSwitch lang={content.lang} label={content.system.langLabel} /></span>
             <Button href="#kontakt" className="nav-cta" magnetic>{content.nav.cta}</Button>
             <button
               ref={menuBtn}
@@ -71,7 +77,7 @@ export function Nav({ content }: { content: Content }) {
               className="menu-btn"
               aria-expanded={open}
               aria-controls={overlayId}
-              aria-label={open ? content.nav.closeMenu : content.nav.menu}
+              aria-label={open ? content.system.close : content.system.menu}
               onClick={() => setOpen((v) => !v)}
             >
               <span /><span />
@@ -79,9 +85,9 @@ export function Nav({ content }: { content: Content }) {
           </div>
         </div>
       </header>
-      <div ref={overlay} id={overlayId} className="overlay" data-open="false" aria-hidden={!open} role="dialog" aria-modal="true" aria-label={content.nav.menu}>
+      <div ref={overlay} id={overlayId} className="overlay" data-open="false" aria-hidden={!open} role="dialog" aria-modal="true" aria-label={content.system.menu}>
         <div />
-        <nav className="wrap" aria-label={content.nav.menu}>
+        <nav className="wrap" aria-label={content.system.menu}>
           <ul className="overlay-links">
             {content.nav.links.map((l, i) => (
               <li key={l.href} className="overlay-link-mask">
@@ -91,8 +97,8 @@ export function Nav({ content }: { content: Content }) {
           </ul>
         </nav>
         <div className="wrap overlay-foot t-small text-ink-soft">
-          <a className="link" href={`mailto:${EMAIL}`} tabIndex={open ? 0 : -1} data-placeholder="true">{EMAIL}</a>
-          <span>{content.nav.remote}</span>
+          <a className="link" href={`mailto:${EMAIL}`} tabIndex={open ? 0 : -1}>{EMAIL}</a>
+          <LangSwitch lang={content.lang} label={content.system.langLabel} />
         </div>
       </div>
     </>
