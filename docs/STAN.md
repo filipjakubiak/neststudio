@@ -2,6 +2,16 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## 30.09.2026: v2, gałąź `nest-v2` (przebudowa sekcji + obiekty renderowane)
+
+Filip przebudowuje stronę: nowa kolejność sekcji (hero, stats, who we are, portfolio, what we do, about + why us, testimonials, team, proces, pricing, partnerzy, CTA, kontakt, stopka) i nowy język wizualny wg referencji (bento z obiektami 3D, gdzie światłem jest sam obiekt). Szkielet, siatka, spoiwo i lista faktów do zebrania: `docs/v2/struktura.md`. Teksty dosyła Filip.
+
+**Look-dev #1 „Splot” (hero), zrobiony:** `remotion/src/lookdev/Splot.tsx`, kompozycje `Splot` (paleta Nest: kość → Rim Warm → bursztyn) i `SplotRed` (czerwień z referencji). Trzy nici splecione w obręcz gniazda wokół grafitowej płyty; po każdej biegną 2 komety, które są jedynym światłem sceny (point light w głowie komety). Bloom, ACES, ziarno tylko na świetle, krawędź klatki do czystej czerni. Pętla 4 s / 120 klatek bez szwu (PSNR ostatnia→pierwsza = jak między sąsiednimi klatkami). Na stronie: wideo z `mix-blend-mode: screen` na Noir; WebM 960 px ≈ 420 kB, MP4 ≈ 630 kB, plakat AVIF 12 kB.
+Podgląd w kontekście: `lab/v2-lookdev/index.html` (hero + kafle bento, przełącznik palet), zrzuty: `node lab/lookdev-shot.mjs`.
+Render: `cd remotion && npx remotion render src/index.ts Splot out/lookdev/Splot --sequence --image-format=png --gl=angle --image-sequence-pattern=[frame].[ext]`, potem ffmpeg (komendy w historii sesji; do przeniesienia w skrypt przy kolejnych obiektach).
+
+Do decyzji Filipa: paleta (Nest ciepła czy czerwona; ACES przesuwa czerwień w pomarańcz, prawdziwa czerwień wymaga innego mapowania tonów), akceptacja stylu przed kolejnymi obiektami, fakty z listy w `docs/v2/struktura.md` §4.
+
 ## 29.09.2026 wieczór: gałąź `nest-chrome-remotion` (scalenie trzech strumieni)
 
 Wersja z chromem + nowe teksty + nowe gniazdo + chrom z Remotion, scalone i sprawdzone razem na GPU (Chrome, RX 9070 XT): desktop 1440×900 i mobile 390×844, 10 sekcji, klatki 0 → 239 bez cofania, zero błędów konsoli. Po scaleniu: soczewka w showreelu podniesiona i zmniejszona (nie gasi białych nagłówków), martwe `dropDetail` usunięte, `agentRules: false` w next.config. Znane drobiazgi: na telefonie w Kontakcie kropla ląduje nad nagłówkiem, nie w środku gniazda; przez chwilę w showreelu na telefonie soczewka nachodzi na "To nie jest film."; nić w sekcjach środkowych subtelna (180 do 250 px). Gałąź `claude/nest-studio-title-sequence-3yjej7` zostaje jako alternatywa, nie scalona.
