@@ -57,8 +57,8 @@ const RAMPS = {
 } as const;
 
 const THREADS = 3;
-const COMETS_PER_THREAD = 2;
-const TAIL = 0.17; // fraction of the loop
+const COMETS_PER_THREAD = 1;
+const TAIL = 0.24; // fraction of the loop
 
 function threadCurve(i: number) {
   const phase = (i / THREADS) * Math.PI * 2;
@@ -98,10 +98,10 @@ const cometFragment = /* glsl */ `
       float d = fract(uHeads[i] - vS);           // 0 at the head, grows behind it
       float k = clamp(1.0 - d / uTail, 0.0, 1.0);
       float body = pow(k, 1.5);
-      float head = exp(-d * 180.0);
+      float head = exp(-d * 260.0);
       vec3 c = mix(uTailCol, uBody, smoothstep(0.15, 0.75, k));
       c = mix(c, uCore, smoothstep(0.88, 1.0, k));
-      col += c * body + uCore * head * 0.6;
+      col += c * body + uCore * head * 0.35;
     }
     gl_FragColor = vec4(col * uGain * neon, 1.0);
   }

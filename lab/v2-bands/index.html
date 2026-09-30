@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nest v2: pasy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Space+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <script type="importmap">
+      { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+    </script>
+    <style>
+      :root {
+        --canvas: #0a0a0b;
+        --ink: #f4f4f5;
+        --ink-soft: #8a8a90;
+        --ink-faint: #3a3a3f;
+        --gutter: clamp(1rem, 4vw, 4rem);
+        --gap: clamp(9rem, 22vh, 15rem); /* room for a band between sections */
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { background: var(--canvas); }
+      body {
+        color: var(--ink);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 1.0625rem;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      #bands { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; display: block; }
+      main { position: relative; z-index: 1; }
+      .wrap { max-width: 1440px; margin: 0 auto; padding-inline: var(--gutter); }
+      section { padding-top: var(--gap); }
+      .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+      .label {
+        font-family: 'Space Mono', monospace; font-size: 0.6875rem; letter-spacing: 0.14em;
+        text-transform: uppercase; color: var(--ink-soft);
+      }
+      h1, h2 { font-weight: 500; text-wrap: balance; }
+      h1 { font-size: clamp(2.6rem, 6vw, 6.4rem); line-height: 0.94; letter-spacing: -0.04em; }
+      h2 { font-size: clamp(2rem, 4.5vw, 4.25rem); line-height: 1; letter-spacing: -0.03em; }
+      h3 { font-size: clamp(1.25rem, 1.8vw, 1.6rem); font-weight: 500; letter-spacing: -0.015em; line-height: 1.15; }
+      p { text-wrap: pretty; }
+      .soft { color: var(--ink-soft); }
+      .mono { font-family: 'Space Mono', monospace; font-size: 0.8125rem; line-height: 1.6; color: var(--ink-soft); }
+      .btn {
+        display: inline-flex; align-items: center; gap: 10px; border-radius: 999px;
+        padding: 14px 22px; font-weight: 500; font-size: 0.9375rem; text-decoration: none;
+      }
+      .btn--primary { background: var(--ink); color: var(--canvas); }
+      .btn--ghost { color: var(--ink); border: 1px solid var(--ink-faint); }
+
+      /* 1 hero */
+      #hero { min-height: 100svh; display: grid; align-items: center; padding-top: 72px; }
+      #hero .grid { align-items: center; }
+      .hero-copy { grid-column: 1 / span 6; display: grid; gap: 28px; }
+      .hero-copy .lead { font-size: clamp(1.1rem, 1.4vw, 1.3rem); line-height: 1.45; max-width: 44ch; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .hero-object { grid-column: 7 / span 6; margin-right: calc(var(--gutter) * -1); }
+      .hero-object video {
+        width: 100%; aspect-ratio: 1; display: block; mix-blend-mode: screen;
+        -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+        mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+      }
+
+      /* 2 stats: numbers stay in the left 9 columns, the band folds down on the right */
+      .stats { grid-column: 1 / span 9; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 24px; }
+      .stat b { display: block; font-size: clamp(2.6rem, 5vw, 4.5rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+      .stat span { display: block; margin-top: 12px; }
+
+      /* 3 who we are */
+      #who h2 { grid-column: 1 / span 8; margin-top: 20px; }
+      #who .story { grid-column: 1 / span 6; margin-top: 32px; display: grid; gap: 16px; }
+      .pillars { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; }
+      .pillar { border-top: 1px solid var(--ink-faint); padding-top: 20px; display: grid; gap: 8px; }
+
+      /* 5 services: bento, one wide tile + four */
+      #services h2 { margin: 20px 0 48px; max-width: 16ch; }
+      .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+      .tile {
+        border: 1px solid var(--ink-faint); border-radius: 4px; padding: 28px; min-height: 280px;
+        display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; background: rgba(10, 10, 11, 0.6);
+      }
+      .tile--lg { grid-column: span 6; min-height: 340px; }
+      .tile--md { grid-column: span 3; }
+      .tile .scope { margin-top: 8px; }
+
+      /* 6 about: story left, principles right, the band wraps down the middle */
+      #about .story { grid-column: 1 / span 5; display: grid; gap: 20px; }
+      #about .principles { grid-column: 8 / span 5; display: grid; gap: 28px; align-content: start; padding-top: 52px; }
+      .principle { display: grid; gap: 6px; }
+
+      /* 12 cta */
+      #cta { padding-bottom: 24vh; text-align: left; }
+      #cta h2 { font-size: clamp(2.6rem, 6.5vw, 6.5rem); line-height: 0.96; letter-spacing: -0.035em; margin: 20px 0 28px; max-width: 14ch; }
+      #cta p { max-width: 52ch; margin-bottom: 32px; }
+
+
+      @media (max-width: 900px) {
+        .hero-copy, .hero-object, #who h2, #who .story, #about .story, #about .principles { grid-column: 1 / -1; }
+        .hero-object { order: -1; margin: 0 calc(var(--gutter) * -1); }
+        .stats { grid-column: 1 / span 10; grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
+        .pillars { grid-template-columns: 1fr; }
+        .bento { grid-template-columns: 1fr; }
+        .tile--lg, .tile--md { grid-column: 1; }
+        #about .principles { padding-top: 24px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-object video { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="bands" aria-hidden="true"></canvas>
+    <main>
+      <section id="hero" class="wrap">
+        <div class="grid">
+          <div class="hero-copy">
+            <span class="label">Studio brandingu i technologii</span>
+            <h1>Wyrazista marka. Sprawniejsze działanie.</h1>
+            <p class="lead soft">Tworzymy identyfikacje wizualne, strony internetowe i materiały, które nadają firmom spójny charakter. Łączymy je z automatyzacjami i AI, żeby dobry projekt miał przełożenie na codzienną pracę.</p>
+            <div class="actions">
+              <a class="btn btn--primary" href="#cta">Porozmawiajmy o projekcie ↗</a>
+              <a class="btn btn--ghost" href="#who">Zobacz realizacje ↓</a>
+            </div>
+            <p class="mono">Masz konkretny brief albo dopiero szukasz kierunku? Możemy zacząć od obu.</p>
+          </div>
+          <div class="hero-object">
+            <video autoplay muted loop playsinline preload="auto" poster="../v2-lookdev/splot-poster.avif">
+              <source src="../v2-lookdev/splot-960.webm" type="video/webm" />
+              <source src="../v2-lookdev/splot-960.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </section>
+
+      <section id="stats" class="wrap">
+        <span class="label">W liczbach</span>
+        <div class="grid">
+          <div class="stats">
+            <div class="stat"><b>[00]</b><span class="mono">[rok założenia]</span></div>
+            <div class="stat"><b>[00]</b><span class="mono">[zrealizowane projekty]</span></div>
+            <div class="stat"><b>[00]</b><span class="mono">[branże / kraje]</span></div>
+            <div class="stat"><b>[00]</b><span class="mono">[zmierzony efekt]</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="who" class="wrap">
+        <span class="label">Jeden kierunek</span>
+        <div class="grid">
+          <h2>To, co widać. I to, co dzieje się dalej.</h2>
+          <div class="story soft">
+            <p>Klient poznaje twoją markę, odwiedza stronę i wysyła zapytanie. Potem zaczyna się praca zespołu: odpowiedzi, przekazywanie informacji, przygotowanie oferty.</p>
+            <p>Projektujemy te elementy jako jedną całość. Jak nici w splocie: każda trzyma, bo trzyma ją reszta.</p>
+          </div>
+          <div class="pillars">
+            <div class="pillar"><span class="mono">01</span><h3>Rozpoznawalność</h3><p class="soft">Jasny kierunek marki i identyfikacja, która go wyraża.</p></div>
+            <div class="pillar"><span class="mono">02</span><h3>Doświadczenie</h3><p class="soft">Strona, na której łatwo zrozumieć ofertę i zrobić następny krok.</p></div>
+            <div class="pillar"><span class="mono">03</span><h3>Sprawność</h3><p class="soft">Połączone narzędzia i mniej ręcznego przekazywania informacji.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="wrap">
+        <span class="label">Co robimy</span>
+        <h2>Od kierunku marki do działającego rozwiązania.</h2>
+        <div class="bento">
+          <article class="tile tile--lg"><h3>Marka z własnym charakterem.</h3><p class="soft">Porządkujemy to, co chcesz powiedzieć, komu i dlaczego warto cię wybrać. Przekładamy ten kierunek na identyfikację i zasady do codziennego użycia.</p><p class="mono scope">Branding · Strategia marki · Identyfikacja · System marki · Wytyczne</p></article>
+          <article class="tile tile--md"><h3>Strona z jasno określonym zadaniem.</h3><p class="mono scope">Strony internetowe · UX/UI · Development · CMS · Integracje</p></article>
+          <article class="tile tile--md"><h3>Spójność w każdym formacie.</h3><p class="mono scope">Projektowanie graficzne · Prezentacje · Kampanie · Szablony</p></article>
+          <article class="tile tile--md"><h3>Mniej przeklejania. Więcej działania.</h3><p class="mono scope">Automatyzacje · Integracje · Obieg informacji · Raportowanie</p></article>
+          <article class="tile tile--md"><h3>AI z konkretnym zadaniem.</h3><p class="mono scope">Rozwiązania AI · Prototypy · Asystenci wiedzy · Dokumenty</p></article>
+        </div>
+      </section>
+
+      <section id="about" class="wrap">
+        <div class="grid">
+          <div class="story">
+            <span class="label">Studio</span>
+            <h2>Myślimy całościowo. Dopracowujemy szczegóły.</h2>
+            <p class="soft">Nest Studio łączy branding, projektowanie cyfrowe i technologię. Interesuje nas nie tylko to, jak projekt wygląda w dniu prezentacji, ale też to, jak działa po wdrożeniu.</p>
+          </div>
+          <div class="principles">
+            <div class="principle"><h3>Najpierw zrozumienie.</h3><p class="soft">Nie zaczynamy od gotowej odpowiedzi. Najpierw poznajemy kontekst i ograniczenia.</p></div>
+            <div class="principle"><h3>Decyzje z uzasadnieniem.</h3><p class="soft">Pokazujemy rozwiązanie i powód, dla którego je proponujemy.</p></div>
+            <div class="principle"><h3>Całość i detal.</h3><p class="soft">Pilnujemy wspólnego kierunku, nie tracąc z oczu pojedynczego widoku, zdania czy interakcji.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cta" class="wrap">
+        <span class="label">Kontakt</span>
+        <h2>Co chcesz zmienić w swojej firmie?</h2>
+        <p class="soft">Wizerunek, stronę, sposób pracy, a może kilka rzeczy naraz? Opowiedz nam, gdzie jesteś i czego potrzebujesz. Od tego zaczniemy pierwszą nić.</p>
+        <a class="btn btn--primary" href="#">Porozmawiajmy o projekcie ↗</a>
+      </section>
+    </main>
+    <script type="module" src="bands.js"></script>
+  </body>
+</html>

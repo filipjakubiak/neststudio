@@ -2,6 +2,16 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## 30.09.2026 (2): v2, teksty + pasy w tle
+
+Filip: paleta Nest, światło OK, tempo za szybkie; obiekty minimalistyczne, ruch subtelny; w tle strony zamiast nici **szerokie pasy** (zgięte 90° / zawinięte, przez pas przechodzi światło); bento punktowo. Teksty i strategia: `docs/v2/source/copywriting-strategia.html` → wersja Nest w `docs/v2/copy.md`. Struktura, warstwy i świadome odstępstwa od strategii (ciemna paleta, obiekt w hero, bez pinów/preloadera): `docs/v2/struktura.md`.
+
+- **Splot wolniejszy:** pętla 12 s (360 klatek), 1 kometa na nić, cichsze głowy. Szew bez skoku (PSNR 41,9 = jak sąsiednie klatki).
+- **Look-dev #2 pasy, prototyp na żywo:** `lab/v2-bands/` (`fold.js` = czysta geometria taśmy składanej jak papier: fałd pod 45° na każdym zakręcie, mały promień = ostry narożnik, duży = miękkie zawinięcie; `bands.js` = three.js, kamera ortho w pikselach strony, pozycje pasów liczone z przerw między treścią sekcji, scroll wsuwa taśmę wzdłuż drogi, po satynie wolno sunie plama ciepłego światła; reduced-motion: pasy statyczne). Uruchom: `node lab/serve.mjs` → http://localhost:4800/v2-bands/, zrzuty `node lab/bands-shot.mjs`.
+- Sprawdzone w Chrome desktop 1440 i mobile 390: pasy w przerwach, nie za tekstem; na telefonie pionowe odcinki przy prawej krawędzi.
+
+Do decyzji Filipa: akceptacja pasów (kształt, ilość, jasność światła) i wolnego Splotu → potem DESIGN.md v2 i szkielet sekcji w Next.js. Fakty z `docs/v2/struktura.md` §5.
+
 ## 30.09.2026: v2, gałąź `nest-v2` (przebudowa sekcji + obiekty renderowane)
 
 Filip przebudowuje stronę: nowa kolejność sekcji (hero, stats, who we are, portfolio, what we do, about + why us, testimonials, team, proces, pricing, partnerzy, CTA, kontakt, stopka) i nowy język wizualny wg referencji (bento z obiektami 3D, gdzie światłem jest sam obiekt). Szkielet, siatka, spoiwo i lista faktów do zebrania: `docs/v2/struktura.md`. Teksty dosyła Filip.
