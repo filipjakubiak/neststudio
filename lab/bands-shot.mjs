@@ -7,7 +7,7 @@ async function run(viewport, name, stops) {
   const ctx = await browser.newContext({ viewport });
   const page = await ctx.newPage();
   page.on('pageerror', (e) => errors.push(e.message));
-  page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); if (m.text().startsWith('[bands]')) console.log(name, m.text()); });
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForTimeout(1500);
   const H = await page.evaluate(() => document.documentElement.scrollHeight);

@@ -2,6 +2,16 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## 30.09.2026 (3): czerwień 1:1 + systemy pasów i obiektów
+
+Filip: Splot tempo OK, pasy OK, **kierunek czerwony 1:1 jak w referencji**; pasy i rendery mają się budować pod różne scenariusze. Opis obu systemów, paleta zmierzona na klatkach referencji: `docs/v2/system.md`.
+
+- **Obiekty:** biblioteka `remotion/src/v2/` (paleta, materiały, wspólna scena z Neutral tone mapping + bloom o niskim progu, obiekty jako moduły, kadry square/wide/tall). Jedna komenda `npm run v2:render -- splot square red`: render, kontrola szwu pętli, WebM/MP4 desktop+mobile, plakat, manifest w `public/v2/objects/`. Splot czerwony wyrenderowany (square, tall). Stary `remotion/src/lookdev/` usunięty; `lab/v2-lookdev` zostaje jako historia (paleta Nest).
+- **Pasy:** `lab/v2-bands/` = fold.js (geometria) + recipes.js (cross, drop, hook; fałdy crisp/soft/roll) + layout.js (przerwy mierzone z treści, zwężanie, automatyczne zjeżdżanie pionowego odcinka z tekstu albo degradacja do cross, raport `[bands]` w konsoli) + bands.js (czerwony materiał, szeroka gładka plama światła). Plan strony w JSON (`#band-plan`), z nadpisaniami na telefon.
+- Sprawdzone w Chrome 1440 i 390: pasy w przerwach, gradient bez białej kropki, na telefonie pasy poziome.
+
+Dalej: DESIGN.md v2 (czerwień, pasy, kafle), przeniesienie pasów do `src/scene/bands/` i szkielet sekcji w Next.js na `docs/v2/copy.md`; kolejne obiekty (Gniazdo do CTA, mini-obiekty usług, kometa procesu).
+
 ## 30.09.2026 (2): v2, teksty + pasy w tle
 
 Filip: paleta Nest, światło OK, tempo za szybkie; obiekty minimalistyczne, ruch subtelny; w tle strony zamiast nici **szerokie pasy** (zgięte 90° / zawinięte, przez pas przechodzi światło); bento punktowo. Teksty i strategia: `docs/v2/source/copywriting-strategia.html` → wersja Nest w `docs/v2/copy.md`. Struktura, warstwy i świadome odstępstwa od strategii (ciemna paleta, obiekt w hero, bez pinów/preloadera): `docs/v2/struktura.md`.

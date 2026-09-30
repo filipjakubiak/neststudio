@@ -14,7 +14,8 @@
     "chrome:install": "npm --prefix remotion install",
     "chrome:render": "npm --prefix remotion run build",
     "chrome:preview": "npm --prefix remotion run render -- --preview",
-    "chrome:studio": "npm --prefix remotion run studio"
+    "chrome:studio": "npm --prefix remotion run studio",
+    "v2:render": "npm --prefix remotion run v2 --"
   },
   "dependencies": {
     "@fontsource-variable/space-grotesk": "^5.3.0",

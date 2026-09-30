@@ -7,7 +7,8 @@
     "studio": "remotion studio src/index.ts",
     "render": "node scripts/render.mjs",
     "encode": "node scripts/encode.mjs",
-    "build": "node scripts/render.mjs && node scripts/encode.mjs"
+    "build": "node scripts/render.mjs && node scripts/encode.mjs",
+    "v2": "node scripts/v2-render.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "9.8.1",

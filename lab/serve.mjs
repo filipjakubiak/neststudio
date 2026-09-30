@@ -6,12 +6,14 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const port = +(process.argv[2] || 4800);
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mp4': 'video/mp4', '.webm': 'video/webm', '.avif': 'image/avif', '.png': 'image/png', '.css': 'text/css' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mp4': 'video/mp4', '.webm': 'video/webm', '.avif': 'image/avif', '.png': 'image/png', '.json': 'application/json', '.css': 'text/css' };
 http.createServer((req, res) => {
   let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
   if (p.endsWith('/')) p += 'index.html';
-  const file = path.join(root, p);
-  if (!file.startsWith(root) || !fs.existsSync(file)) { res.writeHead(404); return res.end('404'); }
+  // /public/* maps to the site's public folder (rendered objects), everything else to lab/
+  const base = p.startsWith('/public/') ? path.join(root, '..') : root;
+  const file = path.join(base, p);
+  if (!file.startsWith(base) || !fs.existsSync(file)) { res.writeHead(404); return res.end('404'); }
   const stat = fs.statSync(file);
   const type = types[path.extname(file)] || 'application/octet-stream';
   const range = req.headers.range;

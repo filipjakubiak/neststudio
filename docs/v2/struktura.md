@@ -4,7 +4,7 @@
 
 ## 1. Ustalenia Filipa (30.09)
 
-- **Paleta Nest** (Noir, Bone, chrom, światło krawędziowe ciepłe). Światło z look-devu „Splot” jest w porządku.
+- ~~Paleta Nest~~ → **czerwień 1:1 z referencji** (decyzja 30.09, druga runda). Paleta i systemy: `docs/v2/system.md`.
 - **Ruch:** wolny, subtelny. Obiekty minimalistyczne, ładne, proste.
 - **Warstwa tła całej strony:** zamiast nici (strands) **szerokie pasy**: zawinięte albo zgięte pod 90°, wjeżdżają między teksty. Przez pas przechodzi światło (jak kafel „Selective Privacy” w referencji).
 - **Bento:** tak, ale punktowo, nie w każdej sekcji.

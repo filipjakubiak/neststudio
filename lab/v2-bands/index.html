@@ -13,11 +13,14 @@
       { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
     </script>
     <style>
+      /* v2 palette, measured on the reference render (30.09) */
       :root {
-        --canvas: #0a0a0b;
+        --canvas: #000000;
         --ink: #f4f4f5;
         --ink-soft: #8a8a90;
-        --ink-faint: #3a3a3f;
+        --ink-faint: #2a1416;
+        --hairline: #150205;
+        --hot: #eb2e2a;
         --gutter: clamp(1rem, 4vw, 4rem);
         --gap: clamp(9rem, 22vh, 15rem); /* room for a band between sections */
       }
@@ -75,14 +78,14 @@
       #who h2 { grid-column: 1 / span 8; margin-top: 20px; }
       #who .story { grid-column: 1 / span 6; margin-top: 32px; display: grid; gap: 16px; }
       .pillars { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; }
-      .pillar { border-top: 1px solid var(--ink-faint); padding-top: 20px; display: grid; gap: 8px; }
+      .pillar { border-top: 1px solid var(--hairline); padding-top: 20px; display: grid; gap: 8px; }
 
       /* 5 services: bento, one wide tile + four */
       #services h2 { margin: 20px 0 48px; max-width: 16ch; }
       .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
       .tile {
-        border: 1px solid var(--ink-faint); border-radius: 4px; padding: 28px; min-height: 280px;
-        display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; background: rgba(10, 10, 11, 0.6);
+        border: 1px solid var(--hairline); border-radius: 4px; padding: 28px; min-height: 280px;
+        display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; background: rgba(0, 0, 0, 0.6);
       }
       .tile--lg { grid-column: span 6; min-height: 340px; }
       .tile--md { grid-column: span 3; }
@@ -129,9 +132,9 @@
             <p class="mono">Masz konkretny brief albo dopiero szukasz kierunku? Możemy zacząć od obu.</p>
           </div>
           <div class="hero-object">
-            <video autoplay muted loop playsinline preload="auto" poster="../v2-lookdev/splot-poster.avif">
-              <source src="../v2-lookdev/splot-960.webm" type="video/webm" />
-              <source src="../v2-lookdev/splot-960.mp4" type="video/mp4" />
+            <video autoplay muted loop playsinline preload="auto" poster="/public/v2/objects/splot/square-poster.avif">
+              <source src="/public/v2/objects/splot/square-d.webm" type="video/webm" />
+              <source src="/public/v2/objects/splot/square-d.mp4" type="video/mp4" />
             </video>
           </div>
         </div>
@@ -199,6 +202,17 @@
         <a class="btn btn--primary" href="#">Porozmawiajmy o projekcie ↗</a>
       </section>
     </main>
+    <!-- Band plan for this page: recipes placed into gaps between sections ("a/b" = section ids).
+         Mobile overrides per entry; text is full width there, so drops become straight crossings. -->
+    <script type="application/json" id="band-plan">
+      [
+        { "name": "liczby", "recipe": "drop", "gaps": ["hero/stats", "stats/who"], "from": "right", "to": "left", "x": 0.8, "folds": ["crisp", "soft"], "period": 22,
+          "mobile": { "recipe": "cross", "gap": "hero/stats" } },
+        { "name": "uslugi", "recipe": "cross", "gap": "who/services", "from": "left", "period": 30, "phase": 0.2 },
+        { "name": "studio", "recipe": "drop", "gaps": ["services/about", "about/cta"], "from": "left", "to": "right", "x": 0.5, "folds": ["soft", "crisp"], "period": 26, "phase": 0.45,
+          "mobile": { "recipe": "cross", "gap": "about/cta", "from": "right" } }
+      ]
+    </script>
     <script type="module" src="bands.js"></script>
   </body>
 </html>
