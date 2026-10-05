@@ -48,6 +48,6 @@ Te same obiekty z Remotion (`remotion/src/v2`), przerenderowane paletą `magenta
 
 ## Dopisane wieczorem 05.10
 
-- **Rytm tekstu:**  (12 px: etykieta i tytuł),  (24 px: tytuł i tekst, akapity),  (48 px: tekst i metka/akcje, zawsze z cienką linią). Jeden odstęp na wszystko jest zakazany.
-- **Siatka:** 6 kolumn wyrównanych do , linie , stałe w tle, maska u góry i dołu ekranu; sekcja opinii rysuje na nich swoje linie i krzyżyki.
-- **Proces:** film z HyperFrames (, 1080×1080, 12 s, 4 rozdziały po 3 s; nić zbiera fakty w węzeł, rysuje strukturę i wybiera kierunek, struktura staje się makietą z testami, paczka idzie dalej i rośnie). Na stronie: tor 400svh, scena sticky,  z pościgiem krytycznie tłumionym (stała 70 ms), etap = rozdział, w którym jest film, przyciąganie do kadrów końcowych (2,85 / 5,9 / 8,9 / 11,9 s) z rzutem pędu (wzór Apple, d = 0,998). Wideo kodowane z GOP 2, inaczej przewijanie wstecz szarpie.
+- **Rytm tekstu:** `--gap-related` (12 px: etykieta i tytuł), `--gap-sequence` (24 px: tytuł i tekst, akapity), `--gap-group` (48 px: tekst i metka/akcje, zawsze z cienką linią). Jeden odstęp na wszystko jest zakazany.
+- **Siatka:** 6 kolumn wyrównanych do `.wrap`, linie `rgba(255,255,255,.04)`, stałe w tle, maska u góry i dołu ekranu; sekcja opinii rysuje na nich swoje linie i krzyżyki.
+- **Proces:** film z HyperFrames (`videos/proces/index.html`, 1080×1080, 12 s, 4 rozdziały po 3 s; nić zbiera fakty w węzeł, rysuje strukturę i wybiera kierunek, struktura staje się makietą z testami, paczka idzie dalej i rośnie). Na stronie: tor 400svh, scena sticky, `scroll → czas filmu` z pościgiem krytycznie tłumionym (stała 70 ms), etap = rozdział, w którym jest film, przyciąganie do kadrów końcowych (2,85 / 5,9 / 8,9 / 11,9 s) z rzutem pędu (wzór Apple, d = 0,998). Wideo kodowane z GOP 2, inaczej przewijanie wstecz szarpie.
