@@ -18,7 +18,7 @@
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--nav-h) + var(--s-4)); }
-  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  /* no CSS smooth scrolling: it animated the #hash jump on load (see ScrollRefresh) */
   body {
     margin: 0;
     background: var(--canvas);

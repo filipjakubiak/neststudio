@@ -42,10 +42,16 @@ export function ObjectLoop({ id, variant = 'square', mobile, className = '', onT
       }
       v.load();
     };
+    // load() aborts a pending play(), and the two observers fire in no fixed order: a video already on screen
+    // could get play() then load() and stay on its first frame. So playing always loads first, and the video
+    // re-checks once it can actually play.
     const sync = () => {
-      if (visible && !motionPaused()) v.play().catch(() => {});
-      else v.pause();
+      if (visible && !motionPaused()) {
+        load();
+        v.play().catch(() => {});
+      } else v.pause();
     };
+    v.addEventListener('canplay', sync);
     const near = new IntersectionObserver(([e]) => { if (e.isIntersecting) { load(); near.disconnect(); } }, { rootMargin: '600px 0px' });
     const seen = new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); }, { threshold: 0.05 });
     near.observe(v);
@@ -57,7 +63,7 @@ export function ObjectLoop({ id, variant = 'square', mobile, className = '', onT
     };
     if (timeCb.current) raf = requestAnimationFrame(tick);
     window.addEventListener(MOTION_EVENT, sync);
-    return () => { near.disconnect(); seen.disconnect(); cancelAnimationFrame(raf); window.removeEventListener(MOTION_EVENT, sync); };
+    return () => { near.disconnect(); seen.disconnect(); cancelAnimationFrame(raf); window.removeEventListener(MOTION_EVENT, sync); v.removeEventListener('canplay', sync); };
   }, [id, variant, mobile]);
 
   return (
