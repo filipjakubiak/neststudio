@@ -4,13 +4,15 @@ import { useRef } from 'react';
 import type { Content } from '@/content/types';
 import { gsap, useGSAP } from '@/lib/gsap';
 import { MOTION_OK } from '@/lib/motion';
+import { href } from '@/lib/links';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { ObjectLoop } from '@/components/objects/ObjectLoop';
 
-/* Hero: the headline rises line by line on load; the Splot object fades up beside it. No preloader. */
+/* 3.2 Hero: label, H1, description, two buttons, microtext. The headline rises line by line on load. */
 export function Hero({ c }: { c: Content }) {
   const root = useRef<HTMLElement>(null);
+  const h = c.home.hero;
 
   useGSAP(() => {
     const mm = gsap.matchMedia();
@@ -27,18 +29,18 @@ export function Hero({ c }: { c: Content }) {
     <section id="hero" ref={root} className="hero">
       <div className="wrap hero-grid">
         <div className="hero-copy">
-          <Eyebrow className="hero-fade">{c.hero.eyebrow}</Eyebrow>
-          <h1 className="t-hero hero-title">
-            {c.hero.title.map((line, i) => (
+          <Eyebrow className="hero-fade">{h.eyebrow}</Eyebrow>
+          <h1 className="hero-title">
+            {h.title.map((line, i) => (
               <span key={i} className="hero-line"><span>{line}</span></span>
             ))}
           </h1>
-          <p className="t-lead text-ink-soft hero-lead hero-fade">{c.hero.lead}</p>
+          <p className="t-lead text-ink-soft hero-lead hero-fade">{h.lead}</p>
           <div className="hero-actions hero-fade">
-            <Button href="#kontakt" magnetic>{c.hero.ctaPrimary}</Button>
-            <Button href="#realizacje" variant="ghost" icon={false}>{c.hero.ctaSecondary} ↓</Button>
+            <Button href={href(c, 'contact')} magnetic>{h.ctaPrimary}</Button>
+            <Button href="#realizacje" variant="ghost" icon={false}>{h.ctaSecondary} ↓</Button>
           </div>
-          <p className="t-caption t-mono text-ink-soft hero-fade hero-micro">{c.hero.micro}</p>
+          <p className="t-caption text-ink-soft hero-fade hero-micro">{h.micro}</p>
         </div>
         <ObjectLoop id="splot" variant="square" className="hero-object" />
       </div>

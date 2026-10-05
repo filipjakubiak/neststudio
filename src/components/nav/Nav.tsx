@@ -3,7 +3,8 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { gsap, useGSAP } from '@/lib/gsap';
 import { prefersReducedMotion } from '@/lib/motion';
-import type { Content } from '@/content/types';
+import type { Content, PageId } from '@/content/types';
+import { alternates, href } from '@/lib/links';
 import { EMAIL } from '@/content/site';
 import { Wordmark } from '@/components/ui/Wordmark';
 import { Button } from '@/components/ui/Button';
@@ -11,7 +12,8 @@ import { LangSwitch } from './LangSwitch';
 import { MotionToggle } from './MotionToggle';
 
 /* Desktop: links inline. Below 1024 px: the overlay menu (clip-path circle, focus to first link, Escape). */
-export function Nav({ content }: { content: Content }) {
+export function Nav({ content, page }: { content: Content; page: PageId }) {
+  const alt = alternates(page);
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const overlayId = useId();
@@ -63,14 +65,14 @@ export function Nav({ content }: { content: Content }) {
     <>
       <header className="nav" data-scrolled={scrolled ? 'true' : 'false'}>
         <div className="wrap nav-inner">
-          <Wordmark href={content.lang === 'pl' ? '/' : '/en/'} />
+          <Wordmark href={content.paths.home} />
           <nav className="nav-links" aria-label={content.system.navLabel}>
-            {content.nav.links.map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}
+            {content.nav.links.map((l) => <a key={l.label} href={href(content, l.page, l.hash)} aria-current={l.page === page && !l.hash ? 'page' : undefined}>{l.label}</a>)}
           </nav>
           <div className="nav-right">
             <MotionToggle pause={content.system.motionPause} play={content.system.motionPlay} />
-            <span className="nav-lang"><LangSwitch lang={content.lang} label={content.system.langLabel} /></span>
-            <Button href="#kontakt" className="nav-cta" magnetic>{content.nav.cta}</Button>
+            <span className="nav-lang"><LangSwitch lang={content.lang} label={content.system.langLabel} alt={alt} /></span>
+            <Button href={href(content, 'contact')} className="nav-cta" magnetic>{content.nav.cta}</Button>
             <button
               ref={menuBtn}
               type="button"
@@ -90,15 +92,16 @@ export function Nav({ content }: { content: Content }) {
         <nav className="wrap" aria-label={content.system.menu}>
           <ul className="overlay-links">
             {content.nav.links.map((l, i) => (
-              <li key={l.href} className="overlay-link-mask">
-                <a href={l.href} ref={i === 0 ? firstLink : undefined} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>{l.label}</a>
+              <li key={l.label} className="overlay-link-mask">
+                <a href={href(content, l.page, l.hash)} ref={i === 0 ? firstLink : undefined} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>{l.label}</a>
               </li>
             ))}
           </ul>
         </nav>
         <div className="wrap overlay-foot t-small text-ink-soft">
+          <Button href={href(content, 'contact')}>{content.nav.cta}</Button>
           <a className="link" href={`mailto:${EMAIL}`} tabIndex={open ? 0 : -1}>{EMAIL}</a>
-          <LangSwitch lang={content.lang} label={content.system.langLabel} />
+          <LangSwitch lang={content.lang} label={content.system.langLabel} alt={alt} />
         </div>
       </div>
     </>

@@ -23,9 +23,10 @@ export function SmoothScroll() {
     }
 
     const onClick = (e: MouseEvent) => {
-      const a = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement | null;
-      if (!a) return;
-      const id = a.getAttribute('href')!.slice(1);
+      // same-page anchors, written either as "#id" or as "/path/#id" (links resolved per language)
+      const a = (e.target as HTMLElement).closest('a[href*="#"]') as HTMLAnchorElement | null;
+      if (!a || a.pathname !== location.pathname || !a.hash) return;
+      const id = a.hash.slice(1);
       const target = id ? document.getElementById(id) : null;
       if (!target) return;
       e.preventDefault();

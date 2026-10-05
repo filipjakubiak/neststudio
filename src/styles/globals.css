@@ -80,7 +80,7 @@
   .skip-link:focus { transform: none; }
 
   /* Przyciski wg DESIGN.md §6 */
-  .btn { display: inline-flex; align-items: center; gap: var(--s-3); border-radius: var(--r-pill); font-family: var(--font-display); font-weight: 500; font-size: var(--t-small); line-height: 1; padding: 14px 20px 14px 24px; text-decoration: none; white-space: nowrap; transition: transform var(--d-micro) var(--e-out), background-color var(--d-micro) var(--e-out), border-color var(--d-micro) var(--e-out), color var(--d-micro) var(--e-out); will-change: transform; }
+  .btn { display: inline-flex; align-items: center; gap: var(--s-3); border-radius: var(--r-pill); font-family: var(--font-text); font-weight: 500; font-size: var(--t-small); line-height: 1; padding: 14px 20px 14px 24px; text-decoration: none; white-space: nowrap; transition: transform var(--d-micro) var(--e-out), background-color var(--d-micro) var(--e-out), border-color var(--d-micro) var(--e-out), color var(--d-micro) var(--e-out); will-change: transform; }
   .btn:active { transform: scale(0.98); }
   .btn[aria-disabled='true'], .btn:disabled { opacity: 0.4; cursor: not-allowed; }
   .btn-primary { background: var(--ink); color: var(--canvas); }

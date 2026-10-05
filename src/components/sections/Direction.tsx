@@ -7,9 +7,11 @@ import { MOTION_OK } from '@/lib/motion';
 import { useReveal } from '@/components/motion/useReveal';
 import { SectionHead } from './SectionHead';
 
-/* Who we are (3.4): one direction. The three pillars draw their top line left to right, in order. */
-export function Who({ c }: { c: Content }) {
+/* 3.4 The section that ties the offer together: heading + story on one side, three elements below.
+   The three rules draw left to right, in order. */
+export function Direction({ c }: { c: Content }) {
   const root = useRef<HTMLElement>(null);
+  const d = c.home.direction;
   useReveal(root);
 
   useGSAP(() => {
@@ -23,14 +25,16 @@ export function Who({ c }: { c: Content }) {
   }, { scope: root });
 
   return (
-    <section id="who" ref={root} className="who">
+    <section id="kierunek" ref={root} className="direction">
       <div className="wrap">
-        <SectionHead eyebrow={c.who.eyebrow} title={c.who.title} />
-        <div className="who-body">
-          {c.who.body.map((p) => <p key={p.slice(0, 24)} className="t-lead text-ink-soft">{p}</p>)}
+        <div className="direction-grid">
+          <SectionHead eyebrow={d.eyebrow} title={d.title} />
+          <div className="direction-body">
+            {d.body.map((p) => <p key={p.slice(0, 24)} className="t-lead text-ink-soft">{p}</p>)}
+          </div>
         </div>
         <ol className="pillars">
-          {c.who.pillars.map((p) => (
+          {d.items.map((p) => (
             <li key={p.n} className="pillar">
               <span className="pillar-rule" aria-hidden="true" />
               <div className="pillar-body">

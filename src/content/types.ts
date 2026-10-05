@@ -1,11 +1,52 @@
-/* Content model v2 (docs/v2/copy.md). One shape for every language; tests keep pl and en in sync. */
+/*
+ * Content model v2.1: the site follows the strategy document 1:1 (docs/v2/source/copywriting-strategia.html):
+ * home (ch. 3), service pages (ch. 4), work / studio / contact (ch. 5), SEO (ch. 9).
+ * One shape per language; tests keep pl and en in sync.
+ */
 export type Lang = 'pl' | 'en';
 
 export type ObjectId = 'splot' | 'siatka' | 'kostka' | 'skaner' | 'przeplyw' | 'proces' | 'gniazdo';
+export type ServiceId = 'branding' | 'web' | 'graphic' | 'automation' | 'ai';
+export type PageId = 'home' | 'work' | 'studio' | 'contact' | ServiceId;
+
+export type Meta = { title: string; description: string };
+export type Link = { label: string; href: string };
+/** A text block from the document: optional label, a heading in lines, paragraphs, an optional list. */
+export type Block = { label?: string; title?: string[]; body?: string[]; list?: { term?: string; text: string }[] };
+
+export type Project = {
+  id: string;
+  name: string;
+  sentence: string;
+  tags: string[];
+  year: string;
+  status: string;
+  image: string;
+  alt: string;
+  href: string;
+  services: ServiceId[];
+};
+
+export type Service = {
+  id: ServiceId;
+  name: string;
+  object: ObjectId;
+  meta: Meta;
+  /** the card on the home page (3.5) */
+  card: { title: string; body: string; scope: string[]; link: string };
+  /** the service page (4.x): hero, client situation, scope, example, process, related, CTA */
+  page: {
+    title: string[];
+    lead: string;
+    blocks: Block[];
+    related?: { text: string; link: string; to: ServiceId };
+  };
+};
 
 export type Content = {
   lang: Lang;
-  meta: { title: string; description: string; ogTitle: string };
+  /** URL of every page in this language (the language switch maps page id to page id) */
+  paths: Record<PageId, string>;
   system: {
     skip: string;
     navLabel: string;
@@ -17,52 +58,43 @@ export type Content = {
     placeholder: string;
     notFound: string;
     backHome: string;
+    exampleLabel: string;
   };
-  nav: { links: { label: string; href: string }[]; cta: string };
-  hero: { eyebrow: string; title: string[]; lead: string; ctaPrimary: string; ctaSecondary: string; micro: string };
-  stats: { eyebrow: string; items: { value: string; label: string; placeholder: boolean }[]; note: string };
-  who: { eyebrow: string; title: string[]; body: string[]; pillars: { n: string; title: string; body: string }[] };
-  work: {
-    eyebrow: string;
+  nav: { links: { label: string; page: PageId; hash?: string }[]; cta: string };
+  home: {
+    meta: Meta;
+    hero: { eyebrow: string; title: string[]; lead: string; ctaPrimary: string; ctaSecondary: string; micro: string };
+    stats: {
+      eyebrow: string;
+      title: string[];
+      items: { id: 'since' | 'years' | 'areas' | 'projects'; value: string; label: string; title: string; body: string; placeholder: boolean }[];
+      chain: string[];
+      timeline: { from: string; to: string; now: string };
+      note: string;
+    };
+    work: { eyebrow: string; title: string[]; lead: string; cardLink: string; all: string; prev: string; next: string; hint: string };
+    direction: { eyebrow: string; title: string[]; body: string[]; items: { n: string; title: string; body: string }[] };
+    services: { eyebrow: string; title: string[]; lead: string };
+    process: { eyebrow: string; title: string[]; intro: string; outcomeLabel: string; steps: { title: string; body: string; outcome: string }[] };
+    studio: { eyebrow: string; title: string[]; body: string[]; link: string; photoAlt: string };
+    faq: { title: string; items: { q: string; a: string }[] };
+    cta: { title: string[]; body: string; button: string; mailPrefix: string };
+  };
+  services: Service[];
+  projects: Project[];
+  workPage: { meta: Meta; title: string[]; lead: string };
+  studioPage: {
+    meta: Meta;
     title: string[];
     lead: string;
-    projects: {
-      id: string;
-      name: string;
-      sentence: string;
-      tags: string[];
-      year: string;
-      status: string;
-      image: string;
-      alt: string;
-      href: string;
-      linkLabel: string;
-    }[];
-    all: string;
+    approach: Block;
+    principlesTitle: string;
+    principles: { title: string; body: string }[];
+    peopleTitle: string;
+    people: { name: string; role: string; bio: string; placeholder: boolean }[];
   };
-  services: {
-    eyebrow: string;
-    title: string[];
-    lead: string;
-    items: { id: string; name: string; title: string; body: string; scope: string[]; object: ObjectId | '' }[];
-  };
-  about: { eyebrow: string; title: string[]; body: string[]; principles: { title: string; body: string }[]; link: string };
-  testimonials: { eyebrow: string; items: { quote: string; name: string; role: string; placeholder: boolean }[] };
-  team: { eyebrow: string; title: string[]; lead: string; people: { name: string; role: string; bio: string; placeholder: boolean }[] };
-  process: { eyebrow: string; title: string[]; intro: string; outcomeLabel: string; steps: { title: string; body: string; outcome: string }[] };
-  pricing: {
-    eyebrow: string;
-    title: string[];
-    lead: string;
-    tiers: { name: string; price: string; body: string; scope: string[] }[];
-    note: string;
-    faqTitle: string;
-    faq: { q: string; a: string }[];
-  };
-  partners: { eyebrow: string; title: string; names: string[]; note: string };
-  cta: { title: string[]; body: string; button: string; mailPrefix: string };
-  contact: {
-    eyebrow: string;
+  contactPage: {
+    meta: Meta;
     title: string[];
     lead: string;
     required: string;
@@ -70,10 +102,10 @@ export type Content = {
       name: { label: string; hint: string };
       email: { label: string; hint: string };
       message: { label: string; hint: string };
-      company: { label: string; hint: string };
+      company: { label: string };
       scope: { label: string; options: string[] };
       budget: { label: string; options: string[] };
-      timing: { label: string; hint: string };
+      timing: { label: string };
     };
     optional: string;
     submit: string;
@@ -82,15 +114,17 @@ export type Content = {
     next: string[];
     sentTitle: string;
     sentBody: string;
+    sentLink: string;
     mailSubject: string;
   };
   footer: {
     tagline: string[];
-    cols: { title: string; links: { label: string; href: string }[] }[];
+    cols: { title: string; links: { label: string; page: PageId; hash?: string }[] }[];
     contactTitle: string;
+    location: string;
     socialTitle: string;
     legal: string;
     privacy: string;
-    top: string;
+    cookies: string;
   };
 };

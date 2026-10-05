@@ -1,6 +1,9 @@
-import { Site } from '@/components/Site';
+import { HomePage } from '@/components/pages/HomePage';
 import { en } from '@/content/en';
+import { buildMetadata } from '@/lib/metadata';
+
+export const metadata = buildMetadata('en', 'home');
 
 export default function Page() {
-  return <Site content={en} />;
+  return <HomePage c={en} />;
 }
