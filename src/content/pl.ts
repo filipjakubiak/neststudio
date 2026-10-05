@@ -32,6 +32,7 @@ const raw: Content = {
     notFound: 'Tej strony tu nie ma.',
     backHome: 'Wróć na stronę główną',
     exampleLabel: 'Przykład pracy',
+    proofLabel: 'Opinie klientów',
   },
 
   /* 3.1 Nawigacja */
@@ -65,6 +66,14 @@ const raw: Content = {
       lead: 'Zobacz, jak potrzeby firmy zamieniamy w identyfikację, stronę i narzędzia, z których korzysta się na co dzień.',
       cardLink: 'Zobacz projekt',
       all: 'Wszystkie realizacje',
+    },
+    /* 3.3 Miejsce na dowód: tylko prawdziwe opinie za zgodą (do tego czasu nawiasy z dokumentu) */
+    proof: {
+      items: [
+        { quote: '[Autentyczna wypowiedź klienta opisująca konkretną zmianę lub doświadczenie współpracy]', name: '[Imię i nazwisko]', role: '[Stanowisko, firma]' },
+        { quote: '[Autentyczna wypowiedź klienta opisująca konkretną zmianę lub doświadczenie współpracy]', name: '[Imię i nazwisko]', role: '[Stanowisko, firma]' },
+        { quote: '[Autentyczna wypowiedź klienta opisująca konkretną zmianę lub doświadczenie współpracy]', name: '[Imię i nazwisko]', role: '[Stanowisko, firma]' },
+      ],
     },
     /* 3.4 Sekcja łącząca ofertę */
     direction: {

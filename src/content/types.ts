@@ -59,12 +59,15 @@ export type Content = {
     notFound: string;
     backHome: string;
     exampleLabel: string;
+    proofLabel: string;
   };
   nav: { links: { label: string; page: PageId; hash?: string }[]; cta: string };
   home: {
     meta: Meta;
     hero: { eyebrow: string; title: string[]; lead: string; ctaPrimary: string; ctaSecondary: string; micro: string };
     work: { eyebrow: string; title: string[]; lead: string; cardLink: string; all: string };
+    /** 3.3 "Miejsce na dowód": client quotes; [brackets] until real quotes with consent exist */
+    proof: { items: { quote: string; name: string; role: string }[] };
     direction: { eyebrow: string; title: string[]; body: string[]; items: { n: string; title: string; body: string }[] };
     services: { eyebrow: string; title: string[]; lead: string };
     process: { eyebrow: string; title: string[]; intro: string; outcomeLabel: string; steps: { title: string; body: string; outcome: string }[] };

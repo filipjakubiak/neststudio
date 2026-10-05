@@ -26,6 +26,7 @@ export const en: Content = {
     notFound: 'This page is not here.',
     backHome: 'Back to the home page',
     exampleLabel: 'Example of our work',
+    proofLabel: 'Client quotes',
   },
 
   nav: {
@@ -56,6 +57,13 @@ export const en: Content = {
       lead: 'See how we turn what a company needs into an identity, a website and tools people use every day.',
       cardLink: 'See the project',
       all: 'All work',
+    },
+    proof: {
+      items: [
+        { quote: '[An authentic client statement describing a specific change or the experience of working together]', name: '[Name and surname]', role: '[Position, company]' },
+        { quote: '[An authentic client statement describing a specific change or the experience of working together]', name: '[Name and surname]', role: '[Position, company]' },
+        { quote: '[An authentic client statement describing a specific change or the experience of working together]', name: '[Name and surname]', role: '[Position, company]' },
+      ],
     },
     direction: {
       eyebrow: 'One direction',

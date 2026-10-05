@@ -91,6 +91,10 @@ describe('content hygiene', () => {
     expect(loose).toEqual([]);
   });
 
+  it('invents no client quotes: until real ones arrive, the document’s own brackets', () => {
+    for (const q of pl.home.proof.items) for (const t of [q.quote, q.name, q.role]) expect(t.startsWith('[') && inDoc(t), t).toBe(true);
+  });
+
   it('invents no project facts: a sentence is the document’s or a [placeholder]', () => {
     for (const p of pl.projects) expect(p.sentence.startsWith('[') || inDoc(p.sentence.replace(/\.$/, '')), p.sentence).toBe(true);
   });

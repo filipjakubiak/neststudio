@@ -15,8 +15,10 @@ export function ProjectTile({ c, p, featured = false }: { c: Content; p: Project
           {p.status && <span className="ph-badge">{p.status}</span>}
         </div>
         <p className={`project-sentence ${ph(p.sentence) ? 'ph' : 'soft'}`}>{p.sentence}</p>
-        <p className="t-caption soft project-tags">{p.tags.join(' · ')}{p.year && <span className="t-num"> · {p.year}</span>}</p>
-        {p.href && <More href={p.href} external stretched>{c.home.work.cardLink}</More>}
+        <div className="project-meta">
+          <p className="t-caption soft project-tags">{p.tags.join(' · ')}{p.year && <span className="t-num"> · {p.year}</span>}</p>
+          {p.href && <More href={p.href} external stretched>{c.home.work.cardLink}</More>}
+        </div>
       </div>
       <div className="project-media">
         {p.image ? (

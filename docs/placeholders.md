@@ -7,7 +7,7 @@ Na stronie widać je jako szary tekst w [nawiasach kwadratowych], tak jak w doku
 | Perun Tac: zdanie o projekcie | Realizacje, karta 01 | „[Jedno zdanie opisujące rzeczywisty cel lub zmianę w projekcie.]” (poprzednie zdanie było dopisane, więc wypadło) | jedno zdanie o realnej zmianie |
 | TCC Global: zdanie o projekcie | Realizacje | jw., oznaczone „Projekt koncepcyjny” | jedno zdanie + zgoda na pokazanie |
 | Oboda Group | Realizacje | zdanie z dokumentu „Uporządkowana oferta i nowy sposób prezentacji usług.”, status „[Status do potwierdzenia]” | potwierdzenie, że zdanie pasuje, i status |
-| Opinia klienta (3.3) | strona główna | moduł wyłączony (dokument: bez zgody pomijamy) | cytat + imię, stanowisko, firma, zgoda |
+| Opinie klientów (3.3) | strona główna, sekcja po realizacjach | 3 komórki z nawiasami z dokumentu, wyszarzone | 1 do 3 cytatów + imię, stanowisko, firma, zgoda na publikację |
 | Zdjęcie zespołu (3.7) | strona główna, Studio | ramka z napisem „Do uzupełnienia” | prawdziwe zdjęcie, podpisane nazwiskami i rolami |
 | Ludzie (5.2) | Studio | Filip Jakubiak, „[Rola]”, „[Dwa konkretne zdania…]” | rola, 2 zdania, decyzja: studio założycielskie czy zespół |
 | Budżet w formularzu | Kontakt | „[przedział 1..3]” | widełki zgodne z cenami |

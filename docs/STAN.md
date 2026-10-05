@@ -2,6 +2,16 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## 05.10.2026 (wieczór): poprawki Filipa + proces z HyperFrames
+
+- **Statyczne animacje, przyczyny (debug z dowodami, `lab/*-probe.mjs`):** (1) obiekt widoczny od razu dostawał `play()` przed `load()` z drugiego obserwatora, `load()` przerywał odtwarzanie i obiekt stał na pierwszej klatce (wyścig, stąd „niektóre”; najczęściej hero na telefonie), naprawione w `ObjectLoop`; (2) CSS `scroll-behavior: smooth` animował skok do `#kotwicy` przy wejściu, a odświeżenie ScrollTriggera go przerywało: `/#uslugi` lądowało w hero, naprawione w `ScrollRefresh`; (3) puste cele GSAP (szum w konsoli).
+- **Oddech między tekstami:** trzy stopnie rytmu (`--gap-related/sequence/group` w `sections.css`), kafle usług w trzech grupach (opis / obiekt / zakres + link pod linią, linki w rzędzie na jednej wysokości), projekty z metką pod linią, kafle kierunku z numerem u góry i tekstem na dole, CTA, studio, kontakt, bloki podstron.
+- **CTA:** tekst do lewej, gniazdo po prawej.
+- **Opinie (3.3):** sekcja po realizacjach, na siatce z liniami i krzyżykami; do czasu prawdziwych opinii nawiasy z dokumentu (test tego pilnuje).
+- **Siatka strony:** 6 bardzo słabych linii kolumn (2 na telefonie), stała w tle, wygaszana u góry i dołu ekranu (`GridGuides`).
+- **Proces = film HyperFrames:** `videos/proces` (kompozycja, `npm run check`/`render` przez plugin hyperframes), render `public/v3/proces` (MP4 z klatkami kluczowymi do przewijania w obie strony + 4 kadry). Sekcja przypięta, scroll steruje czasem filmu (wygładzanie bez przestrzału), po puszczeniu osiada na najbliższym ukończonym etapie z uwzględnieniem pędu, klik w etap przewija do niego; reduced motion: lista z kadrami. Opis: `docs/v3/system.md`.
+- Zainstalowane skille: `landing-page-guide` (projekt).
+
 ## 05.10.2026: v3, czerń + magenta, układ wg apple-design, gałąź `nest-v2`
 
 Filip: teksty tylko z dokumentu strategii (nic nie dopisywać), potem humanize-text tam, gdzie brzmią jak AI; cały układ od nowa; czarne tło, główny kolor magenta pink; projektować wg `apple-design` + `apple-hig-expert` (zainstalowany: `.agents/skills/apple-hig-expert`, link w `.claude/skills`).

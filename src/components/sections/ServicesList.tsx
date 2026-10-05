@@ -36,14 +36,17 @@ export function ServicesList({ c }: { c: Content }) {
       <ul className="wrap bento">
         {c.services.map((sv, i) => (
           <li key={sv.id} className={`tile tile-link service service-${i < 2 ? 'lg' : 'sm'}`}>
-            <div className="service-copy">
+            {/* three groups with their own spacing: what it is / the picture / scope and the way in */}
+            <div className="service-head">
               <p className="t-eyebrow">{sv.name}</p>
               <h3 className="t-h3">{sv.card.title}</h3>
               <p className="soft service-body">{sv.card.body}</p>
+            </div>
+            <ObjectLoop id={sv.object} className="service-object" />
+            <div className="service-foot">
               <p className="t-caption soft service-scope">{sv.card.scope.join(' · ')}</p>
               <More href={href(c, sv.id)} stretched>{sv.card.link}</More>
             </div>
-            <ObjectLoop id={sv.object} className="service-object" />
           </li>
         ))}
       </ul>
