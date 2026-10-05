@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <!--
+      Nest Studio, "Jak pracujemy": one magenta thread drafts the process in four chapters of 3 s.
+      The site scrubs this film with scroll, so every frame must read on its own and the motion must make sense
+      played backwards too. Chapter windows: 01 0-3 s, 02 3-6 s, 03 6-9 s, 04 9-12 s.
+      Labels are words from the strategy document's stage descriptions (nothing invented).
+    -->
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: 'Inter Variable';
+        font-weight: 100 900;
+        src: url('assets/inter-latin-opsz-normal.woff2') format('woff2-variations');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212;
+      }
+      @font-face {
+        font-family: 'Inter Variable';
+        font-weight: 100 900;
+        src: url('assets/inter-latin-ext-opsz-normal.woff2') format('woff2-variations');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+A720-A7FF;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1080px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Inter Variable', system-ui, sans-serif; }
+      #scene { position: absolute; inset: 0; }
+      svg { display: block; width: 100%; height: 100%; }
+      .thread { fill: none; stroke: #ff3d9e; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+      .thread-glow { fill: none; stroke: #ff3d9e; stroke-width: 14; stroke-linecap: round; opacity: 0.22; filter: url(#blur); }
+      .guide { fill: none; stroke: rgba(255, 255, 255, 0.16); stroke-width: 1.5; stroke-dasharray: 6 10; }
+      .rule { fill: none; stroke: rgba(255, 255, 255, 0.28); stroke-width: 1.5; }
+      .label { font-size: 26px; font-weight: 500; letter-spacing: -0.01em; fill: #a1a1a6; }
+      .label-hi { fill: #f5f5f7; }
+      .tile { fill: #121214; stroke: rgba(255, 255, 255, 0.12); stroke-width: 1.5; }
+      .skel { fill: rgba(255, 255, 255, 0.1); }
+      .check { fill: none; stroke: #ff3d9e; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .chip { fill: #1c1c1e; }
+      .dot { fill: rgba(255, 255, 255, 0.55); }
+      .grid-dot { fill: rgba(255, 255, 255, 0.07); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="proces" data-start="0" data-duration="12" data-width="1080" data-height="1080">
+      <section id="scene" class="clip" data-start="0" data-duration="12" data-track-index="0">
+        <svg viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6" /></filter>
+            <pattern id="dots" width="54" height="54" patternUnits="userSpaceOnUse"><circle class="grid-dot" cx="27" cy="27" r="1.6" /></pattern>
+            <radialGradient id="halo"><stop offset="0" stop-color="#ff3d9e" stop-opacity="0.35" /><stop offset="1" stop-color="#ff3d9e" stop-opacity="0" /></radialGradient>
+          </defs>
+          <rect width="1080" height="1080" fill="url(#dots)" />
+          <circle id="halo" cx="540" cy="540" r="320" fill="url(#halo)" opacity="0" />
+
+          <!-- 01 Zrozumienie: scattered points, gathered by the thread into one focus -->
+          <g id="c1" data-layout-allow-overflow>
+            <g id="points"></g>
+            <g id="facts">
+              <g class="fact" data-x="250" data-y="330" data-tx="472" data-ty="500"><circle r="8" fill="#f5f5f7" /><text class="label" x="20" y="9">firma</text></g>
+              <g class="fact" data-x="790" data-y="250" data-tx="600" data-ty="490"><circle r="8" fill="#f5f5f7" /><text class="label" x="20" y="9">odbiorcy</text></g>
+              <g class="fact" data-x="700" data-y="790" data-tx="548" data-ty="612"><circle r="8" fill="#f5f5f7" /><text class="label" x="20" y="9">cel</text></g>
+            </g>
+            <path id="t1-glow" class="thread-glow" d="M -40 700 C 120 640 180 380 250 330 S 520 120 790 250 S 900 640 700 790 S 420 760 540 540" />
+            <path id="t1" class="thread" d="M -40 700 C 120 640 180 380 250 330 S 520 120 790 250 S 900 640 700 790 S 420 760 540 540" />
+            <circle id="focus" class="thread" cx="540" cy="540" r="140" />
+          </g>
+
+          <!-- 02 Kierunek: the focus pulls taut into a drafted structure; the direction is chosen -->
+          <g id="c2" opacity="0">
+            <path class="guide g2" d="M 280 470 L 280 900" />
+            <path class="guide g2" d="M 540 470 L 540 900" />
+            <path class="guide g2" d="M 800 470 L 800 900" />
+            <path class="guide g2" d="M 140 600 L 940 600" />
+            <path class="guide g2" d="M 140 750 L 940 750" />
+            <path class="rule g2" d="M 150 960 L 410 960 M 150 948 L 150 972 M 410 948 L 410 972" />
+            <path class="rule g2" d="M 670 960 L 930 960 M 670 948 L 670 972 M 930 948 L 930 972" />
+            <path id="b1" class="rule branch" d="M 540 230 C 540 330 280 330 280 430" />
+            <path id="b2" class="rule branch" d="M 540 230 L 540 430" />
+            <path id="b3" class="rule branch" d="M 540 230 C 540 330 800 330 800 430" />
+            <circle id="root-node" cx="540" cy="230" r="12" fill="#ff3d9e" />
+            <g class="head" id="h1"><circle class="hn" cx="280" cy="440" r="11" fill="#000" stroke="#f5f5f7" stroke-width="2" /><text class="label" x="280" y="500" text-anchor="middle">strategia marki</text></g>
+            <g class="head" id="h2"><circle class="hn" cx="540" cy="440" r="11" fill="#000" stroke="#f5f5f7" stroke-width="2" /><text class="label" x="540" y="500" text-anchor="middle">architektura strony</text></g>
+            <g class="head" id="h3"><circle class="hn" cx="800" cy="440" r="11" fill="#000" stroke="#f5f5f7" stroke-width="2" /><text class="label" x="800" y="500" text-anchor="middle">mapa procesu</text></g>
+            <circle id="pick" cx="280" cy="440" r="24" fill="none" stroke="#ff3d9e" stroke-width="3" />
+            <path id="t2" class="thread" d="M 540 230 L 540 430" />
+          </g>
+
+          <!-- 03 Projekt i wdrożenie: the drawing becomes the thing; feedback loop; tested -->
+          <g id="c3" opacity="0">
+            <g id="layout">
+              <rect class="tile t3" x="150" y="290" width="780" height="64" rx="16" />
+              <rect class="tile t3" x="150" y="374" width="780" height="250" rx="22" />
+              <rect class="tile t3" x="150" y="644" width="246" height="236" rx="22" />
+              <rect class="tile t3" x="417" y="644" width="246" height="236" rx="22" />
+              <rect class="tile t3" x="684" y="644" width="246" height="236" rx="22" />
+              <rect class="skel s3" x="180" y="314" width="120" height="16" rx="8" />
+              <rect class="skel s3" x="190" y="430" width="430" height="34" rx="12" />
+              <rect class="skel s3" x="190" y="482" width="320" height="18" rx="9" />
+              <rect class="skel s3" x="190" y="550" width="150" height="40" rx="20" fill="rgba(255,61,158,0.6)" />
+              <rect class="skel s3" x="176" y="680" width="120" height="16" rx="8" />
+              <rect class="skel s3" x="443" y="680" width="150" height="16" rx="8" />
+              <rect class="skel s3" x="710" y="680" width="100" height="16" rx="8" />
+              <path class="check k3" d="M 340 820 l 16 16 l 30 -34" />
+              <path class="check k3" d="M 607 820 l 16 16 l 30 -34" />
+              <path class="check k3" d="M 874 820 l 16 16 l 30 -34" />
+            </g>
+            <g id="loop">
+              <path id="loop-arc" class="thread" d="M 880 186 A 46 46 0 1 1 834 140" />
+              <path class="thread" d="M 824 128 L 836 140 L 822 152" id="loop-head" />
+              <text class="label" x="760" y="160" text-anchor="end">feedback</text>
+            </g>
+            <text id="tests" class="label label-hi" x="150" y="940">testy</text>
+          </g>
+
+          <!-- 04 Przekazanie i rozwój: packed, handed over on the thread, and it keeps growing -->
+          <g id="c4" opacity="0">
+            <rect id="pack" x="150" y="290" width="780" height="590" rx="22" fill="none" stroke="#ff3d9e" stroke-width="3" />
+            <path id="t4" class="thread" d="M 690 560 C 760 560 760 330 820 330 M 690 560 L 820 560 M 690 560 C 760 560 760 790 820 790" />
+            <g class="hand" id="m1"><rect class="chip" x="830" y="296" width="200" height="68" rx="34" /><text class="label label-hi" x="930" y="340" text-anchor="middle">materiały</text></g>
+            <g class="hand" id="m2"><rect class="chip" x="830" y="526" width="200" height="68" rx="34" /><text class="label label-hi" x="930" y="570" text-anchor="middle">dostęp</text></g>
+            <g class="hand" id="m3"><rect class="chip" x="830" y="756" width="200" height="68" rx="34" /><text class="label label-hi" x="930" y="800" text-anchor="middle">instrukcje</text></g>
+            <g id="growth"></g>
+          </g>
+        </svg>
+      </section>
+    </div>
+
+    <script>
+      (function () {
+        const NS = 'http://www.w3.org/2000/svg';
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => Array.from(document.querySelectorAll(s));
+        const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.inOut' } });
+
+        // measured draw: dash = real path length (svg-path-draw rule)
+        const drawable = (el) => { const len = el.getTotalLength(); el.style.strokeDasharray = `${len} ${len}`; el.style.strokeDashoffset = `${len}`; return len; };
+        $$('.thread, .thread-glow, .rule, .guide, .check').forEach((p) => { if (!p.classList.contains('guide')) drawable(p); });
+        // guides keep their dashed look: they are revealed by a mask-like dashoffset on a solid copy instead
+        $$('.guide').forEach((g) => { g.style.opacity = 0; });
+
+        // 01: deterministic scatter (golden angle, no Math.random)
+        const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+        const pts = [];
+        for (let i = 0; i < 26; i++) {
+          const a = i * GOLDEN;
+          const r = 230 + ((i * 97) % 210);
+          const x = 540 + Math.cos(a) * r, y = 540 + Math.sin(a) * r * 0.86;
+          const c = document.createElementNS(NS, 'circle');
+          c.setAttribute('class', 'dot'); c.setAttribute('r', String(3 + (i % 3)));
+          c.setAttribute('cx', x.toFixed(1)); c.setAttribute('cy', y.toFixed(1));
+          $('#points').appendChild(c);
+          const ta = i * GOLDEN * 2.1, tr = 28 + (i % 5) * 16; // the knot: a tight cloud inside the focus ring
+          pts.push({ c, tx: 540 + Math.cos(ta) * tr, ty: 545 + Math.sin(ta) * tr });
+        }
+        $$('.fact').forEach((f) => gsap.set(f, { x: +f.dataset.x, y: +f.dataset.y }));
+
+        // ---------- 01 Zrozumienie (0-3 s) ----------
+        tl.fromTo('#points circle', { opacity: 0, scale: 0, transformOrigin: '50% 50%' }, { opacity: 1, scale: 1, duration: 0.6, stagger: 0.015, ease: 'power2.out' }, 0)
+          .fromTo('.fact', { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: 0.12, ease: 'power2.out' }, 0.25)
+          .to(['#t1', '#t1-glow'], { strokeDashoffset: 0, duration: 1.5, ease: 'power2.inOut' }, 0.45);
+        pts.forEach((p, i) => tl.to(p.c, { attr: { cx: p.tx, cy: p.ty }, opacity: 0.85, duration: 1.0, ease: 'expo.inOut' }, 1.45 + (i % 7) * 0.03));
+        $$('.fact').forEach((f, i) => tl.to(f, { x: +f.dataset.tx, y: +f.dataset.ty, duration: 1.0, ease: 'expo.inOut' }, 1.5 + i * 0.05));
+        // inside the knot the words have done their job: only the three facts stay, as nodes
+        tl.to('.fact text', { opacity: 0, duration: 0.45, ease: 'power1.in' }, 1.55);
+        tl.to(['#t1', '#t1-glow'], { opacity: 0, duration: 0.5, ease: 'power1.in' }, 2.15)
+          .to('#focus', { strokeDashoffset: 0, duration: 0.9, ease: 'power3.out' }, 1.95)
+          .to('#halo', { opacity: 1, duration: 0.8, ease: 'power2.out' }, 2.0);
+
+        // ---------- 01 → 02 (3.0-3.7 s): the knot pulls up into the root node ----------
+        tl.to('#points circle', { attr: { cx: 540, cy: 230 }, opacity: 0, duration: 0.7, ease: 'expo.in' }, 3.0)
+          .to('.fact', { x: 540, y: 230, opacity: 0, duration: 0.6, ease: 'expo.in' }, 3.0)
+          .to('#focus', { attr: { r: 12, cy: 230 }, opacity: 0, duration: 0.7, ease: 'expo.in' }, 3.0)
+          .to('#halo', { attr: { cy: 260, r: 240 }, opacity: 0.6, duration: 0.8 }, 3.0)
+          .to('#c2', { opacity: 1, duration: 0.3, ease: 'none' }, 3.45);
+
+        // ---------- 02 Kierunek (3.5-6 s) ----------
+        tl.fromTo('#root-node', { scale: 0, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.5, ease: 'back.out(2)' }, 3.5)
+          .to('.branch', { strokeDashoffset: 0, duration: 0.7, stagger: 0.08, ease: 'power2.out' }, 3.6)
+          .fromTo('.head', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out' }, 3.95)
+          .to('.guide', { opacity: 1, duration: 0.6, stagger: 0.05, ease: 'power1.out' }, 4.1)
+          .to('.g2.rule', { strokeDashoffset: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }, 4.2)
+          // "depending on the project": the choice visits each structure, then settles on the website
+          .fromTo('#pick', { opacity: 0, scale: 0.4, transformOrigin: '50% 50%' }, { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(2)' }, 4.35)
+          .to('#pick', { attr: { cx: 540 }, duration: 0.3, ease: 'power3.inOut' }, 4.75)
+          .to('#pick', { attr: { cx: 800 }, duration: 0.3, ease: 'power3.inOut' }, 5.08)
+          .to('#pick', { attr: { cx: 540 }, duration: 0.45, ease: 'expo.out' }, 5.4)
+          .to('#t2', { strokeDashoffset: 0, duration: 0.5, ease: 'power2.out' }, 5.45)
+          .to('#h2 .hn', { attr: { fill: '#ff3d9e', stroke: '#ff3d9e' }, duration: 0.25 }, 5.7)
+          .to('#h2 text', { attr: { fill: '#f5f5f7' }, duration: 0.25 }, 5.7);
+
+        // ---------- 02 → 03 (6.0-6.6 s): guides solidify into the layout ----------
+        tl.to(['.branch', '#root-node', '#t2', '.head:not(#h2)', '#pick'], { opacity: 0, duration: 0.45, ease: 'power1.in' }, 6.0)
+          .to('#h2', { y: -230, opacity: 0, duration: 0.6, ease: 'expo.in' }, 6.0)
+          .to('.guide', { opacity: 0, duration: 0.5 }, 6.2)
+          .to('.g2.rule', { opacity: 0, duration: 0.4 }, 6.1)
+          .to('#halo', { attr: { cy: 585, r: 420 }, opacity: 0.45, duration: 0.8 }, 6.0)
+          .to('#c3', { opacity: 1, duration: 0.2, ease: 'none' }, 6.15);
+
+        // ---------- 03 Projekt i wdrożenie (6.2-9 s) ----------
+        tl.fromTo('.t3', { scaleY: 0, opacity: 0, transformOrigin: '50% 0%' }, { scaleY: 1, opacity: 1, duration: 0.7, stagger: 0.09, ease: 'expo.out' }, 6.2)
+          .fromTo('.s3', { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: 0.6, stagger: 0.05, ease: 'expo.out' }, 6.7)
+          .fromTo('#loop', { opacity: 0 }, { opacity: 1, duration: 0.3 }, 7.0)
+          .to('#loop-arc', { strokeDashoffset: 0, duration: 0.6, ease: 'power2.out' }, 7.0)
+          .to('#loop-head', { strokeDashoffset: 0, duration: 0.2 }, 7.5)
+          .to('#loop-arc, #loop-head', { rotation: 360, svgOrigin: '880 186', duration: 1.2, ease: 'power2.inOut' }, 7.3)
+          .to('.k3', { strokeDashoffset: 0, duration: 0.35, stagger: 0.18, ease: 'power2.out' }, 8.0)
+          .fromTo('#tests', { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.4, ease: 'power3.out' }, 8.2);
+
+        // ---------- 03 → 04 (9.0-9.8 s): the work is packed ----------
+        tl.to('#loop, #tests', { opacity: 0, duration: 0.4, ease: 'power1.in' }, 9.0)
+          .to('#layout', { scale: 0.62, x: -96, y: 74, transformOrigin: '50% 50%', duration: 0.8, ease: 'expo.inOut' }, 9.0)
+          .to('#c4', { opacity: 1, duration: 0.2, ease: 'none' }, 9.1)
+          .fromTo('#pack', { scale: 1, x: 0, y: 0, transformOrigin: '50% 50%', strokeDasharray: '2740 2740', strokeDashoffset: 2740 },
+            { scale: 0.62, x: -96, y: 74, strokeDashoffset: 0, duration: 0.8, ease: 'expo.inOut' }, 9.0);
+
+        // ---------- 04 Przekazanie i rozwój (9.6-12 s) ----------
+        tl.to('#t4', { strokeDashoffset: 0, duration: 0.8, ease: 'power2.out' }, 9.6)
+          .fromTo('.hand', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, stagger: 0.12, ease: 'power3.out' }, 9.9);
+        // growth: branches sprout from the package and keep going (deterministic angles)
+        const g = $('#growth');
+        // on the packed layout's edges (pack = layout scaled 0.62 about 540,585, then moved -96,74): top 476, left 202
+        const roots = [[262, 476], [384, 476], [520, 476], [202, 572], [202, 720]];
+        roots.forEach(([x, y], i) => {
+          const up = i < 3;
+          const len = 70 + (i % 3) * 34;
+          const ex = up ? x + ((i % 2) ? 26 : -22) : x - len, ey = up ? y - len : y + ((i % 2) ? 20 : -18);
+          const p = document.createElementNS(NS, 'path');
+          p.setAttribute('d', up ? `M ${x} ${y} C ${x} ${y - len * 0.5} ${ex} ${ey + len * 0.4} ${ex} ${ey}` : `M ${x} ${y} C ${x - len * 0.5} ${y} ${ex + len * 0.4} ${ey} ${ex} ${ey}`);
+          p.setAttribute('class', 'thread'); p.style.strokeWidth = '2.5';
+          g.appendChild(p); drawable(p);
+          const n = document.createElementNS(NS, 'circle');
+          n.setAttribute('cx', ex); n.setAttribute('cy', ey); n.setAttribute('r', '7'); n.setAttribute('fill', '#ff3d9e');
+          g.appendChild(n);
+          tl.to(p, { strokeDashoffset: 0, duration: 0.7, ease: 'power2.out' }, 10.5 + i * 0.16)
+            .fromTo(n, { scale: 0, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.4, ease: 'back.out(2.4)' }, 11.0 + i * 0.16);
+        });
+        tl.to('#halo', { attr: { cx: 470, cy: 560, r: 380 }, opacity: 0.55, duration: 1.2, ease: 'power2.inOut' }, 10.4);
+
+        tl.seek(0);
+        window.__timelines['proces'] = tl;
+      })();
+    </script>
+  </body>
+</html>

@@ -164,29 +164,52 @@
     .service-sm:last-child { grid-column: 2 / span 4; }
   }
 
-  /* ---------- process (3.6) ---------- */
-  .process-track { position: relative; --p: 1; }
-  .process-line { position: absolute; background: var(--hairline); border-radius: 2px; }
-  .process-fill { position: absolute; inset: 0; background: var(--accent); border-radius: inherit; }
-  .process-steps { display: grid; gap: var(--s-7); }
-  .step { position: relative; display: grid; gap: var(--s-3); align-content: start; }
-  .step-knot { width: 14px; height: 14px; border-radius: 50%; background: var(--canvas); box-shadow: inset 0 0 0 2px var(--ink-3); transition: box-shadow var(--spring-fast) var(--spring), background-color var(--spring-fast) var(--spring); }
-  .step-n { font-family: var(--font-display); font-weight: 600; font-size: var(--t-small); color: var(--ink-3); transition: color var(--spring-fast) var(--spring); }
-  .step h3, .step > p { transition: opacity var(--spring-base) var(--spring); }
-  .step:not([data-on]) h3, .step:not([data-on]) > p, .step:not([data-on]) .step-outcome { opacity: 0.35; }
+  /* ---------- process (3.6): pinned film, scrubbed by scroll ---------- */
+  .process-track { position: relative; --p: 0; }
+  .process-stage { display: grid; gap: var(--s-7); }
+  .process-list { position: relative; }
+  .process-rail { position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: var(--hairline); border-radius: 2px; }
+  .process-rail-fill { position: absolute; inset: 0; background: var(--accent); border-radius: inherit; transform-origin: center top; transform: scaleY(var(--p)); }
+  .process-steps { display: grid; gap: var(--s-6); }
+  .step { position: relative; display: grid; gap: var(--s-4); padding-left: var(--s-7); }
+  .step-head { display: grid; grid-template-columns: auto 1fr; align-items: baseline; column-gap: var(--s-3); text-align: left; min-height: 44px; cursor: default; }
+  .step-knot { position: absolute; left: 0; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--canvas); box-shadow: inset 0 0 0 2px var(--ink-3); transition: box-shadow var(--spring-fast) var(--spring), background-color var(--spring-fast) var(--spring); }
+  .step-n { font-family: var(--font-display); font-weight: 600; font-size: var(--t-small); color: var(--accent); }
+  .step-title { transition: color var(--spring-fast) var(--spring); }
+  .step-body-in { display: grid; gap: var(--s-5); }
+  .step-body-in > p { max-width: 34rem; }
+  .step-outcome { display: grid; gap: var(--s-1); padding: var(--s-4) var(--s-5); border-radius: var(--r-inner); background: var(--tile); box-shadow: inset 2px 0 0 var(--accent); max-width: 34rem; }
+  .step-still { width: min(100%, 26rem); border-radius: var(--r-tile); background: var(--tile); }
   .step[data-on] .step-knot { background: var(--accent); box-shadow: 0 0 0 6px var(--accent-soft); }
-  .step[data-on] .step-n { color: var(--accent); }
-  .step-outcome { display: grid; gap: var(--s-1); margin-top: var(--s-2); padding: var(--s-4); border-radius: var(--r-inner); background: var(--tile); transition: opacity var(--spring-base) var(--spring); }
+  .step[data-done] .step-knot { background: var(--accent); box-shadow: none; }
+  .process-film { display: none; aspect-ratio: 1; background: #000; }
+  .process-film video { width: 100%; height: 100%; object-fit: cover; }
+
+  /* scrubbing: the stage pins for 4 screens of scroll; one stage open at a time */
+  .process[data-scrub] .process-track { height: 400svh; margin-top: clamp(1rem, 3vw, 2.5rem); }
+  .process[data-scrub] .process-stage { position: sticky; top: var(--nav-h); height: calc(100svh - var(--nav-h)); align-items: center; align-content: center; }
+  .process[data-scrub] .process-film { display: block; }
+  .process[data-scrub] .step-head { cursor: pointer; }
+  .process[data-scrub] .step-head:hover .step-title { color: var(--ink); }
+  .process[data-scrub] .step:not([data-on]) .step-title { color: var(--ink-3); }
+  .process[data-scrub] .step-body { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows var(--spring-base) var(--spring), opacity var(--spring-fast) var(--spring); }
+  .process[data-scrub] .step-body-in { overflow: hidden; min-height: 0; }
+  .process[data-scrub] .step[data-on] .step-body { grid-template-rows: 1fr; opacity: 1; }
+  .process[data-scrub] .process-steps { gap: var(--s-3); }
+  .process[data-scrub] .step { gap: 0; }
+  .process[data-scrub] .step[data-on] .step-body-in { padding-top: var(--s-4); padding-bottom: var(--s-3); }
+
   @media (min-width: 1024px) {
-    .process-steps { grid-template-columns: repeat(4, 1fr); gap: var(--s-6); }
-    .process-line { left: 0; right: 0; top: 6px; height: 2px; }
-    .process-fill { transform-origin: left center; transform: scaleX(var(--p)); }
+    .process-stage { grid-template-columns: 5fr 6fr; gap: clamp(3rem, 6vw, 6rem); }
+    .process:not([data-scrub]) .process-steps { grid-template-columns: 1fr 1fr; gap: var(--s-8) var(--s-7); }
+    .process:not([data-scrub]) .process-rail { display: none; }
+    .process[data-scrub] .process-film { width: min(100%, calc(100svh - var(--nav-h) - 6rem)); justify-self: end; }
   }
   @media (max-width: 1023px) {
-    .process-steps { padding-left: var(--s-7); }
-    .process-line { left: 6px; top: 6px; bottom: 0; width: 2px; }
-    .process-fill { transform-origin: center top; transform: scaleY(var(--p)); }
-    .step-knot { position: absolute; left: calc(-1 * var(--s-7)); top: 0; }
+    /* phone: the film on top, the open stage under it */
+    .process[data-scrub] .process-stage { grid-template-rows: auto 1fr; align-content: start; gap: var(--s-5); padding-top: var(--s-4); }
+    .process[data-scrub] .process-film { order: -1; width: min(100%, 42svh); justify-self: center; }
+    .process[data-scrub] .step:not([data-on]) .step-head { min-height: 36px; }
   }
 
   /* ---------- studio teaser (3.7) ---------- */
