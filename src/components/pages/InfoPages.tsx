@@ -1,23 +1,23 @@
 import type { Content } from '@/content/types';
-import type { PlanEntry } from '@/scene/bands/recipes';
 import { EMAIL, PHONE } from '@/content/site';
 import { PageShell } from '@/components/PageShell';
 import { PageHero } from '@/components/sections/PageHero';
 import { TextBlock } from '@/components/sections/TextBlock';
-import { ProjectCard } from '@/components/sections/ProjectCard';
+import { ProjectTile } from '@/components/sections/ProjectTile';
 import { Cta } from '@/components/sections/Cta';
 import { ContactForm } from '@/components/sections/Contact';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 
-/* 5.1 Work: H1, lead, the project cards (no filters while there are only a few projects). */
+/* 5.1 Work: H1, lead, the project tiles (no filters while there are only a few projects, as the document says). */
 export function WorkPage({ c }: { c: Content }) {
-  const bands: PlanEntry[] = [{ name: 'lista', recipe: 'cross', gap: 'hero/lista', from: 'right', period: 26 }];
+  const [first, ...rest] = c.projects;
   return (
-    <PageShell c={c} page="work" bands={bands}>
+    <PageShell c={c} page="work">
       <PageHero c={c} title={c.workPage.title} lead={c.workPage.lead} cta={false} />
-      <section id="lista" className="work-list">
-        <div className="wrap work-list-grid">
-          {c.projects.map((p, i) => <ProjectCard key={p.id} c={c} p={p} className={i === 0 ? 'is-featured' : ''} />)}
+      <section id="lista" className="section-sm">
+        <div className="wrap work-grid">
+          {first && <ProjectTile c={c} p={first} featured />}
+          <div className="work-pair">{rest.map((p) => <ProjectTile key={p.id} c={c} p={p} />)}</div>
         </div>
       </section>
       <Cta c={c} />
@@ -28,42 +28,37 @@ export function WorkPage({ c }: { c: Content }) {
 /* 5.2 Studio: H1, lead, our approach, three principles, people. */
 export function StudioPage({ c }: { c: Content }) {
   const s = c.studioPage;
-  const bands: PlanEntry[] = [
-    { name: 'podejscie', recipe: 'drop', gaps: ['hero/podejscie', 'podejscie/zasady'], from: 'right', to: 'right', x: 0.9, folds: ['soft', 'soft'], period: 24,
-      mobile: { recipe: 'cross', gap: 'hero/podejscie' } },
-    { name: 'ludzie', recipe: 'cross', gap: 'zasady/ludzie', from: 'left', period: 28, phase: 0.3 },
-  ];
   return (
-    <PageShell c={c} page="studio" bands={bands}>
+    <PageShell c={c} page="studio">
       <PageHero c={c} title={s.title} lead={s.lead} object="gniazdo" cta={false} />
       <TextBlock id="podejscie" b={s.approach} />
-      <section id="zasady" className="principles-section">
+      <section id="zasady" className="section-sm" aria-labelledby="zasady-t">
         <div className="wrap">
-          <Eyebrow>{s.principlesTitle}</Eyebrow>
+          <Eyebrow className="list-label"><span id="zasady-t">{s.principlesTitle}</span></Eyebrow>
           <ol className="principles">
             {s.principles.map((p, i) => (
-              <li key={p.title} className="principle">
-                <span className="t-label text-ink-soft">{String(i + 1).padStart(2, '0')}</span>
+              <li key={p.title} className="tile principle">
+                <span className="thread" aria-hidden="true" />
+                <span className="direction-n t-num">{String(i + 1).padStart(2, '0')}</span>
                 <h3 className="t-h3">{p.title}</h3>
-                <p className="text-ink-soft">{p.body}</p>
+                <p className="soft">{p.body}</p>
               </li>
             ))}
           </ol>
         </div>
       </section>
-      <section id="ludzie" className="people-section">
+      <section id="ludzie" className="section-sm" aria-labelledby="ludzie-t">
         <div className="wrap">
-          <Eyebrow>{s.peopleTitle}</Eyebrow>
+          <Eyebrow className="list-label"><span id="ludzie-t">{s.peopleTitle}</span></Eyebrow>
           <ul className="people">
             {s.people.map((p) => (
-              <li key={p.name} className="person" data-placeholder={p.placeholder || undefined}>
-                <div className="portrait" aria-hidden="true">
-                  <span>{p.name.split(' ').map((w) => w[0]).join('')}</span>
-                  <em className="t-label">{c.system.placeholder}</em>
+              <li key={p.name} className="tile person">
+                <div className="portrait" aria-hidden="true"><span className="ph-badge">{c.system.placeholder}</span></div>
+                <div className="person-copy">
+                  <h3 className="t-h4">{p.name}</h3>
+                  <p className={`t-small ${p.role.startsWith('[') ? 'ph' : 'soft'}`}>{p.role}</p>
+                  <p className={`t-small ${p.bio.startsWith('[') ? 'ph' : 'soft'}`}>{p.bio}</p>
                 </div>
-                <h3 className="t-h3">{p.name}</h3>
-                <p className="t-caption text-ink-soft">{p.role}</p>
-                <p className="text-ink-soft t-small">{p.bio}</p>
               </li>
             ))}
           </ul>
@@ -78,21 +73,21 @@ export function StudioPage({ c }: { c: Content }) {
 export function ContactPage({ c }: { c: Content }) {
   const k = c.contactPage;
   return (
-    <PageShell c={c} page="contact" bands={[]}>
+    <PageShell c={c} page="contact">
       <PageHero c={c} title={k.title} lead={k.lead} cta={false} />
-      <section id="formularz" className="contact">
+      <section id="formularz" className="section-sm contact">
         <div className="wrap contact-grid">
-          <div className="contact-intro">
-            <div className="contact-next">
-              <p className="t-label text-ink-soft">{k.nextTitle}</p>
-              <ol>{k.next.map((s, i) => <li key={i}><span className="t-mono">{String(i + 1).padStart(2, '0')}</span>{s}</li>)}</ol>
-            </div>
-            <p className="contact-direct t-small">
+          <ContactForm c={c} />
+          <aside className="contact-aside">
+            <h2 className="t-h4">{k.nextTitle}</h2>
+            <ol className="contact-next">
+              {k.next.map((s, i) => <li key={i}><span className="direction-n t-num">{String(i + 1).padStart(2, '0')}</span><span>{s}</span></li>)}
+            </ol>
+            <p className="contact-direct">
               <a className="link" href={`mailto:${EMAIL}`}>{EMAIL}</a>
               <a className="link" href={`tel:${PHONE.replace(/\s/g, '')}`}>{PHONE}</a>
             </p>
-          </div>
-          <ContactForm c={c} />
+          </aside>
         </div>
       </section>
     </PageShell>

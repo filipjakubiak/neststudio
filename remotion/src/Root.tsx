@@ -5,7 +5,7 @@ import { Stage, VARIANTS, type PaletteName, type Variant } from './v2/stage';
 import { OBJECTS } from './v2/objects';
 
 const V2_FPS = 30;
-const PALETTES: PaletteName[] = ['red', 'nest'];
+const PALETTES: PaletteName[] = ['magenta', 'red', 'nest'];
 
 export function RemotionRoot() {
   return (

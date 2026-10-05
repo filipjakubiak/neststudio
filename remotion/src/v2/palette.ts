@@ -21,7 +21,16 @@ export const HEX = {
 
 export type Ramp = { core: Color; gold: Color; body: Color; tail: Color; light: Color };
 
-export const RAMPS: Record<'red' | 'nest', Ramp> = {
+export const RAMPS: Record<'red' | 'nest' | 'magenta', Ramp> = {
+  // default since 05.10 (Filip): black site, magenta pink as the one accent. Pale pink highlights instead of gold,
+  // so the bloom halo stays pink and never drifts to yellow.
+  magenta: {
+    core: new Color('#FFE0F0'),
+    gold: new Color('#FFA6D4'),
+    body: new Color('#FF3D9E'),
+    tail: new Color('#3D0022'),
+    light: new Color('#E0157F'),
+  },
   // default since 30.09: the reference, 1:1
   red: {
     core: new Color(HEX.core),

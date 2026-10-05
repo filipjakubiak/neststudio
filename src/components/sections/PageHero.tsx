@@ -2,14 +2,14 @@
 
 import { useRef } from 'react';
 import type { Content, ObjectId } from '@/content/types';
-import { gsap, useGSAP } from '@/lib/gsap';
-import { MOTION_OK } from '@/lib/motion';
+import { gsap } from '@/lib/gsap';
 import { href } from '@/lib/links';
+import { useScene } from '@/components/motion/useScene';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { ObjectLoop } from '@/components/objects/ObjectLoop';
 
-/* Subpage hero (4.x / 5.x): H1 in the document's two lines, lead, optional CTA and object. */
+/* Subpage hero (ch. 4 and 5): the same keynote opening as the home hero, one size down. */
 export function PageHero({ c, eyebrow, title, lead, object, cta = true }: {
   c: Content;
   eyebrow?: string;
@@ -19,30 +19,31 @@ export function PageHero({ c, eyebrow, title, lead, object, cta = true }: {
   cta?: boolean;
 }) {
   const root = useRef<HTMLElement>(null);
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
-    mm.add(MOTION_OK, () => {
-      const q = gsap.utils.selector(root);
-      gsap.timeline({ defaults: { ease: 'expo.out' } })
-        .from(q('.hero-line > span'), { yPercent: 110, duration: 1.2, stagger: 0.1 }, 0.05)
-        .from(q('.hero-fade'), { opacity: 0, y: 14, duration: 0.9, stagger: 0.07 }, 0.45)
-        .from(q('.hero-object'), { opacity: 0, scale: 0.94, duration: 2, ease: 'power2.out' }, 0.2);
-    });
-  }, { scope: root });
+
+  useScene(root, (q, el) => {
+    gsap.timeline({ defaults: { ease: 'expo.out' } })
+      .from(q('.hero-line'), { yPercent: 40, opacity: 0, filter: 'blur(12px)', duration: 1.3, stagger: 0.12 }, 0.05)
+      .from(q('.hero-in'), { y: 16, opacity: 0, duration: 1, stagger: 0.07 }, 0.4)
+      .from(q('.page-stage'), { scale: 0.9, opacity: 0, duration: 1.8, ease: 'power3.out' }, 0.2);
+    if (q('.page-stage').length) {
+      gsap.to(q('.page-stage'), { scale: 1.1, ease: 'none', scrollTrigger: { trigger: el, start: 'top top', end: 'bottom top', scrub: true } });
+    }
+  });
 
   return (
-    <section id="hero" ref={root} className={`hero page-hero ${object ? '' : 'no-object'}`}>
-      <div className="wrap hero-grid">
-        <div className="hero-copy">
-          {eyebrow && <Eyebrow className="hero-fade">{eyebrow}</Eyebrow>}
-          <h1 className="hero-title">
-            {title.map((line, i) => <span key={i} className="hero-line"><span>{line}</span></span>)}
-          </h1>
-          <p className="t-lead text-ink-soft hero-lead hero-fade">{lead}</p>
-          {cta && <div className="hero-actions hero-fade"><Button href={href(c, 'contact')} magnetic>{c.nav.cta}</Button></div>}
-        </div>
-        {object && <ObjectLoop id={object} variant="square" className="hero-object" />}
+    <section id="hero" ref={root} className={`page-hero${object ? ' has-object' : ''}`}>
+      <div className="wrap center page-hero-copy">
+        {eyebrow && <Eyebrow className="hero-in">{eyebrow}</Eyebrow>}
+        <h1 className="t-h1 hero-title">{title.map((l, i) => <span key={i} className="hero-line">{l}</span>)}</h1>
+        <p className="t-lead soft hero-lead hero-in">{lead}</p>
+        {cta && <div className="hero-actions hero-in"><Button href={href(c, 'contact')}>{c.nav.cta}</Button></div>}
       </div>
+      {object && (
+        <div className="page-stage" aria-hidden="true">
+          <div className="hero-glow" />
+          <ObjectLoop id={object} className="page-object" />
+        </div>
+      )}
     </section>
   );
 }

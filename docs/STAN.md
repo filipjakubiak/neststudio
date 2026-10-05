@@ -2,6 +2,17 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## 05.10.2026: v3, czerń + magenta, układ wg apple-design, gałąź `nest-v2`
+
+Filip: teksty tylko z dokumentu strategii (nic nie dopisywać), potem humanize-text tam, gdzie brzmią jak AI; cały układ od nowa; czarne tło, główny kolor magenta pink; projektować wg `apple-design` + `apple-hig-expert` (zainstalowany: `.agents/skills/apple-hig-expert`, link w `.claude/skills`).
+
+- **Struktura = dokument:** strona główna (hero, realizacje, jeden kierunek, usługi, proces, studio, FAQ, CTA, stopka), 5 podstron usług, realizacje, studio, kontakt; PL + EN. Wypadły rzeczy spoza dokumentu: sekcja liczb, wymyślone opisy projektów.
+- **Teksty:** 14 zdań poprawionych humanize (ocena 66% → 90%), wszystkie półpauzy usunięte. Lista przed/po: `src/content/edits.ts`, opis: `docs/v3/teksty-humanize.md`. Test pilnuje, że każdy tekst jest z dokumentu albo z tej listy.
+- **Wygląd i ruch:** `docs/v3/system.md` (tokeny z kontrastem, Inter opsz / SF Pro, kafle, materiał nawigacji, jedna sprężyna bez odbicia, natywny scroll, magentowa nić jako motyw, ruch każdej sekcji). Obiekty przerenderowane na magentę. Pasy WebGL wyłączone (kod został).
+- **Sprawdzone w Chrome:** desktop 1440, telefon 390, reduced motion, wszystkie podstrony; menu (fokus, Escape), walidacja formularza inline, FAQ; zero błędów konsoli; 17 testów, typecheck, build OK.
+- **Placeholdery i czego potrzebuję:** `docs/placeholders.md` (sekcja v3).
+- Podgląd: `npm run dev` → http://localhost:3000/ albo build + `node lab/serve.mjs 4801 ../out` → http://localhost:4801/. Strona nie jest jeszcze nigdzie publicznie wdrożona (gotowy `wrangler.jsonc`, `npm run deploy`).
+
 ## 30.09.2026 (4): STRONA v2 GOTOWA (do poprawek), gałąź `nest-v2`
 
 Filip: „dowieź gotową stronę, potem poprawiamy; teksty w większości z .html”. Zrobione i sprawdzone w Chrome (desktop 1440, mobile 390, reduced motion), PL `/` i EN `/en/`, build statyczny OK, 15 testów OK, zero błędów konsoli.

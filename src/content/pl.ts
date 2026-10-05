@@ -1,11 +1,11 @@
 /*
  * Teksty PL, 1:1 z dokumentu strategii (docs/v2/source/copywriting-strategia.html).
- * Jedyne odstępstwa: półpauzy zamienione na przecinek lub dwukropek (zakaz w DESIGN.md),
- * sekcja liczb po hero na prośbę Filipa (30.09). [nawiasy] = dane do podmiany (docs/placeholders.md).
+ * Od 05.10 (Filip): wyłącznie teksty z dokumentu, z jego interpunkcją, nic dopisanego.
+ * [nawiasy] = dane do podmiany, jak w dokumencie (docs/placeholders.md).
  */
 import type { Content } from './types';
 import { polishTypography } from './typography';
-import { EMAIL, FOUNDED_YEAR, yearsInField } from './site';
+
 
 const raw: Content = {
   lang: 'pl',
@@ -47,41 +47,24 @@ const raw: Content = {
   home: {
     meta: {
       title: 'Nest Studio: studio brandingu, stron internetowych i technologii',
-      description: 'Tworzymy marki, strony internetowe i materiały graficzne. Łączymy design z automatyzacjami i AI. Poznaj studio Nest Studio i nasze realizacje.',
+      description: 'Tworzymy marki, strony internetowe i materiały graficzne. Łączymy design z automatyzacjami i AI. Poznaj Nest Studio i nasze realizacje.',
     },
     /* 3.2 Hero */
     hero: {
       eyebrow: 'Studio brandingu i technologii',
       title: ['Wyrazista marka.', 'Sprawniejsze działanie.'],
-      lead: 'Tworzymy identyfikacje wizualne, strony internetowe i materiały, które nadają firmom spójny charakter. Łączymy je z automatyzacjami i AI, żeby dobry projekt miał swoje przełożenie na codzienną pracę.',
+      lead: 'Projektujemy identyfikacje wizualne, strony internetowe i materiały, po których widać, kim jest firma. Łączymy je z automatyzacjami i AI, żeby dobry projekt pomagał też w codziennej pracy.',
       ctaPrimary: 'Porozmawiajmy o projekcie',
       ctaSecondary: 'Zobacz realizacje',
       micro: 'Masz konkretny brief albo dopiero szukasz kierunku? Możemy zacząć od obu.',
-    },
-    /* Liczby: sekcja spoza dokumentu, na prośbę Filipa; tylko sprawdzalne dane */
-    stats: {
-      eyebrow: 'W liczbach',
-      title: ['Dwanaście lat.', 'Pięć obszarów. Jedna całość.'],
-      items: [
-        { id: 'since', value: String(FOUNDED_YEAR), label: 'rok, od którego projektujemy', title: 'Projektujemy od 2014 roku.', body: 'Od pierwszych identyfikacji po strony z własnym panelem treści i automatyzacje podpięte do narzędzi firmy.', placeholder: false },
-        { id: 'years', value: String(yearsInField(2026)), label: 'lat w branży', title: 'Dwanaście lat w branży.', body: 'Każdy rok to kolejne marki, strony i procesy. Doświadczenie widać w decyzjach, nie w przymiotnikach.', placeholder: false },
-        { id: 'areas', value: '5', label: 'obszarów, od marki po AI', title: 'Pięć obszarów, jeden kierunek.', body: 'Branding, strony, projektowanie graficzne, automatyzacje i AI projektowane jako całość.', placeholder: false },
-        { id: 'projects', value: '[00]', label: '[zrealizowanych projektów]', title: '[Liczba zrealizowanych projektów.]', body: '[Jedno zdanie o przekroju projektów: branże, skala, rynki.]', placeholder: true },
-      ],
-      chain: ['Branding', 'Strona', 'Grafika', 'Automatyzacje', 'AI'],
-      timeline: { from: String(FOUNDED_YEAR), to: '2026', now: 'dziś' },
-      note: 'Liczymy tylko to, co da się sprawdzić.',
     },
     /* 3.3 Wybrane realizacje */
     work: {
       eyebrow: 'Wybrane realizacje',
       title: ['Najpierw zobacz,', 'jak projektujemy.'],
-      lead: 'Różne firmy, różne wyzwania. Zobacz, jak przekładamy potrzeby biznesu na identyfikację, stronę i rozwiązania gotowe do codziennego użycia.',
+      lead: 'Zobacz, jak potrzeby firmy zamieniamy w identyfikację, stronę i narzędzia, z których korzysta się na co dzień.',
       cardLink: 'Zobacz projekt',
       all: 'Wszystkie realizacje',
-      prev: 'Poprzedni projekt',
-      next: 'Następny projekt',
-      hint: 'Przeciągnij albo użyj strzałek',
     },
     /* 3.4 Sekcja łącząca ofertę */
     direction: {
@@ -101,7 +84,7 @@ const raw: Content = {
     services: {
       eyebrow: 'Co robimy',
       title: ['Od kierunku marki', 'do działającego rozwiązania.'],
-      lead: 'Możemy zająć się jednym obszarem albo połączyć kilka w spójny projekt. Zakres dobieramy do tego, co naprawdę wymaga zmiany.',
+      lead: 'Możemy zająć się jednym obszarem albo połączyć kilka w jeden projekt. Zakres dobieramy do tego, co naprawdę wymaga zmiany.',
     },
     /* 3.6 Sposób współpracy */
     process: {
@@ -122,8 +105,7 @@ const raw: Content = {
       title: ['Myślimy całościowo.', 'Dopracowujemy szczegóły.'],
       body: [
         'Nest Studio to studio łączące branding, projektowanie cyfrowe i technologię.',
-        'Interesuje nas nie tylko to, jak projekt wygląda w dniu prezentacji. Tak samo ważne jest to, jak działa po wdrożeniu: czy marka pozostaje spójna, czy stronę można rozwijać i czy zespół potrafi korzystać z nowych narzędzi.',
-        'Dlatego łączymy decyzje projektowe z realiami codziennej pracy.',
+        'Dzień prezentacji to dopiero początek. Sprawdzamy, jak projekt działa po wdrożeniu: czy marka pozostaje spójna, czy stronę można rozwijać i czy zespół umie korzystać z nowych narzędzi.',
       ],
       link: 'Poznaj studio',
       photoAlt: '[Prawdziwe zdjęcie zespołu lub osób prowadzących studio, podpisane nazwiskami i rolami]',
@@ -157,11 +139,11 @@ const raw: Content = {
       id: 'branding',
       name: 'Branding',
       object: 'skaner',
-      meta: { title: 'Branding i identyfikacja wizualna | Nest Studio', description: 'Strategia, identyfikacja wizualna i spójny system marki. Zobacz, jak studio Nest Studio przekłada charakter firmy na przemyślany design.' },
+      meta: { title: 'Branding i identyfikacja wizualna | Nest Studio', description: 'Strategia, identyfikacja wizualna i spójny system marki. Zobacz, jak Nest Studio przekłada charakter firmy na przemyślany design.' },
       card: { title: 'Marka z własnym charakterem.', body: 'Porządkujemy to, co chcesz powiedzieć, komu i dlaczego warto Cię wybrać. Przekładamy ten kierunek na identyfikację wizualną i zasady, z których można korzystać na co dzień.', scope: ['Strategia marki', 'Identyfikacja wizualna', 'System marki', 'Wytyczne'], link: 'Poznaj branding' },
       page: {
         title: ['Marka z charakterem.', 'Nie tylko z logo.'],
-        lead: 'Pomagamy określić, co wyróżnia Twoją firmę, i nadajemy temu wyrazistą formę. Tworzymy identyfikacje, które działają jako system: na stronie, w prezentacji i w codziennej komunikacji.',
+        lead: 'Pomagamy określić, co wyróżnia Twoją firmę, i nadajemy temu formę. Tworzymy identyfikacje, które działają jako system: na stronie, w prezentacji i w codziennej komunikacji.',
         blocks: [
           { label: 'Kiedy warto zacząć', title: ['Firma się zmieniła.', 'Czy marka za nią nadąża?'], body: ['Rozwijasz ofertę, docierasz do nowych odbiorców albo wchodzisz na kolejny rynek. Tymczasem identyfikacja nadal opowiada o firmie sprzed kilku lat. Pomagamy zdecydować, co zachować, co uporządkować i czemu nadać nowy kierunek.'] },
           { label: 'Co projektujemy', list: [
@@ -170,7 +152,7 @@ const raw: Content = {
             { term: 'System zastosowań', text: 'układy, zasady i przykłady użycia w ważnych punktach kontaktu.' },
             { term: 'Wytyczne', text: 'uporządkowaną dokumentację dla zespołu i kolejnych wykonawców.' },
           ] },
-          { label: 'Co zostaje po projekcie', body: ['Nie tylko prezentacja nowej identyfikacji. Otrzymujesz uzgodniony zestaw materiałów i zasad, które pomagają utrzymać spójność także wtedy, gdy powstają kolejne formaty.'] },
+          { label: 'Co zostaje po projekcie', body: ['Dostajesz uzgodniony zestaw materiałów i zasad. Dzięki nim kolejne formaty wyglądają jak ta sama marka, nawet jeśli robi je ktoś inny.'] },
         ],
         related: { text: 'Nowa marka potrzebuje dobrego miejsca w sieci.', link: 'Zobacz, jak projektujemy strony', to: 'web' },
       },
@@ -179,8 +161,8 @@ const raw: Content = {
       id: 'web',
       name: 'Strony internetowe',
       object: 'kostka',
-      meta: { title: 'Projektowanie i tworzenie stron internetowych | Nest Studio', description: 'Projektujemy i wdrażamy strony internetowe: struktura, treści, UX/UI, CMS i integracje. Poznaj podejście studia Nest Studio.' },
-      card: { title: 'Strona z jasno określonym zadaniem.', body: 'Projektujemy i wdrażamy strony, które pokazują wartość oferty i prowadzą użytkownika do kolejnego kroku. Od struktury i treści po interfejs, wdrożenie oraz integracje.', scope: ['UX/UI', 'Struktura i treści', 'Development', 'CMS', 'Integracje'], link: 'Poznaj strony internetowe' },
+      meta: { title: 'Projektowanie i tworzenie stron internetowych | Nest Studio', description: 'Projektujemy i wdrażamy strony internetowe: struktura, treści, UX/UI, CMS i integracje. Poznaj podejście Nest Studio.' },
+      card: { title: 'Strona z jasno określonym zadaniem.', body: 'Projektujemy i wdrażamy strony, na których od razu widać, co oferujesz, i wiadomo, co kliknąć dalej. Od struktury i treści po interfejs, wdrożenie oraz integracje.', scope: ['UX/UI', 'Struktura i treści', 'Development', 'CMS', 'Integracje'], link: 'Poznaj strony internetowe' },
       page: {
         title: ['Dobrze wygląda.', 'Wiadomo, co robić dalej.'],
         lead: 'Projektujemy strony, które jasno przedstawiają ofertę, pokazują wiarygodność firmy i prowadzą do kontaktu, zakupu lub innego określonego celu. Łączymy treść, UX, design i wdrożenie.',
@@ -203,7 +185,7 @@ const raw: Content = {
       id: 'graphic',
       name: 'Projektowanie graficzne',
       object: 'splot',
-      meta: { title: 'Projektowanie graficzne dla firm | Nest Studio', description: 'Prezentacje, materiały sprzedażowe, kampanie i szablony. Projektowanie graficzne, które rozwija spójny język Twojej marki.' },
+      meta: { title: 'Projektowanie graficzne dla firm | Nest Studio', description: 'Prezentacje, materiały sprzedażowe, kampanie i szablony. Projektowanie graficzne, które rozwija język Twojej marki.' },
       card: { title: 'Spójność w każdym formacie.', body: 'Rozwijamy język wizualny marki w prezentacjach, kampaniach, materiałach sprzedażowych i komunikacji digital. Tworzymy też szablony, z którymi Twój zespół może pracować samodzielnie.', scope: ['Prezentacje', 'Materiały sprzedażowe', 'Kampanie', 'Social media', 'Szablony'], link: 'Poznaj projektowanie graficzne' },
       page: {
         title: ['Jeden język wizualny.', 'Wiele zastosowań.'],
@@ -227,7 +209,7 @@ const raw: Content = {
       id: 'automation',
       name: 'Automatyzacje procesów',
       object: 'przeplyw',
-      meta: { title: 'Automatyzacje procesów i integracje | Nest Studio', description: 'Porządkujemy powtarzalne zadania i łączymy firmowe narzędzia. Poznaj automatyzacje procesów projektowane przez studio Nest Studio.' },
+      meta: { title: 'Automatyzacje procesów i integracje | Nest Studio', description: 'Porządkujemy powtarzalne zadania i łączymy firmowe narzędzia. Poznaj automatyzacje procesów projektowane przez Nest Studio.' },
       card: { title: 'Mniej przeklejania. Więcej działania.', body: 'Łączymy narzędzia i porządkujemy powtarzalne zadania. Projektujemy przepływ informacji między formularzami, CRM, pocztą i innymi systemami używanymi w firmie.', scope: ['Analiza procesów', 'Integracje', 'Obieg informacji', 'Powiadomienia', 'Raportowanie'], link: 'Poznaj automatyzacje' },
       page: {
         title: ['Mniej ręcznych kroków.', 'Więcej porządku w pracy.'],
@@ -277,8 +259,8 @@ const raw: Content = {
     {
       id: 'perun-tac',
       name: 'Perun Tac',
-      sentence: 'Dwie dywizje, szkolenia i ochrona, w jednej marce. Strona z własnym panelem treści, który zespół edytuje samodzielnie.',
-      tags: ['Branding', 'Strona internetowa', 'CMS'],
+      sentence: '[Jedno zdanie opisujące rzeczywisty cel lub zmianę w projekcie.]',
+      tags: ['Branding', 'Strona internetowa'],
       year: '2026',
       status: '',
       image: '/v2/work/perun-tac.webp',
@@ -289,7 +271,7 @@ const raw: Content = {
     {
       id: 'oboda-group',
       name: 'Oboda Group',
-      sentence: 'Uporządkowana oferta i nowy sposób prezentacji usług: szkolenia ułożone według ról w gabinecie, nie według kategorii w cenniku.',
+      sentence: 'Uporządkowana oferta i nowy sposób prezentacji usług.',
       tags: ['Strategia', 'Strona internetowa'],
       year: '2026',
       status: '[Status do potwierdzenia]',
@@ -301,8 +283,8 @@ const raw: Content = {
     {
       id: 'tcc-global',
       name: 'TCC Global',
-      sentence: 'Propozycja nowej strony dla globalnej firmy, przygotowana dla zarządu.',
-      tags: ['Strona internetowa', 'Motion'],
+      sentence: '[Jedno zdanie opisujące rzeczywisty cel lub zmianę w projekcie.]',
+      tags: ['Strona internetowa'],
       year: '2026',
       status: 'Projekt koncepcyjny',
       image: '',
@@ -314,28 +296,28 @@ const raw: Content = {
 
   /* 5.1 Realizacje */
   workPage: {
-    meta: { title: 'Realizacje: branding, strony i technologia | Nest Studio', description: 'Wybrane identyfikacje, strony i rozwiązania studia Nest Studio. Punkt wyjścia, kierunek pracy i to, co powstało.' },
+    meta: { title: 'Realizacje: branding, strony i technologia | Nest Studio', description: 'Zobacz wybrane identyfikacje, strony i rozwiązania. Pokazujemy punkt wyjścia, kierunek pracy i to, co powstało. Nie sam końcowy mockup.' },
     title: ['Projekty, za którymi', 'stoją konkretne decyzje.'],
-    lead: 'Zobacz wybrane identyfikacje, strony i rozwiązania. Pokazujemy punkt wyjścia, kierunek pracy i to, co powstało, nie tylko końcowy mockup.',
+    lead: 'Zobacz wybrane identyfikacje, strony i rozwiązania. Pokazujemy punkt wyjścia, kierunek pracy i to, co powstało. Nie sam końcowy mockup.',
   },
 
   /* 5.2 Studio */
   studioPage: {
-    meta: { title: 'Poznaj nasze studio | Nest Studio', description: 'Nest Studio łączy branding, projektowanie i technologię. Poznaj podejście studia i ludzi, którzy stoją za projektami.' },
+    meta: { title: 'Poznaj nasze studio | Nest Studio', description: 'Nest Studio łączy branding, projektowanie i technologię. Porządkujemy wizerunek firm, budujemy ich strony i usprawniamy wybrane obszary pracy.' },
     title: ['Za projektem', 'stoją konkretni ludzie.'],
-    lead: 'Jesteśmy Nest Studio, studiem łączącym branding, projektowanie i technologię. Pomagamy firmom uporządkować wizerunek, rozwinąć obecność w sieci i usprawnić wybrane obszary pracy.',
+    lead: 'Nest Studio łączy branding, projektowanie i technologię. Porządkujemy wizerunek firm, budujemy ich strony i usprawniamy wybrane obszary pracy.',
     approach: {
       label: 'Nasze podejście',
       title: ['Dobry projekt ma sens', 'także po prezentacji.'],
       body: [
-        'Identyfikacja powinna dawać się konsekwentnie rozwijać. Strona: jasno komunikować ofertę. Automatyzacja: uwzględniać także wyjątki, nie tylko idealny scenariusz.',
-        'Tak rozumiemy jakość: jako połączenie trafnego pomysłu, dopracowanego wykonania i użyteczności w codziennej pracy.',
+        'Identyfikacja ma dać się konsekwentnie rozwijać. Strona ma jasno mówić, co oferujesz. Automatyzacja ma radzić sobie z wyjątkami, a nie tylko z idealnym scenariuszem.',
+        'Tak rozumiemy jakość: dobry pomysł, porządne wykonanie i coś, z czego zespół naprawdę korzysta.',
       ],
     },
     principlesTitle: 'Trzy zasady',
     principles: [
       { title: 'Najpierw zrozumienie', body: 'Nie zaczynamy od gotowej odpowiedzi. Najpierw poznajemy kontekst i ograniczenia.' },
-      { title: 'Decyzje z uzasadnieniem', body: 'Pokazujemy nie tylko rozwiązanie, ale też powód, dla którego je proponujemy.' },
+      { title: 'Decyzje z uzasadnieniem', body: 'Do każdego rozwiązania dokładamy powód, dla którego je proponujemy.' },
       { title: 'Całość i detal', body: 'Pilnujemy wspólnego kierunku, nie tracąc z oczu pojedynczego widoku, zdania czy interakcji.' },
     ],
     peopleTitle: 'Ludzie',
@@ -346,7 +328,7 @@ const raw: Content = {
 
   /* 5.3 Kontakt */
   contactPage: {
-    meta: { title: 'Porozmawiajmy o projekcie | Nest Studio', description: 'Opisz krótko firmę, pomysł lub problem. Ustalimy, jaki powinien być kolejny krok.' },
+    meta: { title: 'Porozmawiajmy o projekcie | Nest Studio', description: 'Opisz krótko firmę, pomysł lub problem. Nie potrzebujesz gotowej specyfikacji. Na tej podstawie ustalimy, jaki powinien być kolejny krok.' },
     title: ['Zacznijmy od tego,', 'czego potrzebujesz.'],
     lead: 'Opisz krótko firmę, pomysł lub problem. Nie potrzebujesz gotowej specyfikacji. Na tej podstawie ustalimy, jaki powinien być kolejny krok.',
     required: 'Pola oznaczone * są wymagane.',
@@ -364,10 +346,11 @@ const raw: Content = {
     privacy: 'Informacje o przetwarzaniu danych znajdziesz w Polityce prywatności.',
     nextTitle: 'Co dalej?',
     next: ['Zapoznamy się z wiadomością.', 'Wrócimy z pytaniami lub propozycją rozmowy.', 'Jeśli zakres będzie pasował do naszych kompetencji, ustalimy sposób przygotowania oferty.'],
-    // uczciwie dopóki formularz nie ma własnego endpointu (dokument: nie publikować „wiadomość dotarła”, jeśli to nieprawda)
-    sentTitle: 'Wiadomość jest gotowa do wysłania.',
-    sentBody: `Otworzyliśmy ją w Twoim programie pocztowym. Jeśli nic się nie otworzyło, napisz na ${EMAIL}.`,
+    // 5.3 „Potwierdzenie wysłania” i „Błąd wysyłki”: pokazujemy dopiero z prawdziwym endpointem (docs/placeholders.md)
+    sentTitle: 'Dziękujemy. Wiadomość dotarła.',
+    sentBody: 'Zapoznamy się z opisem i wrócimy na podany adres. Jeśli chcesz coś uzupełnić, napisz na [E-MAIL].',
     sentLink: 'Wróć do realizacji',
+    errorBody: 'Nie udało się wysłać wiadomości. Spróbuj ponownie lub napisz bezpośrednio na [E-MAIL]. Twoje wpisane dane pozostają w formularzu.',
     mailSubject: 'Zapytanie ze strony Nest Studio',
   },
 

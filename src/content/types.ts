@@ -64,15 +64,7 @@ export type Content = {
   home: {
     meta: Meta;
     hero: { eyebrow: string; title: string[]; lead: string; ctaPrimary: string; ctaSecondary: string; micro: string };
-    stats: {
-      eyebrow: string;
-      title: string[];
-      items: { id: 'since' | 'years' | 'areas' | 'projects'; value: string; label: string; title: string; body: string; placeholder: boolean }[];
-      chain: string[];
-      timeline: { from: string; to: string; now: string };
-      note: string;
-    };
-    work: { eyebrow: string; title: string[]; lead: string; cardLink: string; all: string; prev: string; next: string; hint: string };
+    work: { eyebrow: string; title: string[]; lead: string; cardLink: string; all: string };
     direction: { eyebrow: string; title: string[]; body: string[]; items: { n: string; title: string; body: string }[] };
     services: { eyebrow: string; title: string[]; lead: string };
     process: { eyebrow: string; title: string[]; intro: string; outcomeLabel: string; steps: { title: string; body: string; outcome: string }[] };
@@ -115,6 +107,7 @@ export type Content = {
     sentTitle: string;
     sentBody: string;
     sentLink: string;
+    errorBody: string;
     mailSubject: string;
   };
   footer: {

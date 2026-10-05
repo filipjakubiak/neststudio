@@ -22,3 +22,7 @@ export const ASK_AI = [
   { id: 'chatgpt', label: 'ChatGPT', url: (q: string) => `https://chatgpt.com/?q=${encodeURIComponent(q)}` },
   { id: 'perplexity', label: 'Perplexity', url: (q: string) => `https://www.perplexity.ai/search?q=${encodeURIComponent(q)}` },
 ];
+
+/** Contact form endpoint (POST, JSON). Empty: the form composes the email in the visitor's mail app and shows
+ *  no "message arrived" (the document's own rule: confirm only what really arrived). [PH] */
+export const FORM_ENDPOINT = '';

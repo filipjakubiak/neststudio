@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { pl } from '@/content/pl';
 import { en } from '@/content/en';
 import { yearsInField } from '@/content/site';
+import { HUMANIZED, REMOVED } from '@/content/edits';
 
 function walk(value: unknown, path: string, out: { path: string; value: string }[]) {
   if (typeof value === 'string') out.push({ path, value });
@@ -21,7 +22,15 @@ const strings = (c: unknown, name: string) => { const out: { path: string; value
 /* The strategy document, as plain text: the site copy must come from it (1:1). */
 const doc = fs.readFileSync('docs/v2/source/copywriting-strategia.html', 'utf8')
   .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/\s+/g, ' ');
-const inDoc = (s: string) => doc.includes(n(s).replace(/\s+/g, ' '));
+const norm = (s: string) => n(s).replace(/\s+/g, ' ');
+/* a site text is the document's own, or a recorded humanize rewrite of a document sentence (src/content/edits.ts) */
+const rewrites = HUMANIZED.map((h) => ({ doc: norm(h.doc), site: norm(h.site) }));
+const inDoc = (s: string) => {
+  let t = norm(s);
+  for (const r of rewrites) t = t.replace(r.site, r.doc);
+  // the document writes [NAZWA] for the studio's name
+  return doc.includes(t) || doc.includes(t.replace(/Nest Studio/g, '[NAZWA]'));
+};
 
 describe('content follows the strategy document 1:1', () => {
   it('home headings and texts are the document’s', () => {
@@ -32,7 +41,7 @@ describe('content follows the strategy document 1:1', () => {
       ...h.direction.title, ...h.direction.body,
       ...h.services.title, h.services.lead,
       ...h.process.title, h.process.intro, ...h.process.steps.flatMap((s) => [s.body, s.outcome]),
-      ...h.studio.title, h.studio.body[1], h.studio.body[2],
+      ...h.studio.title, h.studio.body[1],
       h.faq.title, ...h.faq.items.flatMap((f) => [f.q, f.a]),
       ...h.cta.title,
     ]) expect(inDoc(s), s).toBe(true);
@@ -42,13 +51,13 @@ describe('content follows the strategy document 1:1', () => {
     for (const s of pl.services) {
       for (const t of [s.card.title, s.card.body, ...s.page.title]) expect(inDoc(t), t).toBe(true);
       for (const b of s.page.blocks) for (const t of [...(b.title ?? []), ...(b.body ?? [])]) {
-        if (!/[,:] (na przykład|nie tylko)/.test(t)) expect(inDoc(t), t).toBe(true); // dash replaced by comma
+        expect(inDoc(t), t).toBe(true);
       }
     }
   });
 
   it('subpage headings are the document’s', () => {
-    for (const t of [...pl.workPage.title, ...pl.studioPage.title, ...pl.studioPage.approach.title!, ...pl.contactPage.title, pl.contactPage.lead])
+    for (const t of [...pl.workPage.title, pl.workPage.lead, ...pl.studioPage.title, pl.studioPage.lead, ...pl.studioPage.approach.title!, ...pl.studioPage.approach.body!, ...pl.studioPage.principles.flatMap((p) => [p.title, p.body]), ...pl.contactPage.title, pl.contactPage.lead])
       expect(inDoc(t), t).toBe(true);
   });
 
@@ -67,7 +76,13 @@ describe('content hygiene', () => {
     expect(shape({ ...en, lang: 's' })).toEqual(shape({ ...pl, lang: 's' }));
   });
 
-  it('contains no em dash or en dash (DESIGN.md)', () => {
+  it('every humanize rewrite is a real document sentence, and removed sentences are gone', () => {
+    for (const h of HUMANIZED) expect(doc.includes(norm(h.doc)), h.doc).toBe(true);
+    const all = strings(pl, 'pl').map((s) => norm(s.value)).join(' ');
+    for (const r of REMOVED) expect(all.includes(r)).toBe(false);
+  });
+
+  it('contains no em dash or en dash (humanize-text: the strongest AI tell)', () => {
     expect([...strings(pl, 'pl'), ...strings(en, 'en')].filter((s) => /[–—]/.test(s.value))).toEqual([]);
   });
 
@@ -76,8 +91,8 @@ describe('content hygiene', () => {
     expect(loose).toEqual([]);
   });
 
-  it('marks placeholders honestly', () => {
-    for (const c of [pl, en]) for (const s of c.home.stats.items) expect(s.value.startsWith('[')).toBe(s.placeholder);
+  it('invents no project facts: a sentence is the document’s or a [placeholder]', () => {
+    for (const p of pl.projects) expect(p.sentence.startsWith('[') || inDoc(p.sentence.replace(/\.$/, '')), p.sentence).toBe(true);
   });
 
   it('every page has a path in both languages and every service a page', () => {

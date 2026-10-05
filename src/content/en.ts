@@ -1,6 +1,5 @@
 /* Copy EN: faithful translation of pl.ts (the strategy document, 1:1 in structure and hierarchy). */
 import type { Content } from './types';
-import { EMAIL, FOUNDED_YEAR, yearsInField } from './site';
 
 export const en: Content = {
   lang: 'en',
@@ -46,33 +45,17 @@ export const en: Content = {
     hero: {
       eyebrow: 'Brand and technology studio',
       title: ['A distinct brand.', 'A smoother operation.'],
-      lead: 'We create visual identities, websites and materials that give companies a consistent character. We connect them with automation and AI, so good design pays off in everyday work.',
+      lead: 'We design visual identities, websites and materials that show who a company is. We connect them with automation and AI, so good design helps in everyday work too.',
       ctaPrimary: "Let's talk about your project",
       ctaSecondary: 'See our work',
       micro: 'Have a clear brief, or still looking for a direction? We can start from either.',
     },
-    stats: {
-      eyebrow: 'In numbers',
-      title: ['Twelve years.', 'Five areas. One whole.'],
-      items: [
-        { id: 'since', value: String(FOUNDED_YEAR), label: 'the year we started designing', title: 'Designing since 2014.', body: 'From the first identities to websites with their own content panel and automation wired into company tools.', placeholder: false },
-        { id: 'years', value: String(yearsInField(2026)), label: 'years in the field', title: 'Twelve years in the field.', body: 'Every year means more brands, websites and processes. Experience shows in decisions, not adjectives.', placeholder: false },
-        { id: 'areas', value: '5', label: 'areas, from brand to AI', title: 'Five areas, one direction.', body: 'Branding, websites, graphic design, automation and AI designed as one whole.', placeholder: false },
-        { id: 'projects', value: '[00]', label: '[projects delivered]', title: '[Number of projects delivered.]', body: '[One sentence about the range of projects: industries, scale, markets.]', placeholder: true },
-      ],
-      chain: ['Branding', 'Website', 'Graphics', 'Automation', 'AI'],
-      timeline: { from: String(FOUNDED_YEAR), to: '2026', now: 'today' },
-      note: 'We only count what can be checked.',
-    },
     work: {
       eyebrow: 'Selected work',
       title: ['First, see', 'how we design.'],
-      lead: 'Different companies, different challenges. See how we turn business needs into an identity, a website and solutions ready for everyday use.',
+      lead: 'See how we turn what a company needs into an identity, a website and tools people use every day.',
       cardLink: 'See the project',
       all: 'All work',
-      prev: 'Previous project',
-      next: 'Next project',
-      hint: 'Drag or use the arrows',
     },
     direction: {
       eyebrow: 'One direction',
@@ -90,7 +73,7 @@ export const en: Content = {
     services: {
       eyebrow: 'What we do',
       title: ['From brand direction', 'to a working solution.'],
-      lead: 'We can take on one area or connect several into one coherent project. We set the scope by what really needs to change.',
+      lead: 'We can take on one area or connect several into one project. We set the scope by what really needs to change.',
     },
     process: {
       eyebrow: 'How we work',
@@ -109,8 +92,7 @@ export const en: Content = {
       title: ['We think in wholes.', 'We refine the details.'],
       body: [
         'Nest Studio is a studio that brings together branding, digital design and technology.',
-        'We care not only about how a project looks on presentation day. It matters just as much how it works after launch: whether the brand stays consistent, whether the website can grow, and whether the team can use the new tools.',
-        'That is why we tie design decisions to the realities of everyday work.',
+        'Presentation day is only the start. We check how the project works after launch: whether the brand stays consistent, whether the website can grow, and whether the team can use the new tools.',
       ],
       link: 'Meet the studio',
       photoAlt: '[A real photo of the team or the people running the studio, captioned with names and roles]',
@@ -145,7 +127,7 @@ export const en: Content = {
       card: { title: 'A brand with its own character.', body: 'We sort out what you want to say, to whom, and why they should choose you. Then we turn that direction into a visual identity and rules your team can use every day.', scope: ['Brand strategy', 'Visual identity', 'Brand system', 'Guidelines'], link: 'Explore branding' },
       page: {
         title: ['A brand with character.', 'Not just a logo.'],
-        lead: 'We help define what sets your company apart and give it a distinct form. We create identities that work as a system: on the website, in a presentation and in everyday communication.',
+        lead: 'We help define what sets your company apart and give it form. We create identities that work as a system: on the website, in a presentation and in everyday communication.',
         blocks: [
           { label: 'When to start', title: ['The company has changed.', 'Has the brand kept up?'], body: ['You are growing the offer, reaching new audiences or entering another market. Meanwhile the identity still tells the story of the company from a few years ago. We help decide what to keep, what to tidy up and what to take in a new direction.'] },
           { label: 'What we design', list: [
@@ -154,7 +136,7 @@ export const en: Content = {
             { term: 'System of applications', text: 'layouts, rules and examples of use at key touchpoints.' },
             { term: 'Guidelines', text: 'organised documentation for the team and future contractors.' },
           ] },
-          { label: 'What stays after the project', body: ['Not just a presentation of the new identity. You get an agreed set of materials and rules that help keep things consistent even as new formats are created.'] },
+          { label: 'What stays after the project', body: ['You get an agreed set of materials and rules. With them, new formats look like the same brand, even when someone else makes them.'] },
         ],
         related: { text: 'A new brand needs a good home online.', link: 'See how we design websites', to: 'web' },
       },
@@ -164,7 +146,7 @@ export const en: Content = {
       name: 'Websites',
       object: 'kostka',
       meta: { title: 'Website design and development | Nest Studio', description: 'We design and build websites: structure, content, UX/UI, CMS and integrations. Meet the Nest Studio approach.' },
-      card: { title: 'A website with a clear job.', body: 'We design and build websites that show the value of the offer and lead people to the next step. From structure and content to interface, build and integrations.', scope: ['UX/UI', 'Structure and content', 'Development', 'CMS', 'Integrations'], link: 'Explore websites' },
+      card: { title: 'A website with a clear job.', body: 'We design and build websites where it is clear at once what you offer and what to click next. From structure and content to interface, build and integrations.', scope: ['UX/UI', 'Structure and content', 'Development', 'CMS', 'Integrations'], link: 'Explore websites' },
       page: {
         title: ['It looks good.', 'And it is clear what to do next.'],
         lead: 'We design websites that present the offer clearly, show the company is credible and lead to contact, a purchase or another defined goal. We combine content, UX, design and build.',
@@ -187,7 +169,7 @@ export const en: Content = {
       id: 'graphic',
       name: 'Graphic design',
       object: 'splot',
-      meta: { title: 'Graphic design for companies | Nest Studio', description: 'Presentations, sales materials, campaigns and templates. Graphic design that extends your brand’s consistent language.' },
+      meta: { title: 'Graphic design for companies | Nest Studio', description: 'Presentations, sales materials, campaigns and templates. Graphic design that extends your brand’s language.' },
       card: { title: 'Consistent in every format.', body: 'We extend the brand language into presentations, campaigns, sales materials and digital communication. We also build templates your team can work with on its own.', scope: ['Presentations', 'Sales materials', 'Campaigns', 'Social media', 'Templates'], link: 'Explore graphic design' },
       page: {
         title: ['One visual language.', 'Many uses.'],
@@ -260,8 +242,8 @@ export const en: Content = {
     {
       id: 'perun-tac',
       name: 'Perun Tac',
-      sentence: 'Two divisions, training and protection, in one brand. A website with its own content panel that the team edits on its own.',
-      tags: ['Branding', 'Website', 'CMS'],
+      sentence: '[One sentence describing the real goal or change in the project.]',
+      tags: ['Branding', 'Website'],
       year: '2026',
       status: '',
       image: '/v2/work/perun-tac.webp',
@@ -272,7 +254,7 @@ export const en: Content = {
     {
       id: 'oboda-group',
       name: 'Oboda Group',
-      sentence: 'An organised offer and a new way of presenting services: training arranged by the roles in the practice, not by price-list categories.',
+      sentence: 'An organised offer and a new way of presenting services.',
       tags: ['Strategy', 'Website'],
       year: '2026',
       status: '[Status to confirm]',
@@ -284,8 +266,8 @@ export const en: Content = {
     {
       id: 'tcc-global',
       name: 'TCC Global',
-      sentence: 'A proposal for a new website for a global company, prepared for the board.',
-      tags: ['Website', 'Motion'],
+      sentence: '[One sentence describing the real goal or change in the project.]',
+      tags: ['Website'],
       year: '2026',
       status: 'Concept project',
       image: '',
@@ -296,27 +278,27 @@ export const en: Content = {
   ],
 
   workPage: {
-    meta: { title: 'Work: branding, websites and technology | Nest Studio', description: 'Selected identities, websites and solutions by Nest Studio. The starting point, the direction and what came out of it.' },
+    meta: { title: 'Work: branding, websites and technology | Nest Studio', description: 'See selected identities, websites and solutions. We show the starting point, the direction of the work and what came out of it. Not just the final mockup.' },
     title: ['Projects backed by', 'specific decisions.'],
-    lead: 'See selected identities, websites and solutions. We show the starting point, the direction of the work and what came out of it, not just the final mockup.',
+    lead: 'See selected identities, websites and solutions. We show the starting point, the direction of the work and what came out of it. Not just the final mockup.',
   },
 
   studioPage: {
-    meta: { title: 'Meet our studio | Nest Studio', description: 'Nest Studio brings together branding, design and technology. Meet the approach and the people behind the projects.' },
+    meta: { title: 'Meet our studio | Nest Studio', description: 'Nest Studio brings together branding, design and technology. We put company images in order, build their websites and improve chosen areas of their work.' },
     title: ['Real people', 'behind every project.'],
-    lead: 'We are Nest Studio, a studio that brings together branding, design and technology. We help companies put their image in order, grow their presence online and improve chosen areas of their work.',
+    lead: 'Nest Studio brings together branding, design and technology. We put company images in order, build their websites and improve chosen areas of their work.',
     approach: {
       label: 'Our approach',
       title: ['Good design still makes sense', 'after the presentation.'],
       body: [
-        'An identity should be possible to develop consistently. A website: communicate the offer clearly. An automation: handle the exceptions too, not just the ideal scenario.',
-        'That is how we understand quality: as a mix of the right idea, refined execution and usefulness in everyday work.',
+        'An identity has to be easy to develop consistently. A website has to say clearly what you offer. An automation has to handle the exceptions, not just the ideal scenario.',
+        'That is what quality means to us: a good idea, solid execution and something the team actually uses.',
       ],
     },
     principlesTitle: 'Three principles',
     principles: [
       { title: 'Understanding first', body: 'We do not start with a ready answer. First we learn the context and the constraints.' },
-      { title: 'Decisions with reasons', body: 'We show not only the solution but also why we propose it.' },
+      { title: 'Decisions with reasons', body: 'With every solution we give the reason we propose it.' },
       { title: 'Whole and detail', body: 'We keep the shared direction without losing sight of a single view, sentence or interaction.' },
     ],
     peopleTitle: 'People',
@@ -344,9 +326,10 @@ export const en: Content = {
     privacy: 'You will find how we process data in the Privacy policy.',
     nextTitle: 'What happens next?',
     next: ['We read your message.', 'We come back with questions or a proposal for a call.', 'If the scope fits what we do, we agree how to prepare an offer.'],
-    sentTitle: 'Your message is ready to send.',
-    sentBody: `We opened it in your email app. If nothing opened, write to ${EMAIL}.`,
+    sentTitle: 'Thank you. Your message has arrived.',
+    sentBody: 'We will read your description and get back to the address you gave. If you want to add something, write to [E-MAIL].',
     sentLink: 'Back to our work',
+    errorBody: 'The message could not be sent. Try again or write directly to [E-MAIL]. What you typed stays in the form.',
     mailSubject: 'Enquiry from the Nest Studio website',
   },
 

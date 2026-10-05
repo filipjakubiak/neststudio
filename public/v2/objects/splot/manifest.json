@@ -5,28 +5,28 @@
       "seconds": 12,
       "width": 960,
       "height": 960,
-      "seamDb": 41.9,
+      "seamDb": 41.3,
       "files": {
-        "square-d.webm": 353947,
-        "square-d.mp4": 975345,
-        "square-m.webm": 185978,
-        "square-m.mp4": 377549,
-        "square-poster.avif": 7202
+        "square-d.webm": 356369,
+        "square-d.mp4": 910488,
+        "square-m.webm": 186753,
+        "square-m.mp4": 365521,
+        "square-poster.avif": 7816
       }
     },
     "tall": {
       "seconds": 12,
       "width": 810,
       "height": 1080,
-      "seamDb": 42.5,
+      "seamDb": 41.3,
       "files": {
-        "tall-d.webm": 329321,
-        "tall-d.mp4": 880890,
-        "tall-m.webm": 210036,
-        "tall-m.mp4": 457260,
-        "tall-poster.avif": 6665
+        "tall-d.webm": 331970,
+        "tall-d.mp4": 832454,
+        "tall-m.webm": 211141,
+        "tall-m.mp4": 440522,
+        "tall-poster.avif": 7143
       }
     }
   },
-  "palette": "red"
+  "palette": "magenta"
 }

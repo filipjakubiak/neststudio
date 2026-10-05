@@ -5,15 +5,15 @@
       "seconds": 12,
       "width": 960,
       "height": 960,
-      "seamDb": 48.9,
+      "seamDb": 48.4,
       "files": {
-        "square-d.webm": 112663,
-        "square-d.mp4": 455843,
-        "square-m.webm": 68270,
-        "square-m.mp4": 181440,
-        "square-poster.avif": 3449
+        "square-d.webm": 113112,
+        "square-d.mp4": 451848,
+        "square-m.webm": 69052,
+        "square-m.mp4": 177309,
+        "square-poster.avif": 3500
       }
     }
   },
-  "palette": "red"
+  "palette": "magenta"
 }

@@ -1,4 +1,26 @@
-# Placeholdery v2 (od 30.09.2026, strona v2)
+# Placeholdery v3 (od 05.10.2026: czerń + magenta, układ wg apple-design)
+
+Na stronie widać je jako szary tekst w [nawiasach kwadratowych], tak jak w dokumencie strategii. Nic z tej listy nie udaje prawdziwych danych. Teksty: `src/content/pl.ts` i `en.ts`, stałe: `src/content/site.ts`.
+
+| Co | Gdzie | Teraz | Potrzebne od Filipa |
+|---|---|---|---|
+| Perun Tac: zdanie o projekcie | Realizacje, karta 01 | „[Jedno zdanie opisujące rzeczywisty cel lub zmianę w projekcie.]” (poprzednie zdanie było dopisane, więc wypadło) | jedno zdanie o realnej zmianie |
+| TCC Global: zdanie o projekcie | Realizacje | jw., oznaczone „Projekt koncepcyjny” | jedno zdanie + zgoda na pokazanie |
+| Oboda Group | Realizacje | zdanie z dokumentu „Uporządkowana oferta i nowy sposób prezentacji usług.”, status „[Status do potwierdzenia]” | potwierdzenie, że zdanie pasuje, i status |
+| Opinia klienta (3.3) | strona główna | moduł wyłączony (dokument: bez zgody pomijamy) | cytat + imię, stanowisko, firma, zgoda |
+| Zdjęcie zespołu (3.7) | strona główna, Studio | ramka z napisem „Do uzupełnienia” | prawdziwe zdjęcie, podpisane nazwiskami i rolami |
+| Ludzie (5.2) | Studio | Filip Jakubiak, „[Rola]”, „[Dwa konkretne zdania…]” | rola, 2 zdania, decyzja: studio założycielskie czy zespół |
+| Budżet w formularzu | Kontakt | „[przedział 1..3]” | widełki zgodne z cenami |
+| Formularz: endpoint | `site.ts` → `FORM_ENDPOINT` (pusty) | otwiera maila w programie pocztowym, nie twierdzi, że wiadomość dotarła | decyzja: Worker + e-mail. Wtedy włączą się teksty z dokumentu „Dziękujemy. Wiadomość dotarła.” i „Nie udało się wysłać…” (już w treściach) |
+| E-mail, telefon, lokalizacja, pełna nazwa podmiotu, domena | `site.ts`, stopka | `hello@neststudio.pl`, `+48 000 000 000`, „[Lokalizacja, jeśli istotna]”, „[Pełna nazwa podmiotu]” | prawdziwe dane |
+| Profile społecznościowe | stopka | kolumna ukryta (dokument: tylko aktywne profile) | linki do aktywnych profili |
+| Polityka prywatności, cookies | stopka, formularz | link `#` | treść |
+
+Z v2 wypadły (bo nie ma ich w dokumencie): sekcja liczb, cennik, marquee klientów, osobna sekcja opinii i zespołu.
+
+---
+
+# Placeholdery v2 (archiwum, 30.09.2026)
 
 Na stronie widać je jako tekst w [nawiasach kwadratowych] (szary). Nic z tej listy nie udaje prawdziwych danych. Treści: `src/content/pl.ts` i `en.ts`, stałe: `src/content/site.ts`.
 

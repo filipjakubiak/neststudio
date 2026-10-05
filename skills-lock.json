@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "apple-hig-expert": {
+      "source": "alirezarezvani/claude-skills",
+      "sourceType": "github",
+      "skillPath": "product-team/apple-hig-expert/skills/apple-hig-expert/SKILL.md",
+      "computedHash": "e7950b21e916f4af3d953f6012b73bb5ed03e7cd911172511d1b136b22d2a682"
+    }
+  }
+}
