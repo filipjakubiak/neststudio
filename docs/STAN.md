@@ -2,6 +2,14 @@
 
 > Aktualizowany na każdym kamieniu milowym. Filip: zacznij czytać tutaj.
 
+## STAN SESJI 06.10.2026 (wieczór): hosting i plan startu
+
+- **Hosting, rekomendacja: Cloudflare Workers (static assets).** Konfiguracja gotowa (`wrangler.jsonc`, `npm run deploy`). Powody: CDN z węzłem w Warszawie, darmowy transfer bez limitu (filmy MP4), Worker na formularz + Turnstile (jak Perun Tac), Web Analytics bez ciasteczek. Domena i poczta mogą zostać u rejestratora/Hostingera (wzór: migracja Perun Tac, poczta nietknięta).
+- **Hostinger jako alternatywa:** wdraża Next.js z GitHuba (webhook na push, sam buduje); strona to statyczny `out/`, więc przeniesienie w dowolną stronę to godzina. Minusy: brak edge CDN, formularz przez PHP/usługę zewnętrzną.
+- **Plan startu:** (1) poprawki Filipa (lista do podania, w repo nie ma otwartej), (2) prawdziwe dane z `docs/placeholders.md` v3 (e-mail, telefon, nazwa podmiotu, widełki budżetu, polityka prywatności), (3) formularz: Worker + e-mail + Turnstile zamiast mailto, (4) deploy testowy na `*.workers.dev` + test na telefonie + PageSpeed, (5) domena.
+- **Referencja sprawdzona:** elqenergy.pl = Webflow (www → CNAME cdn.webflow.com, CDN Cloudflare), DNS w OVH, poczta Microsoft 365; na stronie GSAP, Finsweet Attributes, Swiper 11, Chart.js, GTM.
+- Podgląd: `npm run dev` → http://localhost:3000/ (działa).
+
 ## 05.10.2026 (wieczór): poprawki Filipa + proces z HyperFrames
 
 - **Statyczne animacje, przyczyny (debug z dowodami, `lab/*-probe.mjs`):** (1) obiekt widoczny od razu dostawał `play()` przed `load()` z drugiego obserwatora, `load()` przerywał odtwarzanie i obiekt stał na pierwszej klatce (wyścig, stąd „niektóre”; najczęściej hero na telefonie), naprawione w `ObjectLoop`; (2) CSS `scroll-behavior: smooth` animował skok do `#kotwicy` przy wejściu, a odświeżenie ScrollTriggera go przerywało: `/#uslugi` lądowało w hero, naprawione w `ScrollRefresh`; (3) puste cele GSAP (szum w konsoli).
